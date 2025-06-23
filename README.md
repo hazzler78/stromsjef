@@ -1,24 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Strømsjef
 
-## Getting Started
+Strømsjef er en norsk strømavtale-sammenligningstjeneste bygget med Next.js og Tailwind CSS. Tjenesten lar brukere sammenligne og bytte strømavtaler, se priser for sin prissone, og finne de beste tilbudene fra flere leverandører.
 
-First, run the development server:
+## Funksjoner
+- Sammenlign strømavtaler fra flere leverandører
+- Prissone-filter (NO1–NO5) med tydelig veiledning
+- Detaljerte plan-kort med logo, bindingstid, bruddgebyr, vilkårsgaranti og mer
+- Affiliate-lenker for bestilling
+- Nyhetsbrev med GDPR-samtykke
+- Ofte stilte spørsmål (FAQ)
+- Juridiske og bedrifts-sider
+- Mobilvennlig design
+- Mock-data fallback (API-integrasjon med Forbrukerrådet kommer)
 
+## Kom i gang
+
+Installer avhengigheter:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start utviklingsserveren:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Åpne [http://localhost:3000](http://localhost:3000) i nettleseren for å se resultatet.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Miljøvariabler
+Legg til en `.env.local`-fil for API-nøkler hvis du skal bruke live-data fra Forbrukerrådet (ikke nødvendig for mock-data).
+
+## Bidra
+Pull requests og forslag er velkomne! Se etter TODOs og åpne issues for forbedringer.
+
+## Lisens
+MIT
+
+---
+
+Dette prosjektet bruker [Next.js](https://nextjs.org) og [Tailwind CSS](https://tailwindcss.com/).
 
 ## Learn More
 
