@@ -88,7 +88,7 @@ bot.on('message', async (msg) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: '/prices' }),
+        body: JSON.stringify({ text, userId }),
       });
 
       const data = await response.json();
@@ -114,7 +114,7 @@ bot.on('message', async (msg) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: '/report' }),
+        body: JSON.stringify({ text, userId }),
       });
 
       const data = await response.json();
@@ -143,13 +143,13 @@ bot.on('message', async (msg) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({ text, userId }),
       });
 
       const data = await response.json();
       
-      if (data.updateResult && data.updateResult.success) {
-        await bot.sendMessage(chatId, data.updateResult.message, { parse_mode: 'Markdown' });
+      if (data.success && data.response) {
+        await bot.sendMessage(chatId, typeof data.response === 'string' ? data.response : JSON.stringify(data.response), { parse_mode: 'Markdown' });
       } else if (data.error) {
         await bot.sendMessage(chatId, `❌ Error: ${data.error}`);
       } else {
@@ -170,13 +170,13 @@ bot.on('message', async (msg) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: text }),
+      body: JSON.stringify({ text, userId }),
     });
 
     const data = await response.json();
     
-    if (data.updateResult && data.updateResult.success) {
-      await bot.sendMessage(chatId, data.updateResult.message, { parse_mode: 'Markdown' });
+    if (data.success && data.response) {
+      await bot.sendMessage(chatId, typeof data.response === 'string' ? data.response : JSON.stringify(data.response), { parse_mode: 'Markdown' });
     } else if (data.error) {
       await bot.sendMessage(chatId, `❌ Error: ${data.error}`);
     }

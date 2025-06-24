@@ -112,10 +112,12 @@ export async function updateAllPlansForSupplier(
   supplierName: string, 
   priceZone: PriceZone, 
   newPrice: number,
-  planType?: string
+  planType?: string,
+  bindingTime?: number
 ): Promise<number> {
   try {
-    console.log(`updateAllPlansForSupplier: Updating ${supplierName} in ${priceZone} to ${newPrice} øre/kWh (planType: ${planType || 'all'})`);
+    const bindingTimeText = bindingTime !== undefined ? ` (${bindingTime}m binding)` : '';
+    console.log(`updateAllPlansForSupplier: Updating ${supplierName} in ${priceZone} to ${newPrice} øre/kWh (planType: ${planType || 'all'}${bindingTimeText})`);
     const plans: ElectricityPlan[] = await getAllPlans();
     console.log(`updateAllPlansForSupplier: Got ${plans.length} plans from database`);
     
@@ -127,8 +129,9 @@ export async function updateAllPlansForSupplier(
       const matchesSupplier: boolean = plan.supplierName.toLowerCase() === supplierName.toLowerCase();
       const matchesZone: boolean = plan.priceZone === priceZone;
       const matchesPlanType: boolean = !planType || plan.planName.toLowerCase().includes(planType.toLowerCase());
+      const matchesBindingTime: boolean = bindingTime === undefined || plan.bindingTime === bindingTime;
       
-      if (matchesSupplier && matchesZone && matchesPlanType) {
+      if (matchesSupplier && matchesZone && matchesPlanType && matchesBindingTime) {
         const oldPrice: number = plans[i].pricePerKwh;
         plans[i].pricePerKwh = newPrice;
         updatedCount++;
@@ -146,7 +149,8 @@ export async function updateAllPlansForSupplier(
         console.log(`updateAllPlansForSupplier: Saved ${updatedCount} updated plans to KV`);
       }
       const planTypeText: string = planType ? ` ${planType}` : '';
-      console.log(`Updated ${updatedCount} plans for ${supplierName}${planTypeText} in ${priceZone} to ${newPrice} øre/kWh`);
+      const bindingTimeText: string = bindingTime !== undefined ? ` (${bindingTime}m)` : '';
+      console.log(`Updated ${updatedCount} plans for ${supplierName}${planTypeText}${bindingTimeText} in ${priceZone} to ${newPrice} øre/kWh`);
     } else {
       console.log(`updateAllPlansForSupplier: No plans found matching criteria`);
     }

@@ -3,6 +3,7 @@ export interface PriceUpdateCommand {
   priceZone: string;
   price: number;
   planType?: string; // 'spotpris', 'fastpris', or undefined for all
+  bindingTime?: number; // binding time in months (e.g., 12 for 12-month plans)
 }
 
 // Supplier name mappings for different languages
@@ -60,6 +61,31 @@ const PLAN_TYPE_MAPPINGS: Record<string, string> = {
   'fast': 'fastpris',
 };
 
+// Binding time mappings
+const BINDING_TIME_MAPPINGS: Record<string, number> = {
+  // English
+  '12m': 12,
+  '12 months': 12,
+  '12 måneder': 12,
+  '1 year': 12,
+  '1 år': 12,
+  '24m': 24,
+  '24 months': 24,
+  '24 måneder': 24,
+  '2 years': 24,
+  '2 år': 24,
+  '36m': 36,
+  '36 months': 36,
+  '36 måneder': 36,
+  '3 years': 36,
+  '3 år': 36,
+  '0m': 0,
+  '0 months': 0,
+  '0 måneder': 0,
+  'no binding': 0,
+  'ingen binding': 0,
+};
+
 // Keywords that indicate price setting
 const PRICE_SETTING_KEYWORDS: Record<string, boolean> = {
   // English
@@ -96,6 +122,7 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
   let currentZone = '';
   let currentPrice = 0;
   let currentPlanType = '';
+  let currentBindingTime: number | undefined = undefined;
   
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i].trim();
@@ -118,6 +145,12 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
       continue;
     }
     
+    // Check if this is a binding time
+    if (BINDING_TIME_MAPPINGS[part]) {
+      currentBindingTime = BINDING_TIME_MAPPINGS[part];
+      continue;
+    }
+    
     // Check if this is a price (number) - now supports negative numbers
     const priceMatch = part.match(/^(-?\d+(?:[.,]\d+)?)$/);
     if (priceMatch) {
@@ -129,7 +162,8 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
           supplier: currentSupplier,
           priceZone: currentZone,
           price: currentPrice,
-          planType: currentPlanType || undefined
+          planType: currentPlanType || undefined,
+          bindingTime: currentBindingTime
         });
         
         // Reset for next command
@@ -137,6 +171,7 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
         currentZone = '';
         currentPrice = 0;
         currentPlanType = '';
+        currentBindingTime = undefined;
       }
       continue;
     }
@@ -172,17 +207,22 @@ export function validatePriceUpdateCommand(command: PriceUpdateCommand): { valid
     return { valid: false, error: 'Invalid plan type. Must be spotpris or fastpris' };
   }
   
+  if (command.bindingTime !== undefined && (typeof command.bindingTime !== 'number' || command.bindingTime < 0)) {
+    return { valid: false, error: 'Binding time must be a non-negative number' };
+  }
+  
   return { valid: true };
 }
 
 export function formatPriceUpdateResponse(commands: PriceUpdateCommand[]): string {
   if (commands.length === 0) {
-    return '❌ Could not parse any price update commands. Please use format: "Set [Supplier] [PlanType] in [Zone] to [Price]"';
+    return '❌ Could not parse any price update commands. Please use format: "Set [Supplier] [PlanType] [BindingTime] in [Zone] to [Price]"';
   }
   
   const responses = commands.map(cmd => {
     const planTypeText = cmd.planType ? ` ${cmd.planType}` : '';
-    return `✅ ${cmd.supplier}${planTypeText} in ${cmd.priceZone}: ${cmd.price} øre/kWh`;
+    const bindingTimeText = cmd.bindingTime !== undefined ? ` (${cmd.bindingTime}m)` : '';
+    return `✅ ${cmd.supplier}${planTypeText}${bindingTimeText} in ${cmd.priceZone}: ${cmd.price} øre/kWh`;
   });
   
   return responses.join('\n');

@@ -24,18 +24,21 @@ export async function updateElectricityPrices(commands: PriceUpdateCommand[]): P
         command.supplier,
         command.priceZone as PriceZone,
         command.price,
-        command.planType
+        command.planType,
+        command.bindingTime
       );
 
       if (updatedCount === 0) {
         const planTypeText = command.planType ? ` ${command.planType}` : '';
-        results.errors?.push(`No plans found for ${command.supplier}${planTypeText} in ${command.priceZone}`);
+        const bindingTimeText = command.bindingTime !== undefined ? ` (${command.bindingTime}m)` : '';
+        results.errors?.push(`No plans found for ${command.supplier}${planTypeText}${bindingTimeText} in ${command.priceZone}`);
         results.success = false;
         continue;
       }
 
       const planTypeText = command.planType ? ` ${command.planType}` : '';
-      results.updatedPlans?.push(`${command.supplier}${planTypeText} in ${command.priceZone}: Updated ${updatedCount} plan(s) to ${command.price} øre/kWh`);
+      const bindingTimeText = command.bindingTime !== undefined ? ` (${command.bindingTime}m)` : '';
+      results.updatedPlans?.push(`${command.supplier}${planTypeText}${bindingTimeText} in ${command.priceZone}: Updated ${updatedCount} plan(s) to ${command.price} øre/kWh`);
 
     } catch (error) {
       results.errors?.push(`Error updating ${command.supplier} in ${command.priceZone}: ${error}`);
