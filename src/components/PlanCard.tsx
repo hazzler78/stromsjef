@@ -1,6 +1,7 @@
 import { ElectricityPlan } from '@/types/electricity';
 import Link from 'next/link';
 import Image from 'next/image';
+import TrackedButton from './TrackedButton';
 
 interface PlanCardProps {
   plan: ElectricityPlan;
@@ -70,10 +71,15 @@ const PlanCard = ({ plan }: PlanCardProps) => {
         </Link>.
       </div>
       <div className="mt-6">
-        <Link href={plan.affiliateLink} target="_blank" rel="noopener noreferrer"
-           className="w-full bg-green-500 text-white py-2 px-4 rounded-md text-center block hover:bg-green-600 transition-colors">
+        <TrackedButton
+          href={plan.affiliateLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full bg-green-500 text-white py-2 px-4 rounded-md text-center block hover:bg-green-600 transition-colors"
+          buttonId={`plan-${plan.id}`}
+        >
           Bytt nå
-        </Link>
+        </TrackedButton>
       </div>
     </div>
   );

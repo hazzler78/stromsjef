@@ -118,13 +118,13 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
       continue;
     }
     
-    // Check if this is a price (number)
-    const priceMatch = part.match(/^(\d+(?:[.,]\d+)?)$/);
+    // Check if this is a price (number) - now supports negative numbers
+    const priceMatch = part.match(/^(-?\d+(?:[.,]\d+)?)$/);
     if (priceMatch) {
       currentPrice = parseFloat(priceMatch[1].replace(',', '.'));
       
-      // If we have supplier and zone, create a command
-      if (currentSupplier && currentZone && currentPrice > 0) {
+      // If we have supplier and zone, create a command (removed price > 0 check)
+      if (currentSupplier && currentZone) {
         commands.push({
           supplier: currentSupplier,
           priceZone: currentZone,
@@ -163,8 +163,9 @@ export function validatePriceUpdateCommand(command: PriceUpdateCommand): { valid
     return { valid: false, error: 'Invalid price zone. Must be NO1, NO2, NO3, NO4, or NO5' };
   }
   
-  if (command.price <= 0) {
-    return { valid: false, error: 'Price must be greater than 0' };
+  // Allow negative prices (removed price > 0 check)
+  if (typeof command.price !== 'number' || isNaN(command.price)) {
+    return { valid: false, error: 'Price must be a valid number' };
   }
   
   if (command.planType && !['spotpris', 'fastpris'].includes(command.planType)) {

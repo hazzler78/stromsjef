@@ -8,8 +8,11 @@ const PLANS_KEY = 'electricity_plans';
 let inMemoryPlans: ElectricityPlan[] | null = null;
 
 // Check if we're in development mode without KV
-const isDevelopmentMode = process.env.NODE_ENV === 'development' && 
+const isDevelopmentMode: boolean = process.env.NODE_ENV === 'development' && 
   (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN);
+
+// --- Click Tracking ---
+let inMemoryClicks: Record<string, number> = {};
 
 export async function initializeDatabase(): Promise<void> {
   try {
@@ -23,7 +26,7 @@ export async function initializeDatabase(): Promise<void> {
     }
 
     // Check if plans already exist in database
-    const existingPlans = await kv.get<ElectricityPlan[]>(PLANS_KEY);
+    const existingPlans: ElectricityPlan[] | null = await kv.get<ElectricityPlan[]>(PLANS_KEY);
     
     if (!existingPlans || existingPlans.length === 0) {
       // Initialize with mock data
@@ -43,16 +46,24 @@ export async function initializeDatabase(): Promise<void> {
 export async function getAllPlans(): Promise<ElectricityPlan[]> {
   try {
     if (isDevelopmentMode) {
-      return inMemoryPlans || mockElectricityPlans;
+      // Ensure inMemoryPlans is initialized
+      if (!inMemoryPlans) {
+        inMemoryPlans = [...mockElectricityPlans];
+        console.log('Initialized inMemoryPlans with mock data');
+      }
+      console.log(`getAllPlans: Returning ${inMemoryPlans.length} plans from memory`);
+      return inMemoryPlans;
     }
 
-    const plans = await kv.get<ElectricityPlan[]>(PLANS_KEY);
+    const plans: ElectricityPlan[] | null = await kv.get<ElectricityPlan[]>(PLANS_KEY);
+    console.log(`getAllPlans: Returning ${plans?.length || 0} plans from KV`);
     return plans || mockElectricityPlans; // Fallback to mock data
   } catch (error) {
     console.error('Error fetching plans from database:', error);
     // Fallback to in-memory storage
     if (!inMemoryPlans) {
       inMemoryPlans = [...mockElectricityPlans];
+      console.log('Fallback: Initialized inMemoryPlans with mock data');
     }
     return inMemoryPlans || mockElectricityPlans;
   }
@@ -65,10 +76,10 @@ export async function updatePlanPrice(
   newPrice: number
 ): Promise<boolean> {
   try {
-    const plans = await getAllPlans();
+    const plans: ElectricityPlan[] = await getAllPlans();
     
     // Find the specific plan to update
-    const planIndex = plans.findIndex(plan => 
+    const planIndex: number = plans.findIndex((plan: ElectricityPlan) => 
       plan.supplierName.toLowerCase() === supplierName.toLowerCase() &&
       plan.priceZone === priceZone &&
       plan.planName === planName
@@ -104,19 +115,24 @@ export async function updateAllPlansForSupplier(
   planType?: string
 ): Promise<number> {
   try {
-    const plans = await getAllPlans();
-    let updatedCount = 0;
+    console.log(`updateAllPlansForSupplier: Updating ${supplierName} in ${priceZone} to ${newPrice} øre/kWh (planType: ${planType || 'all'})`);
+    const plans: ElectricityPlan[] = await getAllPlans();
+    console.log(`updateAllPlansForSupplier: Got ${plans.length} plans from database`);
+    
+    let updatedCount: number = 0;
     
     // Update plans for the supplier in the specified zone
     for (let i = 0; i < plans.length; i++) {
-      const plan = plans[i];
-      const matchesSupplier = plan.supplierName.toLowerCase() === supplierName.toLowerCase();
-      const matchesZone = plan.priceZone === priceZone;
-      const matchesPlanType = !planType || plan.planName.toLowerCase().includes(planType.toLowerCase());
+      const plan: ElectricityPlan = plans[i];
+      const matchesSupplier: boolean = plan.supplierName.toLowerCase() === supplierName.toLowerCase();
+      const matchesZone: boolean = plan.priceZone === priceZone;
+      const matchesPlanType: boolean = !planType || plan.planName.toLowerCase().includes(planType.toLowerCase());
       
       if (matchesSupplier && matchesZone && matchesPlanType) {
+        const oldPrice: number = plans[i].pricePerKwh;
         plans[i].pricePerKwh = newPrice;
         updatedCount++;
+        console.log(`updateAllPlansForSupplier: Updated ${plan.supplierName} ${plan.planName} in ${plan.priceZone} from ${oldPrice} to ${newPrice} øre/kWh`);
       }
     }
     
@@ -124,11 +140,15 @@ export async function updateAllPlansForSupplier(
       // Save back to storage
       if (isDevelopmentMode) {
         inMemoryPlans = [...plans];
+        console.log(`updateAllPlansForSupplier: Saved ${updatedCount} updated plans to inMemoryPlans`);
       } else {
         await kv.set(PLANS_KEY, plans);
+        console.log(`updateAllPlansForSupplier: Saved ${updatedCount} updated plans to KV`);
       }
-      const planTypeText = planType ? ` ${planType}` : '';
+      const planTypeText: string = planType ? ` ${planType}` : '';
       console.log(`Updated ${updatedCount} plans for ${supplierName}${planTypeText} in ${priceZone} to ${newPrice} øre/kWh`);
+    } else {
+      console.log(`updateAllPlansForSupplier: No plans found matching criteria`);
     }
     
     return updatedCount;
@@ -156,8 +176,8 @@ export async function resetToDefaultPrices(): Promise<boolean> {
 
 export async function getPlansBySupplier(supplierName: string): Promise<ElectricityPlan[]> {
   try {
-    const plans = await getAllPlans();
-    return plans.filter(plan => 
+    const plans: ElectricityPlan[] = await getAllPlans();
+    return plans.filter((plan: ElectricityPlan) => 
       plan.supplierName.toLowerCase().includes(supplierName.toLowerCase())
     );
   } catch (error) {
@@ -168,10 +188,40 @@ export async function getPlansBySupplier(supplierName: string): Promise<Electric
 
 export async function getPlansByZone(priceZone: PriceZone): Promise<ElectricityPlan[]> {
   try {
-    const plans = await getAllPlans();
-    return plans.filter(plan => plan.priceZone === priceZone);
+    const plans: ElectricityPlan[] = await getAllPlans();
+    return plans.filter((plan: ElectricityPlan) => plan.priceZone === priceZone);
   } catch (error) {
     console.error('Error fetching plans by zone:', error);
     return [];
   }
+}
+
+export async function incrementClick(buttonId: string): Promise<void> {
+  if (isDevelopmentMode) {
+    inMemoryClicks[buttonId as string] = (inMemoryClicks[buttonId as string] || 0) + 1;
+    return;
+  }
+  const key: string = `clicks:${buttonId}`;
+  const current: number = (await kv.get<number>(key)) || 0;
+  await kv.set(key, current + 1);
+}
+
+export async function getAllClickCounts(): Promise<Record<string, number>> {
+  if (isDevelopmentMode) {
+    return { ...inMemoryClicks };
+  }
+  // Dynamically include all plan button IDs
+  const plans: ElectricityPlan[] = await getAllPlans();
+  const planButtonIds: string[] = plans.map((plan: ElectricityPlan) => `plan-${plan.id}`);
+  const buttonIds: string[] = [
+    'business-hero-se-tilbud',
+    'business-cta-se-tilbud',
+    ...planButtonIds,
+  ];
+  const result: Record<string, number> = {};
+  for (const id of buttonIds) {
+    const key: string = `clicks:${id}`;
+    result[id] = (await kv.get<number>(key)) || 0;
+  }
+  return result;
 } 

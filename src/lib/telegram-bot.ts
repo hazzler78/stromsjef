@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { parsePriceUpdateCommand, validatePriceUpdateCommand, formatPriceUpdateResponse } from './nlp-utils';
 import { updateElectricityPrices, getCurrentPrices } from './price-update-service';
+import { getAllClickCounts } from './database';
 
 // Bot token should be set in environment variables
 const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -35,22 +36,42 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
     return '❌ Please send a text message.';
   }
 
-  const lowerText = text.toLowerCase().trim();
+  // Normalize whitespace and lowercase for robust command matching
+  const normalizedText = text.toLowerCase().replace(/\s+/g, ' ').trim();
 
   // Handle help command
-  if (lowerText === '/help' || lowerText === 'help') {
+  if (normalizedText === '/help' || normalizedText === 'help') {
     return getHelpMessage();
   }
 
-  // Handle current prices command
-  if (lowerText.startsWith('/prices') || lowerText.startsWith('prices')) {
+  // Handle prices command
+  if (normalizedText === '/prices' || normalizedText === 'prices') {
     return await getCurrentPrices();
   }
 
+  // Handle report command
+  if (normalizedText === '/report' || normalizedText === 'report') {
+    try {
+      const clickCounts = await getAllClickCounts();
+      if (Object.keys(clickCounts).length === 0) {
+        return '📊 *Klikkstatistikk:*\\nIngen klikk registrert ennå.';
+      }
+      
+      let report = '📊 *Klikkstatistikk:*\\n\\n';
+      for (const [buttonId, count] of Object.entries(clickCounts)) {
+        const buttonName = buttonId.replace(/-/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase());
+        report += `• ${buttonName}: ${count} klikk\\n`;
+      }
+      return report;
+    } catch (error) {
+      return '❌ Kunne ikke hente klikkstatistikk.';
+    }
+  }
+
   // Handle price update commands
-  if (lowerText.includes('set') || lowerText.includes('sett') || lowerText.includes('sätt') ||
-      lowerText.includes('update') || lowerText.includes('oppdater') || lowerText.includes('uppdatera') ||
-      lowerText.includes('change') || lowerText.includes('endre') || lowerText.includes('ändra')) {
+  if (normalizedText.includes('set') || normalizedText.includes('sett') || normalizedText.includes('sätt') ||
+      normalizedText.includes('update') || normalizedText.includes('oppdater') || normalizedText.includes('uppdatera') ||
+      normalizedText.includes('change') || normalizedText.includes('endre') || normalizedText.includes('ändra')) {
     
     return await handlePriceUpdateCommand(text);
   }
@@ -95,41 +116,38 @@ async function handlePriceUpdateCommand(text: string): Promise<string> {
 }
 
 function getHelpMessage(): string {
-  return `🤖 *Strømsjef Price Bot*
-
-*Commands:*
-• \`/help\` - Show this help message
-• \`/prices\` - Show current prices
-
-*Price Update Format:*
-• \`Set [Supplier] [PlanType] in [Zone] to [Price]\`
-• \`Sett [Supplier] [PlanType] i [Zone] til [Price]\` (Norwegian)
-• \`Sätt [Supplier] [PlanType] i [Zone] till [Price]\` (Swedish)
-
-*Supported Suppliers:*
-• Kilden Kraft
-• Cheap Energy Norge
-
-*Supported Plan Types:*
-• \`spotpris\` / \`spot\` - Spot price plans
-• \`fastpris\` / \`fast\` / \`fixed\` - Fixed price plans
-• (omit for all plan types)
-
-*Supported Price Zones:*
-• NO1 (Østlandet/Øst/East)
-• NO2 (Sørlandet/Sør/South)
-• NO3 (Midt-Norge/Midt/Central)
-• NO4 (Nord-Norge/Nord/North)
-• NO5 (Vestlandet/Vest/West)
-
-*Examples:*
-• \`Set Kilden spotpris in NO1 to 0.59\` - Update only spot price
-• \`Set Cheap Energy fastpris in NO2 to 0.62\` - Update only fixed price
-• \`Set Kilden in NO1 to 0.59\` - Update all Kilden plans in NO1
-• \`Sett Kilden Kraft spot i NO2 til 0.58\` - Norwegian
-• \`Sätt Cheap Energy fast i NO3 till 0.61\` - Swedish
-
-*Note:* Prices are in øre per kWh`;
+  return (
+    '🤖 *Strømsjef Price Bot*\n' +
+    '\n*Kommandor:*\n' +
+    '• /help - Vis denne hjelpeteksten\n' +
+    '• /prices - Vis gjeldende strømpriser\n' +
+    '• /report - Vis antall klikk på knapper\n' +
+    '\n*Prisoppdatering:*\n' +
+    '• Set [Supplier] [PlanType] in [Zone] to [Price]\n' +
+    '• Sett [Supplier] [PlanType] i [Zone] til [Price] (Norsk)\n' +
+    '• Sätt [Supplier] [PlanType] i [Zone] till [Price] (Svensk)\n' +
+    '\n*Støttede leverandører:*\n' +
+    '• Kilden Kraft\n' +
+    '• Cheap Energy Norge\n' +
+    '\n*Støttede avtale-typer:*\n' +
+    '• spotpris / spot - Spotprisavtaler\n' +
+    '• fastpris / fast / fixed - Fastprisavtaler\n' +
+    '• (utelat for alle typer)\n' +
+    '\n*Støttede prissoner:*\n' +
+    '• NO1 (Østlandet/Øst/East)\n' +
+    '• NO2 (Sørlandet/Sør/South)\n' +
+    '• NO3 (Midt-Norge/Midt/Central)\n' +
+    '• NO4 (Nord-Norge/Nord/North)\n' +
+    '• NO5 (Vestlandet/Vest/West)\n' +
+    '\n*Eksempler:*\n' +
+    '• Set Kilden spotpris in NO1 to 0.59 - Oppdater kun spotpris\n' +
+    '• Set Cheap Energy fastpris in NO2 to 0.62 - Oppdater kun fastpris\n' +
+    '• Set Kilden in NO1 to 0.59 - Oppdater alle Kilden-avtaler i NO1\n' +
+    '• Sett Kilden Kraft spot i NO2 til 0.58 - Norsk\n' +
+    '• Sätt Cheap Energy fast i NO3 till 0.61 - Svensk\n' +
+    '• /report - Få oversikt over klikk på knapper\n' +
+    '\n*Merk:* Priser er i øre per kWh'
+  );
 }
 
 export async function sendTelegramMessage(chatId: number, message: string): Promise<void> {

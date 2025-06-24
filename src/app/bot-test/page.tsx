@@ -12,7 +12,9 @@ export default function BotTestPage() {
     "Set Cheap Energy fastpris in NO2 to 0.62", 
     "Sätt Kilden spot i NO3 till 0.58",
     "Set Kilden in NO1 to 0.59 and Cheap fastpris to 0.62",
-    "Update Cheap Energy spotpris in NO4 to 0.65"
+    "Update Cheap Energy spotpris in NO4 to 0.65",
+    "Set Cheap Energy spotpris in NO1 to -1.7",
+    "Update Kilden fastpris in NO2 to -0.5"
   ]
 
   const handleTest = async (testMessage?: string) => {
@@ -151,6 +153,7 @@ export default function BotTestPage() {
         <ul className="text-sm space-y-1">
           <li>• <strong>Spot Price:</strong> "Set Kilden spotpris in NO1 to 0.59"</li>
           <li>• <strong>Fixed Price:</strong> "Set Cheap Energy fastpris in NO2 to 0.62"</li>
+          <li>• <strong>Negative Price:</strong> "Set Cheap Energy spotpris in NO1 to -1.7"</li>
           <li>• <strong>All Plans:</strong> "Set Kilden in NO1 to 0.59" (updates both spot and fixed)</li>
           <li>• <strong>Norwegian:</strong> "Sett Kilden Kraft spot i NO2 til 0.58"</li>
           <li>• <strong>Swedish:</strong> "Sätt Cheap Energy fast i NO3 till 0.61"</li>
@@ -162,6 +165,15 @@ export default function BotTestPage() {
             <li>• <strong>spotpris/spot</strong> - Updates only spot price plans</li>
             <li>• <strong>fastpris/fast/fixed</strong> - Updates only fixed price plans</li>
             <li>• <strong>omit plan type</strong> - Updates all plans for that supplier in that zone</li>
+          </ul>
+        </div>
+        
+        <div className="mt-3 p-3 bg-green-50 rounded">
+          <h4 className="font-medium text-green-800">💰 Price Examples:</h4>
+          <ul className="text-sm text-green-700 space-y-1">
+            <li>• <strong>Positive:</strong> 0.59, 1.2, 69.9, 104.9</li>
+            <li>• <strong>Negative:</strong> -1.7, -0.5, -2.1 (for discounts/rebates)</li>
+            <li>• <strong>Decimals:</strong> Use . or , as decimal separator</li>
           </ul>
         </div>
       </div>

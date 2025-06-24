@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parsePriceUpdateCommand, validatePriceUpdateCommand } from '@/lib/nlp-utils';
 import { updateElectricityPrices, getCurrentPrices } from '@/lib/price-update-service';
+import { handleTelegramMessage } from '@/lib/telegram-bot';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,10 +14,21 @@ export async function POST(request: NextRequest) {
 
     // Simulate a Telegram message object
     const telegramMessage = {
-      from: { id: 123456789 }, // Test user ID
+      from: { id: 6569007750 }, // Use a valid allowed user ID
       text: message,
-      chat: { id: 123456789 }
-    };
+      chat: { id: 6569007750 }
+    } as any; // Cast to any to avoid TypeScript issues with missing properties
+
+    // Handle special commands first
+    const lowerMessage = message.toLowerCase().trim();
+    if (lowerMessage === '/report' || lowerMessage === 'report') {
+      const reportResult = await handleTelegramMessage(telegramMessage);
+      return NextResponse.json({
+        originalMessage: message,
+        reportResult,
+        currentPrices: await getCurrentPrices()
+      });
+    }
 
     // Test the parsing
     const commands = parsePriceUpdateCommand(message);
