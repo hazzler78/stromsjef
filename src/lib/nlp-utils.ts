@@ -4,6 +4,7 @@ export interface PriceUpdateCommand {
   price: number;
   planType?: string; // 'spotpris', 'fastpris', or undefined for all
   bindingTime?: number; // binding time in months (e.g., 12 for 12-month plans)
+  bindingTimeDate?: string; // binding time as a date string (e.g., '01.10.2025')
 }
 
 // Supplier name mappings for different languages
@@ -116,13 +117,14 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
   const lowerText = text.toLowerCase();
   
   // Split by common separators
-  const parts = lowerText.split(/[,\s]+/);
+  const parts = lowerText.split(/[\,\s]+/);
   
   let currentSupplier = '';
   let currentZone = '';
   let currentPrice = 0;
   let currentPlanType = '';
   let currentBindingTime: number | undefined = undefined;
+  let currentBindingTimeDate: string | undefined = undefined;
   
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i].trim();
@@ -150,6 +152,26 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
       currentBindingTime = BINDING_TIME_MAPPINGS[part];
       continue;
     }
+
+    // Check if this is a binding date (dd.mm.yyyy, d.m.yyyy, yyyy-mm-dd, yyyy.mm.dd)
+    const dateMatch = part.match(/^(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})$/) || part.match(/^(\d{4})[.\/-](\d{1,2})[.\/-](\d{1,2})$/);
+    if (dateMatch) {
+      // Normalize to dd.mm.yyyy for matching
+      if (dateMatch.length === 4) {
+        // dd.mm.yyyy or d.m.yyyy
+        const day = dateMatch[1].padStart(2, '0');
+        const month = dateMatch[2].padStart(2, '0');
+        const year = dateMatch[3];
+        currentBindingTimeDate = `${day}.${month}.${year}`;
+      } else if (dateMatch.length === 5) {
+        // yyyy-mm-dd or yyyy.mm.dd
+        const year = dateMatch[1];
+        const month = dateMatch[2].padStart(2, '0');
+        const day = dateMatch[3].padStart(2, '0');
+        currentBindingTimeDate = `${day}.${month}.${year}`;
+      }
+      continue;
+    }
     
     // Check if this is a price (number) - now supports negative numbers
     const priceMatch = part.match(/^(-?\d+(?:[.,]\d+)?)$/);
@@ -163,7 +185,8 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
           priceZone: currentZone,
           price: currentPrice,
           planType: currentPlanType || undefined,
-          bindingTime: currentBindingTime
+          bindingTime: currentBindingTime,
+          bindingTimeDate: currentBindingTimeDate
         });
         
         // Reset for next command
@@ -172,6 +195,7 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
         currentPrice = 0;
         currentPlanType = '';
         currentBindingTime = undefined;
+        currentBindingTimeDate = undefined;
       }
       continue;
     }

@@ -113,11 +113,13 @@ export async function updateAllPlansForSupplier(
   priceZone: PriceZone, 
   newPrice: number,
   planType?: string,
-  bindingTime?: number
+  bindingTime?: number,
+  bindingTimeDate?: string
 ): Promise<number> {
   try {
     const bindingTimeText = bindingTime !== undefined ? ` (${bindingTime}m binding)` : '';
-    console.log(`updateAllPlansForSupplier: Updating ${supplierName} in ${priceZone} to ${newPrice} øre/kWh (planType: ${planType || 'all'}${bindingTimeText})`);
+    const bindingDateText = bindingTimeDate ? ` (binding date: ${bindingTimeDate})` : '';
+    console.log(`updateAllPlansForSupplier: Updating ${supplierName} in ${priceZone} to ${newPrice} øre/kWh (planType: ${planType || 'all'}${bindingTimeText}${bindingDateText})`);
     const plans: ElectricityPlan[] = await getAllPlans();
     console.log(`updateAllPlansForSupplier: Got ${plans.length} plans from database`);
     
@@ -130,8 +132,19 @@ export async function updateAllPlansForSupplier(
       const matchesZone: boolean = plan.priceZone === priceZone;
       const matchesPlanType: boolean = !planType || plan.planName.toLowerCase().includes(planType.toLowerCase());
       const matchesBindingTime: boolean = bindingTime === undefined || plan.bindingTime === bindingTime;
+      const matchesBindingDate: boolean = bindingTimeDate === undefined || (typeof plan.bindingTimeText === 'string' && plan.bindingTimeText.includes(bindingTimeDate));
+      let matchesBinding: boolean;
+      if (bindingTime !== undefined && bindingTimeDate !== undefined) {
+        matchesBinding = matchesBindingTime && matchesBindingDate;
+      } else if (bindingTime !== undefined) {
+        matchesBinding = matchesBindingTime;
+      } else if (bindingTimeDate !== undefined) {
+        matchesBinding = matchesBindingDate;
+      } else {
+        matchesBinding = true;
+      }
       
-      if (matchesSupplier && matchesZone && matchesPlanType && matchesBindingTime) {
+      if (matchesSupplier && matchesZone && matchesPlanType && matchesBinding) {
         const oldPrice: number = plans[i].pricePerKwh;
         plans[i].pricePerKwh = newPrice;
         updatedCount++;
@@ -150,7 +163,8 @@ export async function updateAllPlansForSupplier(
       }
       const planTypeText: string = planType ? ` ${planType}` : '';
       const bindingTimeText: string = bindingTime !== undefined ? ` (${bindingTime}m)` : '';
-      console.log(`Updated ${updatedCount} plans for ${supplierName}${planTypeText}${bindingTimeText} in ${priceZone} to ${newPrice} øre/kWh`);
+      const bindingDateText: string = bindingTimeDate ? ` (${bindingTimeDate})` : '';
+      console.log(`Updated ${updatedCount} plans for ${supplierName}${planTypeText}${bindingTimeText}${bindingDateText} in ${priceZone} to ${newPrice} øre/kWh`);
     } else {
       console.log(`updateAllPlansForSupplier: No plans found matching criteria`);
     }
