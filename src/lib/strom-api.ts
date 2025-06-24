@@ -74,7 +74,14 @@ export async function fetchElectricityPlans(): Promise<ElectricityPlan[]> {
   } catch (error) {
     console.error('Error fetching plans from database:', error);
     
-    // Fallback to external API if database fails
+    // For development, just return mock data instead of trying external API
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Development mode: returning mock data');
+      const { mockElectricityPlans } = await import('@/data/mock-plans');
+      return mockElectricityPlans;
+    }
+    
+    // Fallback to external API only in production
     try {
       console.log('Falling back to external API...');
       return await fetchFromExternalAPI();

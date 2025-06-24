@@ -4,8 +4,24 @@ import { mockElectricityPlans } from '@/data/mock-plans';
 
 const PLANS_KEY = 'electricity_plans';
 
+// In-memory storage for local development
+let inMemoryPlans: ElectricityPlan[] | null = null;
+
+// Check if we're in development mode without KV
+const isDevelopmentMode = process.env.NODE_ENV === 'development' && 
+  (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN);
+
 export async function initializeDatabase(): Promise<void> {
   try {
+    if (isDevelopmentMode) {
+      // Use in-memory storage for local development
+      if (!inMemoryPlans) {
+        inMemoryPlans = [...mockElectricityPlans];
+        console.log('Database initialized with mock data (in-memory mode)');
+      }
+      return;
+    }
+
     // Check if plans already exist in database
     const existingPlans = await kv.get<ElectricityPlan[]>(PLANS_KEY);
     
@@ -16,16 +32,29 @@ export async function initializeDatabase(): Promise<void> {
     }
   } catch (error) {
     console.error('Error initializing database:', error);
+    // Fallback to in-memory storage
+    if (!inMemoryPlans) {
+      inMemoryPlans = [...mockElectricityPlans];
+      console.log('Falling back to in-memory storage');
+    }
   }
 }
 
 export async function getAllPlans(): Promise<ElectricityPlan[]> {
   try {
+    if (isDevelopmentMode) {
+      return inMemoryPlans || mockElectricityPlans;
+    }
+
     const plans = await kv.get<ElectricityPlan[]>(PLANS_KEY);
     return plans || mockElectricityPlans; // Fallback to mock data
   } catch (error) {
     console.error('Error fetching plans from database:', error);
-    return mockElectricityPlans; // Fallback to mock data
+    // Fallback to in-memory storage
+    if (!inMemoryPlans) {
+      inMemoryPlans = [...mockElectricityPlans];
+    }
+    return inMemoryPlans || mockElectricityPlans;
   }
 }
 
@@ -53,8 +82,12 @@ export async function updatePlanPrice(
     // Update the price
     plans[planIndex].pricePerKwh = newPrice;
     
-    // Save back to database
-    await kv.set(PLANS_KEY, plans);
+    // Save back to storage
+    if (isDevelopmentMode) {
+      inMemoryPlans = [...plans];
+    } else {
+      await kv.set(PLANS_KEY, plans);
+    }
     
     console.log(`Updated ${supplierName} ${planName} in ${priceZone} to ${newPrice} øre/kWh`);
     return true;
@@ -88,8 +121,12 @@ export async function updateAllPlansForSupplier(
     }
     
     if (updatedCount > 0) {
-      // Save back to database
-      await kv.set(PLANS_KEY, plans);
+      // Save back to storage
+      if (isDevelopmentMode) {
+        inMemoryPlans = [...plans];
+      } else {
+        await kv.set(PLANS_KEY, plans);
+      }
       const planTypeText = planType ? ` ${planType}` : '';
       console.log(`Updated ${updatedCount} plans for ${supplierName}${planTypeText} in ${priceZone} to ${newPrice} øre/kWh`);
     }
@@ -103,8 +140,13 @@ export async function updateAllPlansForSupplier(
 
 export async function resetToDefaultPrices(): Promise<boolean> {
   try {
-    await kv.set(PLANS_KEY, mockElectricityPlans);
-    console.log('Database reset to default prices');
+    if (isDevelopmentMode) {
+      inMemoryPlans = [...mockElectricityPlans];
+      console.log('Database reset to default prices (in-memory mode)');
+    } else {
+      await kv.set(PLANS_KEY, mockElectricityPlans);
+      console.log('Database reset to default prices');
+    }
     return true;
   } catch (error) {
     console.error('Error resetting database:', error);
