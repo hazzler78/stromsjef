@@ -123,9 +123,9 @@ function getHelpMessage(): string {
     '• /prices - Vis gjeldende strømpriser\n' +
     '• /report - Vis antall klikk på knapper\n' +
     '\n*Prisoppdatering:*\n' +
-    '• Set [Supplier] [PlanType] in [Zone] to [Price]\n' +
-    '• Sett [Supplier] [PlanType] i [Zone] til [Price] (Norsk)\n' +
-    '• Sätt [Supplier] [PlanType] i [Zone] till [Price] (Svensk)\n' +
+    '• Set [Supplier] [PlanType] [BindingTime] [BindingDate] in [Zone] to [Price]\n' +
+    '• Sett [Supplier] [PlanType] [BindingTime] [BindingDate] i [Zone] til [Price] (Norsk)\n' +
+    '• Sätt [Supplier] [PlanType] [BindingTime] [BindingDate] i [Zone] till [Price] (Svensk)\n' +
     '\n*Støttede leverandører:*\n' +
     '• Kilden Kraft\n' +
     '• Cheap Energy Norge\n' +
@@ -139,14 +139,25 @@ function getHelpMessage(): string {
     '• NO3 (Midt-Norge/Midt/Central)\n' +
     '• NO4 (Nord-Norge/Nord/North)\n' +
     '• NO5 (Vestlandet/Vest/West)\n' +
+    '\n*Bindingstid (valgfritt):*\n' +
+    '• [BindingTime] kan være f.eks. 12m, 24m, 36m (antall måneder)\n' +
+    '• [BindingDate] kan være en dato, f.eks. 01.10.2025 eller 2025-10-01\n' +
+    '• Du kan bruke begge samtidig for å oppdatere kun avtaler som matcher begge deler.\n' +
+    '• Hvis du kun oppgir én, oppdateres alle avtaler som matcher den.\n' +
     '\n*Eksempler:*\n' +
     '• Set Kilden spotpris in NO1 to 0.59 - Oppdater kun spotpris\n' +
     '• Set Cheap Energy fastpris in NO2 to 0.62 - Oppdater kun fastpris\n' +
     '• Set Kilden in NO1 to 0.59 - Oppdater alle Kilden-avtaler i NO1\n' +
+    '• Set Cheap Energy fastpris 12m in NO1 to 69.9 - Oppdater alle 12m fastpris\n' +
+    '• Set Cheap Energy fastpris 01.10.2025 in NO1 to 69.9 - Oppdater kun avtaler med binding til 01.10.2025\n' +
+    '• Set Cheap Energy fastpris 12m 01.10.2025 in NO1 to 69.9 - Oppdater kun avtaler med både 12m og binding til 01.10.2025\n' +
     '• Sett Kilden Kraft spot i NO2 til 0.58 - Norsk\n' +
     '• Sätt Cheap Energy fast i NO3 till 0.61 - Svensk\n' +
     '• /report - Få oversikt over klikk på knapper\n' +
-    '\n*Merk:* Priser er i øre per kWh'
+    '\n*Merk:* Priser er i øre per kWh. Negative priser støttes.\n' +
+    '\n*Filterlogikk:*\n' +
+    '• Hvis både bindingstid og dato er oppgitt, må begge matche for at en avtale skal oppdateres.\n' +
+    '• Hvis kun én er oppgitt, brukes kun den som filter.'
   );
 }
 
