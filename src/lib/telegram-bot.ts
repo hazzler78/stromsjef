@@ -53,18 +53,19 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
   if (normalizedText === '/report' || normalizedText === 'report') {
     try {
       const clickCounts = await getAllClickCounts();
-      if (Object.keys(clickCounts).length === 0) {
-        return '📊 *Klikkstatistikk:*\\nIngen klikk registrert ennå.';
+      // Only show buttons with at least 1 click
+      const filtered = Object.entries(clickCounts).filter(([_, count]) => count > 0);
+      if (filtered.length === 0) {
+        return '📊 *Klikkstatistikk:*\nIngen klikk registrert ennå.';
       }
-      
-      let report = '📊 *Klikkstatistikk:*\\n\\n';
-      for (const [buttonId, count] of Object.entries(clickCounts)) {
-        const buttonName = buttonId.replace(/-/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase());
-        report += `• ${buttonName}: ${count} klikk\\n`;
+      let report = '📊 *Klikkstatistikk:*\n\n';
+      for (const [buttonId, count] of filtered) {
+        const buttonName = buttonId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        report += `• ${buttonName}: ${count} klikk\n`;
       }
       return report;
     } catch (error) {
-      return '❌ Kunne ikke hente klikkstatistikk.';
+      return `❌ Kunne ikke hente klikkstatistikk.\nFeilmelding: ${error instanceof Error ? error.message : String(error)}`;
     }
   }
 
