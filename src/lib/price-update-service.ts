@@ -25,7 +25,8 @@ export async function updateElectricityPrices(commands: PriceUpdateCommand[]): P
         command.priceZone as PriceZone,
         command.price,
         command.planType,
-        command.bindingTime
+        command.bindingTime,
+        command.bindingTimeDate
       );
 
       if (updatedCount === 0) {
