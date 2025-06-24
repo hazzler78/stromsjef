@@ -100,13 +100,20 @@ function getHelpMessage(): string {
 *Commands:*
 • \`/help\` - Show this help message
 • \`/prices\` - Show current prices
-• \`Set Kilden in NO1 to 0.59\` - Update price
-• \`Sett Cheap Energy i NO2 til 0.62\` - Norwegian
-• \`Sätt Kilden i NO3 till 0.58\` - Swedish
+
+*Price Update Format:*
+• \`Set [Supplier] [PlanType] in [Zone] to [Price]\`
+• \`Sett [Supplier] [PlanType] i [Zone] til [Price]\` (Norwegian)
+• \`Sätt [Supplier] [PlanType] i [Zone] till [Price]\` (Swedish)
 
 *Supported Suppliers:*
 • Kilden Kraft
 • Cheap Energy Norge
+
+*Supported Plan Types:*
+• \`spotpris\` / \`spot\` - Spot price plans
+• \`fastpris\` / \`fast\` / \`fixed\` - Fixed price plans
+• (omit for all plan types)
 
 *Supported Price Zones:*
 • NO1 (Østlandet/Øst/East)
@@ -116,9 +123,11 @@ function getHelpMessage(): string {
 • NO5 (Vestlandet/Vest/West)
 
 *Examples:*
-• \`Set Kilden in NO1 to 0.59 and Cheap to 0.62\`
-• \`Sett Kilden Kraft i NO2 til 0.58\`
-• \`Sätt Cheap Energy i NO3 till 0.61\`
+• \`Set Kilden spotpris in NO1 to 0.59\` - Update only spot price
+• \`Set Cheap Energy fastpris in NO2 to 0.62\` - Update only fixed price
+• \`Set Kilden in NO1 to 0.59\` - Update all Kilden plans in NO1
+• \`Sett Kilden Kraft spot i NO2 til 0.58\` - Norwegian
+• \`Sätt Cheap Energy fast i NO3 till 0.61\` - Swedish
 
 *Note:* Prices are in øre per kWh`;
 }

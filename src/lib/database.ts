@@ -67,16 +67,21 @@ export async function updatePlanPrice(
 export async function updateAllPlansForSupplier(
   supplierName: string, 
   priceZone: PriceZone, 
-  newPrice: number
+  newPrice: number,
+  planType?: string
 ): Promise<number> {
   try {
     const plans = await getAllPlans();
     let updatedCount = 0;
     
-    // Update all plans for the supplier in the specified zone
+    // Update plans for the supplier in the specified zone
     for (let i = 0; i < plans.length; i++) {
-      if (plans[i].supplierName.toLowerCase() === supplierName.toLowerCase() &&
-          plans[i].priceZone === priceZone) {
+      const plan = plans[i];
+      const matchesSupplier = plan.supplierName.toLowerCase() === supplierName.toLowerCase();
+      const matchesZone = plan.priceZone === priceZone;
+      const matchesPlanType = !planType || plan.planName.toLowerCase().includes(planType.toLowerCase());
+      
+      if (matchesSupplier && matchesZone && matchesPlanType) {
         plans[i].pricePerKwh = newPrice;
         updatedCount++;
       }
@@ -85,7 +90,8 @@ export async function updateAllPlansForSupplier(
     if (updatedCount > 0) {
       // Save back to database
       await kv.set(PLANS_KEY, plans);
-      console.log(`Updated ${updatedCount} plans for ${supplierName} in ${priceZone} to ${newPrice} øre/kWh`);
+      const planTypeText = planType ? ` ${planType}` : '';
+      console.log(`Updated ${updatedCount} plans for ${supplierName}${planTypeText} in ${priceZone} to ${newPrice} øre/kWh`);
     }
     
     return updatedCount;

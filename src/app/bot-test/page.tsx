@@ -8,11 +8,11 @@ export default function BotTestPage() {
   const [loading, setLoading] = useState(false)
 
   const testMessages = [
-    "Set Kilden in NO1 to 0.59",
-    "Sett Cheap Energy i NO2 til 0.62", 
-    "Sätt Kilden i NO3 till 0.58",
-    "Set Kilden in NO1 to 0.59 and Cheap to 0.62",
-    "Update Cheap Energy in NO4 to 0.65"
+    "Set Kilden spotpris in NO1 to 0.59",
+    "Set Cheap Energy fastpris in NO2 to 0.62", 
+    "Sätt Kilden spot i NO3 till 0.58",
+    "Set Kilden in NO1 to 0.59 and Cheap fastpris to 0.62",
+    "Update Cheap Energy spotpris in NO4 to 0.65"
   ]
 
   const handleTest = async (testMessage?: string) => {
@@ -56,7 +56,7 @@ export default function BotTestPage() {
               onChange={(e) => setMessage(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md"
               rows={3}
-              placeholder="Enter a message like: Set Kilden in NO1 to 0.59"
+              placeholder="Enter a message like: Set Kilden spotpris in NO1 to 0.59"
             />
           </div>
           
@@ -149,11 +149,21 @@ export default function BotTestPage() {
       <div className="mt-8 p-4 bg-blue-50 rounded-md">
         <h3 className="font-medium mb-2">📖 How to Use:</h3>
         <ul className="text-sm space-y-1">
-          <li>• <strong>English:</strong> "Set Kilden in NO1 to 0.59"</li>
-          <li>• <strong>Norwegian:</strong> "Sett Cheap Energy i NO2 til 0.62"</li>
-          <li>• <strong>Swedish:</strong> "Sätt Kilden i NO3 till 0.58"</li>
-          <li>• <strong>Multiple:</strong> "Set Kilden in NO1 to 0.59 and Cheap to 0.62"</li>
+          <li>• <strong>Spot Price:</strong> "Set Kilden spotpris in NO1 to 0.59"</li>
+          <li>• <strong>Fixed Price:</strong> "Set Cheap Energy fastpris in NO2 to 0.62"</li>
+          <li>• <strong>All Plans:</strong> "Set Kilden in NO1 to 0.59" (updates both spot and fixed)</li>
+          <li>• <strong>Norwegian:</strong> "Sett Kilden Kraft spot i NO2 til 0.58"</li>
+          <li>• <strong>Swedish:</strong> "Sätt Cheap Energy fast i NO3 till 0.61"</li>
         </ul>
+        
+        <div className="mt-3 p-3 bg-yellow-50 rounded">
+          <h4 className="font-medium text-yellow-800">💡 Plan Types:</h4>
+          <ul className="text-sm text-yellow-700 space-y-1">
+            <li>• <strong>spotpris/spot</strong> - Updates only spot price plans</li>
+            <li>• <strong>fastpris/fast/fixed</strong> - Updates only fixed price plans</li>
+            <li>• <strong>omit plan type</strong> - Updates all plans for that supplier in that zone</li>
+          </ul>
+        </div>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@ export interface PriceUpdateCommand {
   supplier: string;
   priceZone: string;
   price: number;
+  planType?: string; // 'spotpris', 'fastpris', or undefined for all
 }
 
 // Supplier name mappings for different languages
@@ -47,6 +48,18 @@ const PRICE_ZONE_MAPPINGS: Record<string, string> = {
   'väst': 'NO5',
 };
 
+// Plan type mappings
+const PLAN_TYPE_MAPPINGS: Record<string, string> = {
+  // English
+  'spot': 'spotpris',
+  'spot price': 'spotpris',
+  'spotpris': 'spotpris',
+  'fixed': 'fastpris',
+  'fixed price': 'fastpris',
+  'fastpris': 'fastpris',
+  'fast': 'fastpris',
+};
+
 // Keywords that indicate price setting
 const PRICE_SETTING_KEYWORDS: Record<string, boolean> = {
   // English
@@ -82,6 +95,7 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
   let currentSupplier = '';
   let currentZone = '';
   let currentPrice = 0;
+  let currentPlanType = '';
   
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i].trim();
@@ -98,23 +112,31 @@ export function parsePriceUpdateCommand(text: string): PriceUpdateCommand[] {
       continue;
     }
     
+    // Check if this is a plan type
+    if (PLAN_TYPE_MAPPINGS[part]) {
+      currentPlanType = PLAN_TYPE_MAPPINGS[part];
+      continue;
+    }
+    
     // Check if this is a price (number)
     const priceMatch = part.match(/^(\d+(?:[.,]\d+)?)$/);
     if (priceMatch) {
       currentPrice = parseFloat(priceMatch[1].replace(',', '.'));
       
-      // If we have all three components, create a command
+      // If we have supplier and zone, create a command
       if (currentSupplier && currentZone && currentPrice > 0) {
         commands.push({
           supplier: currentSupplier,
           priceZone: currentZone,
-          price: currentPrice
+          price: currentPrice,
+          planType: currentPlanType || undefined
         });
         
         // Reset for next command
         currentSupplier = '';
         currentZone = '';
         currentPrice = 0;
+        currentPlanType = '';
       }
       continue;
     }
@@ -145,17 +167,22 @@ export function validatePriceUpdateCommand(command: PriceUpdateCommand): { valid
     return { valid: false, error: 'Price must be greater than 0' };
   }
   
+  if (command.planType && !['spotpris', 'fastpris'].includes(command.planType)) {
+    return { valid: false, error: 'Invalid plan type. Must be spotpris or fastpris' };
+  }
+  
   return { valid: true };
 }
 
 export function formatPriceUpdateResponse(commands: PriceUpdateCommand[]): string {
   if (commands.length === 0) {
-    return '❌ Could not parse any price update commands. Please use format: "Set [Supplier] in [Zone] to [Price]"';
+    return '❌ Could not parse any price update commands. Please use format: "Set [Supplier] [PlanType] in [Zone] to [Price]"';
   }
   
-  const responses = commands.map(cmd => 
-    `✅ ${cmd.supplier} in ${cmd.priceZone}: ${cmd.price} øre/kWh`
-  );
+  const responses = commands.map(cmd => {
+    const planTypeText = cmd.planType ? ` ${cmd.planType}` : '';
+    return `✅ ${cmd.supplier}${planTypeText} in ${cmd.priceZone}: ${cmd.price} øre/kWh`;
+  });
   
   return responses.join('\n');
 } 

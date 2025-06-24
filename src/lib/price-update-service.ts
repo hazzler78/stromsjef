@@ -19,20 +19,23 @@ export async function updateElectricityPrices(commands: PriceUpdateCommand[]): P
 
   for (const command of commands) {
     try {
-      // Update all plans for the supplier in the specified zone
+      // Update plans for the supplier in the specified zone and plan type
       const updatedCount = await updateAllPlansForSupplier(
         command.supplier,
         command.priceZone as PriceZone,
-        command.price
+        command.price,
+        command.planType
       );
 
       if (updatedCount === 0) {
-        results.errors?.push(`No plans found for ${command.supplier} in ${command.priceZone}`);
+        const planTypeText = command.planType ? ` ${command.planType}` : '';
+        results.errors?.push(`No plans found for ${command.supplier}${planTypeText} in ${command.priceZone}`);
         results.success = false;
         continue;
       }
 
-      results.updatedPlans?.push(`${command.supplier} in ${command.priceZone}: Updated ${updatedCount} plan(s) to ${command.price} øre/kWh`);
+      const planTypeText = command.planType ? ` ${command.planType}` : '';
+      results.updatedPlans?.push(`${command.supplier}${planTypeText} in ${command.priceZone}: Updated ${updatedCount} plan(s) to ${command.price} øre/kWh`);
 
     } catch (error) {
       results.errors?.push(`Error updating ${command.supplier} in ${command.priceZone}: ${error}`);
