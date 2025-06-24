@@ -1,4 +1,5 @@
 import { ElectricityPlan, PriceZone } from '@/types/electricity';
+import { getAllPlans, initializeDatabase } from './database';
 
 // This is the raw structure from the Forbrukerrådet API
 interface ApiPricePlan {
@@ -61,6 +62,30 @@ async function getAccessToken(): Promise<string> {
 }
 
 export async function fetchElectricityPlans(): Promise<ElectricityPlan[]> {
+  try {
+    // Initialize database if needed
+    await initializeDatabase();
+    
+    // Get plans from database (which can be updated by Telegram bot)
+    const plans = await getAllPlans();
+    
+    console.log(`Fetched ${plans.length} plans from database`);
+    return plans;
+  } catch (error) {
+    console.error('Error fetching plans from database:', error);
+    
+    // Fallback to external API if database fails
+    try {
+      console.log('Falling back to external API...');
+      return await fetchFromExternalAPI();
+    } catch (apiError) {
+      console.error('External API also failed:', apiError);
+      throw new Error('Could not fetch electricity plans from database or external API');
+    }
+  }
+}
+
+async function fetchFromExternalAPI(): Promise<ElectricityPlan[]> {
   const token = await getAccessToken();
   const response = await fetch(`${process.env.STROM_API_URL}/products`, {
     headers: {

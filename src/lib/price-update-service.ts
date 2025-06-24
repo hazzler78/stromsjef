@@ -1,6 +1,6 @@
-import { mockElectricityPlans } from '@/data/mock-plans';
 import { PriceUpdateCommand } from './nlp-utils';
 import { PriceZone } from '@/types/electricity';
+import { updateAllPlansForSupplier, getAllPlans, resetToDefaultPrices as dbResetToDefaultPrices } from './database';
 
 export interface PriceUpdateResult {
   success: boolean;
@@ -9,7 +9,7 @@ export interface PriceUpdateResult {
   errors?: string[];
 }
 
-export function updateElectricityPrices(commands: PriceUpdateCommand[]): PriceUpdateResult {
+export async function updateElectricityPrices(commands: PriceUpdateCommand[]): Promise<PriceUpdateResult> {
   const results: PriceUpdateResult = {
     success: true,
     message: '',
@@ -19,24 +19,20 @@ export function updateElectricityPrices(commands: PriceUpdateCommand[]): PriceUp
 
   for (const command of commands) {
     try {
-      // Find plans that match the supplier and price zone
-      const matchingPlans = mockElectricityPlans.filter(plan => 
-        plan.supplierName.toLowerCase() === command.supplier.toLowerCase() &&
-        plan.priceZone === command.priceZone as PriceZone
+      // Update all plans for the supplier in the specified zone
+      const updatedCount = await updateAllPlansForSupplier(
+        command.supplier,
+        command.priceZone as PriceZone,
+        command.price
       );
 
-      if (matchingPlans.length === 0) {
+      if (updatedCount === 0) {
         results.errors?.push(`No plans found for ${command.supplier} in ${command.priceZone}`);
         results.success = false;
         continue;
       }
 
-      // Update all matching plans
-      for (const plan of matchingPlans) {
-        const oldPrice = plan.pricePerKwh;
-        plan.pricePerKwh = command.price;
-        results.updatedPlans?.push(`${plan.supplierName} ${plan.planName} in ${plan.priceZone}: ${oldPrice} → ${command.price} øre/kWh`);
-      }
+      results.updatedPlans?.push(`${command.supplier} in ${command.priceZone}: Updated ${updatedCount} plan(s) to ${command.price} øre/kWh`);
 
     } catch (error) {
       results.errors?.push(`Error updating ${command.supplier} in ${command.priceZone}: ${error}`);
@@ -46,7 +42,7 @@ export function updateElectricityPrices(commands: PriceUpdateCommand[]): PriceUp
 
   // Build response message
   if (results.updatedPlans && results.updatedPlans.length > 0) {
-    results.message = `✅ Successfully updated ${results.updatedPlans.length} plan(s):\n${results.updatedPlans.join('\n')}`;
+    results.message = `✅ Successfully updated ${results.updatedPlans.length} supplier(s):\n${results.updatedPlans.join('\n')}`;
   }
 
   if (results.errors && results.errors.length > 0) {
@@ -56,38 +52,59 @@ export function updateElectricityPrices(commands: PriceUpdateCommand[]): PriceUp
   return results;
 }
 
-export function getCurrentPrices(supplier?: string, priceZone?: string): string {
-  let filteredPlans = mockElectricityPlans;
+export async function getCurrentPrices(supplier?: string, priceZone?: string): Promise<string> {
+  try {
+    let filteredPlans = await getAllPlans();
 
-  if (supplier) {
-    filteredPlans = filteredPlans.filter(plan => 
-      plan.supplierName.toLowerCase().includes(supplier.toLowerCase())
+    if (supplier) {
+      filteredPlans = filteredPlans.filter(plan => 
+        plan.supplierName.toLowerCase().includes(supplier.toLowerCase())
+      );
+    }
+
+    if (priceZone) {
+      filteredPlans = filteredPlans.filter(plan => 
+        plan.priceZone === priceZone as PriceZone
+      );
+    }
+
+    if (filteredPlans.length === 0) {
+      return 'No plans found matching the criteria.';
+    }
+
+    const priceList = filteredPlans.map(plan => 
+      `${plan.supplierName} ${plan.planName} in ${plan.priceZone}: ${plan.pricePerKwh} øre/kWh`
     );
+
+    return `Current prices:\n${priceList.join('\n')}`;
+  } catch (error) {
+    console.error('Error getting current prices:', error);
+    return 'Error fetching current prices.';
   }
-
-  if (priceZone) {
-    filteredPlans = filteredPlans.filter(plan => 
-      plan.priceZone === priceZone as PriceZone
-    );
-  }
-
-  if (filteredPlans.length === 0) {
-    return 'No plans found matching the criteria.';
-  }
-
-  const priceList = filteredPlans.map(plan => 
-    `${plan.supplierName} ${plan.planName} in ${plan.priceZone}: ${plan.pricePerKwh} øre/kWh`
-  );
-
-  return `Current prices:\n${priceList.join('\n')}`;
 }
 
-export function resetToDefaultPrices(): PriceUpdateResult {
-  // This would typically reload from a database or reset to default values
-  // For now, we'll just return a message
-  return {
-    success: true,
-    message: 'Reset functionality would reload default prices from database.',
-    updatedPlans: []
-  };
+export async function resetToDefaultPrices(): Promise<PriceUpdateResult> {
+  try {
+    const success = await dbResetToDefaultPrices();
+    
+    if (success) {
+      return {
+        success: true,
+        message: '✅ Successfully reset all prices to default values.',
+        updatedPlans: []
+      };
+    } else {
+      return {
+        success: false,
+        message: '❌ Failed to reset prices to default values.',
+        errors: ['Database reset failed']
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: '❌ Error resetting prices to default values.',
+      errors: [error instanceof Error ? error.message : String(error)]
+    };
+  }
 } 

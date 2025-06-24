@@ -44,7 +44,7 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
 
   // Handle current prices command
   if (lowerText.startsWith('/prices') || lowerText.startsWith('prices')) {
-    return getCurrentPrices();
+    return await getCurrentPrices();
   }
 
   // Handle price update commands
@@ -52,19 +52,19 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
       lowerText.includes('update') || lowerText.includes('oppdater') || lowerText.includes('uppdatera') ||
       lowerText.includes('change') || lowerText.includes('endre') || lowerText.includes('ändra')) {
     
-    return handlePriceUpdateCommand(text);
+    return await handlePriceUpdateCommand(text);
   }
 
   // Try to parse as price update command anyway
   const commands = parsePriceUpdateCommand(text);
   if (commands.length > 0) {
-    return handlePriceUpdateCommand(text);
+    return await handlePriceUpdateCommand(text);
   }
 
   return `❓ I didn't understand that command. Try:\n${getHelpMessage()}`;
 }
 
-function handlePriceUpdateCommand(text: string): string {
+async function handlePriceUpdateCommand(text: string): Promise<string> {
   const commands = parsePriceUpdateCommand(text);
   
   if (commands.length === 0) {
@@ -85,7 +85,7 @@ function handlePriceUpdateCommand(text: string): string {
   }
 
   // Update prices
-  const result = updateElectricityPrices(commands);
+  const result = await updateElectricityPrices(commands);
   
   if (result.success) {
     return result.message;

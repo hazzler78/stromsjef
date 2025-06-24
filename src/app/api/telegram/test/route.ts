@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     let updateResult = null;
     const validCommands = commands.filter(cmd => validatePriceUpdateCommand(cmd).valid);
     if (validCommands.length > 0) {
-      updateResult = updateElectricityPrices(validCommands);
+      updateResult = await updateElectricityPrices(validCommands);
     }
 
     return NextResponse.json({
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       parsedCommands: commands,
       validationResults,
       updateResult,
-      currentPrices: getCurrentPrices()
+      currentPrices: await getCurrentPrices()
     });
 
   } catch (error) {
@@ -55,6 +55,6 @@ export async function GET() {
   return NextResponse.json({
     message: 'Test endpoint for Telegram bot',
     usage: 'POST with { "message": "Set Kilden in NO1 to 0.59" }',
-    currentPrices: getCurrentPrices()
+    currentPrices: await getCurrentPrices()
   });
 } 
