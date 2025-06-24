@@ -6,60 +6,28 @@ import { handleTelegramMessage } from '@/lib/telegram-bot';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { message } = body;
+    const { text, userId } = body;
 
-    if (!message) {
-      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
+    if (!text) {
+      return NextResponse.json({ error: 'No text provided' }, { status: 400 });
     }
 
-    // Simulate a Telegram message object
-    const telegramMessage = {
-      from: { id: 6569007750 }, // Use a valid allowed user ID
-      text: message,
-      chat: { id: 6569007750 }
-    } as any; // Cast to any to avoid TypeScript issues with missing properties
+    console.log(`Test endpoint: Processing message "${text}" from user ${userId}`);
 
-    // Handle special commands first
-    const lowerMessage = message.toLowerCase().trim();
-    if (lowerMessage === '/report' || lowerMessage === 'report') {
-      const reportResult = await handleTelegramMessage(telegramMessage);
-      return NextResponse.json({
-        originalMessage: message,
-        reportResult,
-        currentPrices: await getCurrentPrices()
-      });
-    }
-
-    // Test the parsing
-    const commands = parsePriceUpdateCommand(message);
-    
-    // Test validation
-    const validationResults = commands.map(cmd => ({
-      command: cmd,
-      validation: validatePriceUpdateCommand(cmd)
-    }));
-
-    // Test price update (if commands are valid)
-    let updateResult = null;
-    const validCommands = commands.filter(cmd => validatePriceUpdateCommand(cmd).valid);
-    if (validCommands.length > 0) {
-      updateResult = await updateElectricityPrices(validCommands);
-    }
-
-    return NextResponse.json({
-      originalMessage: message,
-      parsedCommands: commands,
-      validationResults,
-      updateResult,
-      currentPrices: await getCurrentPrices()
+    // Process the message with a complete User object
+    const response = await handleTelegramMessage({ 
+      text, 
+      from: { 
+        id: userId || 123456789,
+        is_bot: false,
+        first_name: 'Test User'
+      } 
     });
 
+    return NextResponse.json({ success: true, response });
   } catch (error) {
     console.error('Error in test endpoint:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 

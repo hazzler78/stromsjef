@@ -14,11 +14,10 @@ interface ApiPricePlan {
   productType: 'SPOT' | 'VARIABLE' | 'FIXED';
 }
 
-interface TokenResponse {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string;
+interface ElectricityPrice {
+  priceZone: string;
+  price: number;
+  timestamp: string;
 }
 
 let tokenCache: { token: string; expiresAt: number } | null = null;

@@ -12,7 +12,7 @@ const isDevelopmentMode: boolean = process.env.NODE_ENV === 'development' &&
   (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN);
 
 // --- Click Tracking ---
-let inMemoryClicks: Record<string, number> = {};
+const inMemoryClicks: Record<string, number> = {};
 
 export async function initializeDatabase(): Promise<void> {
   try {

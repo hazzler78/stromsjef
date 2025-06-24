@@ -158,7 +158,7 @@ export async function sendTelegramMessage(chatId: number, message: string): Prom
 
   try {
     await bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
-  } catch (error) {
-    console.error('Error sending Telegram message:', error);
+  } catch {
+    console.error('Failed to send Telegram message');
   }
 } 

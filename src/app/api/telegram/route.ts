@@ -4,42 +4,39 @@ import { handleTelegramMessage, sendTelegramMessage, bot } from '@/lib/telegram-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const { message } = body;
     
-    // Handle Telegram webhook update
-    if (body.message) {
-      const message = body.message;
-      const chatId = message.chat.id;
-      
-      // Process the message
-      const response = await handleTelegramMessage(message);
-      
-      // Send response back to user
-      await sendTelegramMessage(chatId, response);
-      
-      return NextResponse.json({ success: true });
+    if (!message) {
+      return NextResponse.json({ error: 'No message found' }, { status: 400 });
     }
-    
-    // Handle callback queries (for inline keyboards if needed)
-    if (body.callback_query) {
-      const callbackQuery = body.callback_query;
-      const chatId = callbackQuery.message.chat.id;
-      
-      // For now, just acknowledge the callback
-      if (bot) {
-        await bot.answerCallbackQuery(callbackQuery.id);
-      }
-      
-      return NextResponse.json({ success: true });
+
+    const { text, from } = message;
+    const userId = from?.id;
+
+    if (!text) {
+      return NextResponse.json({ error: 'No text found' }, { status: 400 });
     }
+
+    // Check if user is authorized
+    const authorizedUsers = process.env.TELEGRAM_AUTHORIZED_USERS?.split(',').map(id => parseInt(id.trim())) || [];
     
-    return NextResponse.json({ success: true, message: 'No message or callback query found' });
+    if (!userId || !authorizedUsers.includes(userId)) {
+      console.log(`Unauthorized access attempt from user ${userId}`);
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    console.log(`Received message from user ${userId}: ${text}`);
+
+    // Process the message
+    const response = await handleTelegramMessage(message);
     
+    // Send response back to user
+    await sendTelegramMessage(message.chat.id, response);
+    
+    return NextResponse.json({ success: true, response });
   } catch (error) {
-    console.error('Error handling Telegram webhook:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    console.error('Error processing Telegram webhook:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 

@@ -2,9 +2,25 @@
 
 import { useState } from 'react'
 
+interface Message {
+  text: string;
+  response: string;
+  timestamp: Date;
+}
+
+interface TestResult {
+  originalMessage?: string;
+  parsedCommands?: unknown[];
+  validationResults?: unknown[];
+  updateResult?: unknown;
+  currentPrices?: string;
+  error?: string;
+}
+
 export default function BotTestPage() {
-  const [message, setMessage] = useState('')
-  const [result, setResult] = useState<any>(null)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [inputText, setInputText] = useState('')
+  const [result, setResult] = useState<TestResult | null>(null)
   const [loading, setLoading] = useState(false)
 
   const testMessages = [
@@ -18,7 +34,7 @@ export default function BotTestPage() {
   ]
 
   const handleTest = async (testMessage?: string) => {
-    const messageToTest = testMessage || message
+    const messageToTest = testMessage || inputText
     if (!messageToTest.trim()) return
 
     setLoading(true)
@@ -54,8 +70,8 @@ export default function BotTestPage() {
               Custom Message:
             </label>
             <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md"
               rows={3}
               placeholder="Enter a message like: Set Kilden spotpris in NO1 to 0.59"
@@ -64,7 +80,7 @@ export default function BotTestPage() {
           
           <button
             onClick={() => handleTest()}
-            disabled={loading || !message.trim()}
+            disabled={loading || !inputText.trim()}
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50"
           >
             {loading ? 'Testing...' : 'Test Custom Message'}
