@@ -181,7 +181,7 @@ const FastpriskalkulatorPage = () => {
                 <div className="text-center">
                   <Link 
                     href="/#sammenligning" 
-                    className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                    className="bg-blue-600 text-white !text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                   >
                     Se tilgjengelige fastprisavtaler
                   </Link>
@@ -252,7 +252,7 @@ const FastpriskalkulatorPage = () => {
           </p>
           <Link 
             href="/#sammenligning" 
-            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 text-white !text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Start sammenligning
           </Link>
