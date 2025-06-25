@@ -20,6 +20,11 @@ const Footer = () => {
       return;
     }
 
+    if (!marketingConsent) {
+      setMessage({ type: 'error', text: 'Du må samtykke til å motta markedsføring på e-post for å melde deg på nyhetsbrevet.' });
+      return;
+    }
+
     setIsSubmitting(true);
     setMessage(null);
 
@@ -39,6 +44,7 @@ const Footer = () => {
         setEmail('');
         setZone('');
         setConsent(false);
+        setMarketingConsent(false);
       } else {
         setMessage({ type: 'error', text: data.error || 'En feil oppstod ved påmelding' });
       }
@@ -100,7 +106,7 @@ const Footer = () => {
                 disabled={isSubmitting}
               />
               <label htmlFor="consent" className="text-xs text-gray-400">
-                Jeg godtar <Link href="/privacy-policy" className="underline">personvernvilkårene</Link>.
+                Jeg godtar <Link href="/terms-of-service" className="underline">Brukervilkår</Link>/<Link href="/privacy-policy" className="underline">Personvern</Link>.
               </label>
             </div>
             <div className="flex items-center text-left mb-4">
@@ -111,9 +117,10 @@ const Footer = () => {
                 onChange={e => setMarketingConsent(e.target.checked)}
                 className="mr-2"
                 disabled={isSubmitting}
+                required
               />
               <label htmlFor="marketingConsent" className="text-xs text-gray-400">
-                Ja, jeg samtykker til å motta markedsføring på epost
+                Ja, jeg samtykker til å motta markedsføring på e-post *
               </label>
             </div>
             <button 
@@ -127,6 +134,9 @@ const Footer = () => {
             >
               {isSubmitting ? 'Meld på...' : 'Meld meg på'}
             </button>
+            <p className="text-xs text-gray-500 mt-2 text-center">
+              * Påkrevd for å motta nyhetsbrev
+            </p>
           </form>
         </div>
 
@@ -142,8 +152,8 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-bold mb-2">Juridisk</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/terms-of-service" className="hover:underline">Vilkår for bruk</Link></li>
-            <li><Link href="/privacy-policy" className="hover:underline">Personvernerklæring</Link></li>
+            <li><Link href="/terms-of-service" className="hover:underline">Brukervilkår</Link></li>
+            <li><Link href="/privacy-policy" className="hover:underline">Personvern</Link></li>
             <li><Link href="/business" className="hover:underline">For bedrifter</Link></li>
           </ul>
         </div>
