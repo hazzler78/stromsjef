@@ -92,9 +92,12 @@ bot.on('message', async (msg) => {
       });
 
       const data = await response.json();
+      console.log('💰 Prices response:', data);
       
-      if (data.currentPrices) {
-        await bot.sendMessage(chatId, data.currentPrices, { parse_mode: 'Markdown' });
+      if (data.success && data.response) {
+        await bot.sendMessage(chatId, data.response, { parse_mode: 'Markdown' });
+      } else if (data.error) {
+        await bot.sendMessage(chatId, `❌ Error: ${data.error}`);
       } else {
         await bot.sendMessage(chatId, '❌ Could not fetch current prices.');
       }
