@@ -30,7 +30,7 @@ const Header = () => {
                   className="text-white !text-white hover:!text-blue-100 transition-colors font-medium"
                   style={{ color: 'white' }}
                 >
-                  Sammenlign
+                  Avtaler
                 </Link>
               </li>
               <li>
@@ -105,7 +105,7 @@ const Header = () => {
                   style={{ color: 'white' }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Sammenlign
+                  Avtaler
                 </Link>
               </li>
               <li>
