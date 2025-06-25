@@ -44,7 +44,15 @@ export async function POST(request: NextRequest) {
     
     // Send response back to user
     console.log(`📨 Telegram webhook: Sending response to chat ${chatId}`);
-    await sendTelegramMessage(chatId, response);
+    const messageSent = await sendTelegramMessage(chatId, response);
+    
+    if (!messageSent) {
+      console.error('❌ Telegram webhook: Failed to send message to user');
+      return NextResponse.json({ 
+        error: 'Failed to send message to user',
+        response: response 
+      }, { status: 500 });
+    }
     
     console.log(`✅ Telegram webhook: Successfully processed message`);
     return NextResponse.json({ success: true, response });

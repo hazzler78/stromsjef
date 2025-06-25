@@ -61,13 +61,19 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
       console.log('📊 /report: Filtered clicks:', filtered);
       
       if (filtered.length === 0) {
-        return '📊 *Klikkstatistikk:*\nIngen klikk registrert ennå.';
+        const noClicksMessage = '📊 *Klikkstatistikk:*\nIngen klikk registrert ennå.';
+        console.log('📊 /report: No clicks found, returning message:', noClicksMessage);
+        return noClicksMessage;
       }
+      
       let report = '📊 *Klikkstatistikk:*\n\n';
       for (const [buttonId, count] of filtered) {
         const buttonName = buttonId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         report += `• ${buttonName}: ${count} klikk\n`;
       }
+      
+      console.log('📊 /report: Generated report message:', report);
+      console.log('📊 /report: Report message length:', report.length);
       return report;
     } catch (error) {
       console.error('❌ /report: Error fetching click counts:', error);
@@ -83,6 +89,7 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
         errorDetails += `*Stack:* \`\`\`\n${stackLines.join('\n')}\n\`\`\``;
       }
       
+      console.log('📊 /report: Returning error message:', errorDetails);
       return errorDetails;
     }
   }
@@ -180,18 +187,37 @@ function getHelpMessage(): string {
   );
 }
 
-export async function sendTelegramMessage(chatId: number, message: string): Promise<void> {
+export async function sendTelegramMessage(chatId: number, message: string): Promise<boolean> {
   if (!bot) {
     console.error('❌ sendTelegramMessage: Bot not initialized');
-    return;
+    return false;
   }
 
   try {
     console.log(`📤 sendTelegramMessage: Sending to chat ${chatId}:`, message.substring(0, 100) + '...');
-    await bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
-    console.log('✅ sendTelegramMessage: Message sent successfully');
+    console.log(`📤 sendTelegramMessage: Message length: ${message.length} characters`);
+    console.log(`📤 sendTelegramMessage: Bot token exists: ${!!process.env.TELEGRAM_BOT_TOKEN}`);
+    
+    const result = await bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
+    console.log('✅ sendTelegramMessage: Message sent successfully, result:', result);
+    return true;
   } catch (error) {
-    console.error('❌ sendTelegramMessage: Failed to send Telegram message:', error);
+    console.error('❌ sendTelegramMessage: Failed to send Telegram message with Markdown:', error);
     console.error('❌ sendTelegramMessage: Error details:', error instanceof Error ? error.message : String(error));
+    
+    // Try sending without Markdown as fallback
+    try {
+      console.log('📤 sendTelegramMessage: Trying without Markdown...');
+      const result = await bot.sendMessage(chatId, message);
+      console.log('✅ sendTelegramMessage: Message sent successfully without Markdown, result:', result);
+      return true;
+    } catch (fallbackError) {
+      console.error('❌ sendTelegramMessage: Failed to send message even without Markdown:', fallbackError);
+      console.error('❌ sendTelegramMessage: Fallback error details:', fallbackError instanceof Error ? fallbackError.message : String(fallbackError));
+      console.error('❌ sendTelegramMessage: Error stack:', fallbackError instanceof Error ? fallbackError.stack : 'No stack trace');
+      console.error('❌ sendTelegramMessage: Chat ID:', chatId);
+      console.error('❌ sendTelegramMessage: Message preview:', message.substring(0, 200));
+      return false;
+    }
   }
 } 
