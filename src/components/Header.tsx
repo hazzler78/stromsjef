@@ -39,7 +39,7 @@ const Header = () => {
                   className="text-white !text-white hover:!text-blue-100 transition-colors font-medium"
                   style={{ color: 'white' }}
                 >
-                  Spotpriskontroll
+                  Fastpriskalkulator
                 </Link>
               </li>
               <li>
@@ -115,7 +115,7 @@ const Header = () => {
                   style={{ color: 'white' }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Spotpriskontroll
+                  Fastpriskalkulator
                 </Link>
               </li>
               <li>
