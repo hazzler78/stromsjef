@@ -17,7 +17,7 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-            <Logo width={32} height={40} />
+            <Logo width={32} height={40} className="text-white hover:text-blue-100 transition-colors" />
             <span className="text-2xl font-bold text-white !text-white">Strømsjef</span>
           </Link>
 
