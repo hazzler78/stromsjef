@@ -24,7 +24,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user is authorized
-    const authorizedUsers = process.env.TELEGRAM_AUTHORIZED_USERS?.split(',').map(id => parseInt(id.trim())) || [];
+    const authorizedUsers = process.env.TELEGRAM_ALLOWED_USERS?.split(',').map(id => parseInt(id.trim())) || [];
+    
+    console.log(`🔐 Telegram webhook: Checking authorization for user ${userId}`);
+    console.log(`🔐 Telegram webhook: Allowed users:`, authorizedUsers);
+    console.log(`🔐 Telegram webhook: User ${userId} authorized:`, authorizedUsers.includes(userId || 0));
     
     if (!userId || !authorizedUsers.includes(userId)) {
       console.log(`❌ Unauthorized access attempt from user ${userId}`);
@@ -34,6 +38,7 @@ export async function POST(request: NextRequest) {
     console.log(`📨 Telegram webhook: Received message from user ${userId} in chat ${chatId}: ${text}`);
 
     // Process the message
+    console.log(`📨 Telegram webhook: Processing message...`);
     const response = await handleTelegramMessage(message);
     console.log(`📨 Telegram webhook: Bot response:`, response.substring(0, 100) + '...');
     
@@ -46,6 +51,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('❌ Telegram webhook: Error processing message:', error);
     console.error('❌ Telegram webhook: Error details:', error instanceof Error ? error.message : String(error));
+    console.error('❌ Telegram webhook: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

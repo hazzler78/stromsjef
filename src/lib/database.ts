@@ -235,6 +235,17 @@ export async function getAllClickCounts(): Promise<Record<string, number>> {
     }
     
     console.log('🔍 getAllClickCounts: Using KV storage...');
+    
+    // Test KV connection first
+    try {
+      await kv.ping();
+      console.log('🔍 getAllClickCounts: KV connection test successful');
+    } catch (kvError) {
+      console.error('❌ getAllClickCounts: KV connection test failed:', kvError);
+      console.log('🔍 getAllClickCounts: Falling back to in-memory storage');
+      return { ...inMemoryClicks };
+    }
+    
     // Dynamically include all plan button IDs
     const plans: ElectricityPlan[] = await getAllPlans();
     console.log('🔍 getAllClickCounts: Got plans, count:', plans.length);
@@ -251,10 +262,15 @@ export async function getAllClickCounts(): Promise<Record<string, number>> {
     
     const result: Record<string, number> = {};
     for (const id of buttonIds) {
-      const key: string = `clicks:${id}`;
-      console.log('🔍 getAllClickCounts: Fetching key:', key);
-      result[id] = (await kv.get<number>(key)) || 0;
-      console.log('🔍 getAllClickCounts: Key', key, '=', result[id]);
+      try {
+        const key: string = `clicks:${id}`;
+        console.log('🔍 getAllClickCounts: Fetching key:', key);
+        result[id] = (await kv.get<number>(key)) || 0;
+        console.log('🔍 getAllClickCounts: Key', key, '=', result[id]);
+      } catch (keyError) {
+        console.error(`❌ getAllClickCounts: Error fetching key clicks:${id}:`, keyError);
+        result[id] = 0; // Default to 0 if key fetch fails
+      }
     }
     
     console.log('🔍 getAllClickCounts: Final result:', result);
@@ -262,6 +278,9 @@ export async function getAllClickCounts(): Promise<Record<string, number>> {
   } catch (error) {
     console.error('❌ getAllClickCounts: Error:', error);
     console.error('❌ getAllClickCounts: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-    throw error; // Re-throw to be caught by the calling function
+    
+    // Fallback to in-memory storage
+    console.log('🔍 getAllClickCounts: Falling back to in-memory storage due to error');
+    return { ...inMemoryClicks };
   }
 } 
