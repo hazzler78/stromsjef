@@ -3,6 +3,11 @@ console.log('Loaded token:', process.env.TELEGRAM_BOT_TOKEN);
 console.log('Loaded allowed users:', process.env.TELEGRAM_ALLOWED_USERS);
 
 const TelegramBot = require('node-telegram-bot-api');
+const dns = require('dns').promises;
+const { exec } = require('child_process');
+const { promisify } = require('util');
+
+const execAsync = promisify(exec);
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const allowedUsers = process.env.TELEGRAM_ALLOWED_USERS?.split(',').map(id => parseInt(id.trim())) || [];
@@ -36,17 +41,94 @@ const bot = new TelegramBot(token, botOptions);
 // Connection state management
 let isConnected = false;
 let reconnectAttempts = 0;
+let consecutiveNetworkErrors = 0;
 const MAX_RECONNECT_ATTEMPTS = 10;
+const MAX_CONSECUTIVE_NETWORK_ERRORS = 5;
 const RECONNECT_DELAY = 5000; // 5 seconds
+const LONG_RECONNECT_DELAY = 30000; // 30 seconds for network issues
+
+// Network diagnostics
+async function checkNetworkConnectivity() {
+  console.log('🌐 Checking network connectivity...');
+  
+  try {
+    // Test DNS resolution
+    console.log('🔍 Testing DNS resolution for api.telegram.org...');
+    await dns.lookup('api.telegram.org');
+    console.log('✅ DNS resolution successful');
+    
+    // Test basic internet connectivity
+    console.log('🌍 Testing internet connectivity...');
+    await dns.lookup('8.8.8.8');
+    console.log('✅ Internet connectivity confirmed');
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Network connectivity check failed:', error.message);
+    return false;
+  }
+}
+
+// Test Telegram API directly
+async function testTelegramAPI() {
+  console.log('📡 Testing Telegram API connectivity...');
+  
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${token}/getMe`, {
+      method: 'GET',
+      timeout: 10000
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ Telegram API is accessible');
+      return true;
+    } else {
+      console.error('❌ Telegram API returned error:', response.status, response.statusText);
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ Telegram API test failed:', error.message);
+    return false;
+  }
+}
 
 // Start polling with error handling
-function startPolling() {
+async function startPolling() {
   console.log('🔄 Starting polling...');
+  
+  // Check network connectivity first
+  const networkOk = await checkNetworkConnectivity();
+  if (!networkOk) {
+    console.log('⚠️ Network issues detected, will retry with longer delay...');
+    consecutiveNetworkErrors++;
+    
+    if (consecutiveNetworkErrors >= MAX_CONSECUTIVE_NETWORK_ERRORS) {
+      console.log('🛑 Too many consecutive network errors. Pausing for extended period...');
+      setTimeout(() => {
+        consecutiveNetworkErrors = 0;
+        startPolling();
+      }, 60000); // Wait 1 minute
+      return;
+    }
+  } else {
+    consecutiveNetworkErrors = 0;
+  }
+  
+  // Test Telegram API
+  const apiOk = await testTelegramAPI();
+  if (!apiOk) {
+    console.log('⚠️ Telegram API not accessible, will retry...');
+    setTimeout(() => startPolling(), RECONNECT_DELAY);
+    return;
+  }
+  
   bot.startPolling(botOptions.polling)
     .then(() => {
       console.log('✅ Polling started successfully');
       isConnected = true;
       reconnectAttempts = 0;
+      consecutiveNetworkErrors = 0;
     })
     .catch((error) => {
       console.error('❌ Failed to start polling:', error.message);
@@ -59,16 +141,39 @@ function handlePollingError(error) {
   console.error('🔴 Polling error:', error.message);
   isConnected = false;
   
+  // Check if it's a network-related error
+  const isNetworkError = error.message.includes('ENOTFOUND') || 
+                        error.message.includes('ECONNRESET') || 
+                        error.message.includes('ETIMEDOUT') ||
+                        error.message.includes('ENETUNREACH');
+  
+  if (isNetworkError) {
+    consecutiveNetworkErrors++;
+    console.log(`🌐 Network error detected (${consecutiveNetworkErrors}/${MAX_CONSECUTIVE_NETWORK_ERRORS})`);
+    
+    if (consecutiveNetworkErrors >= MAX_CONSECUTIVE_NETWORK_ERRORS) {
+      console.log('🛑 Too many network errors. Pausing for 1 minute before retry...');
+      setTimeout(() => {
+        consecutiveNetworkErrors = 0;
+        reconnectAttempts = 0;
+        startPolling();
+      }, 60000); // Wait 1 minute
+      return;
+    }
+  }
+  
   if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
     reconnectAttempts++;
-    console.log(`🔄 Attempting to reconnect (${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}) in ${RECONNECT_DELAY/1000} seconds...`);
+    const delay = isNetworkError ? LONG_RECONNECT_DELAY : RECONNECT_DELAY;
+    console.log(`🔄 Attempting to reconnect (${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}) in ${delay/1000} seconds...`);
     
     setTimeout(() => {
       console.log('🔄 Reconnecting...');
       startPolling();
-    }, RECONNECT_DELAY);
+    }, delay);
   } else {
     console.error('❌ Max reconnection attempts reached. Stopping bot.');
+    console.log('💡 Try checking your internet connection and restart the bot.');
     process.exit(1);
   }
 }

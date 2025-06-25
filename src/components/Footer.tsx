@@ -58,7 +58,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-800 text-white p-8 mt-12">
-      <div className="container mx-auto grid md:grid-cols-3 gap-8 text-center md:text-left">
+      <div className="container mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center md:text-left">
         <div>
           <h3 className="text-lg font-bold mb-2">Nyhetsbrev</h3>
           <p className="text-sm text-gray-400 mb-4">Få de beste tilbudene og nyhetene rett i innboksen.</p>
@@ -155,6 +155,23 @@ const Footer = () => {
             <li><Link href="/terms-of-service" className="hover:underline">Brukervilkår</Link></li>
             <li><Link href="/privacy-policy" className="hover:underline">Personvern</Link></li>
             <li><Link href="/business" className="hover:underline">For bedrifter</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-bold mb-2">Kontakt</h3>
+          <ul className="space-y-2 text-sm">
+            <li>
+              <a href="mailto:post@stromsjef.no" className="hover:underline text-gray-300">
+                post@stromsjef.no
+              </a>
+            </li>
+            <li className="text-gray-400">
+              Normann Salg
+            </li>
+            <li className="text-gray-400">
+              Org.nr.: 927 985 780
+            </li>
           </ul>
         </div>
 
