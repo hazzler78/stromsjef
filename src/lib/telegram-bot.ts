@@ -72,7 +72,18 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
     } catch (error) {
       console.error('❌ /report: Error fetching click counts:', error);
       console.error('❌ /report: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
-      return `❌ Kunne ikke hente klikkstatistikk.\nFeilmelding: ${error instanceof Error ? error.message : String(error)}`;
+      
+      // Create detailed error message for Telegram
+      let errorDetails = '❌ Kunne ikke hente klikkstatistikk.\n\n';
+      errorDetails += `*Feiltype:* ${error instanceof Error ? error.constructor.name : typeof error}\n`;
+      errorDetails += `*Feilmelding:* ${error instanceof Error ? error.message : String(error)}\n`;
+      
+      if (error instanceof Error && error.stack) {
+        const stackLines = error.stack.split('\n').slice(0, 3); // First 3 lines of stack
+        errorDetails += `*Stack:* \`\`\`\n${stackLines.join('\n')}\n\`\`\``;
+      }
+      
+      return errorDetails;
     }
   }
 
