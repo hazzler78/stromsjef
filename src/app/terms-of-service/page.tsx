@@ -1,175 +1,105 @@
 const TermsOfServicePage = () => {
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Vilkår for bruk</h1>
+      <h1 className="text-3xl font-bold mb-6">Brukervilkår for Strømsjef.no</h1>
       
       <div className="prose prose-lg max-w-none">
         <p className="text-gray-600 mb-8">
-          Sist oppdatert: {new Date().toLocaleDateString('nb-NO')}
+          Denne avtalen ble sist endret: Oktober 2024
         </p>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">1. Generelt</h2>
+          <h2 className="text-2xl font-semibold mb-4">1. Strømsjef.no og våre tjenester</h2>
           <p className="mb-4">
-            Disse vilkårene for bruk ("Vilkårene") regulerer bruken av Strømsjef.no ("Nettstedet") og de tjenester 
-            som tilbys av Strømsjef ("vi", "oss", "vår"). Ved å bruke nettstedet vårt godtar du disse vilkårene.
+            Normann Salg (referert til som «Strømsjef.no», «vi», eller «oss») tilbyr en plattform for formidling av strømavtaler via Strømsjef.no.
           </p>
           <p className="mb-4">
-            Strømsjef.no er en sammenligningstjeneste for strømavtaler som hjelper forbrukere å finne og bytte 
-            til bedre strømavtaler. Vi er ikke en strømleverandør, men fungerer som en uavhengig megler.
+            Formålet med tjenesten er å gjøre det enklere for forbrukere å finne en god strømavtale ved å presentere et utvalg av forhandlede avtaler.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">2. Bruk av tjenestene</h2>
-          <p className="mb-4">Du kan bruke våre tjenester for å:</p>
-          <ul className="list-disc list-inside space-y-2 mb-4">
-            <li>Sammenligne strømavtaler fra ulike leverandører</li>
-            <li>Få informasjon om strømpriser og avtaler</li>
-            <li>Beregne potensielle besparelser</li>
-            <li>Bytte strømleverandør gjennom våre samarbeidspartnere</li>
-          </ul>
+          <h2 className="text-2xl font-semibold mb-4">2. Brukervilkår</h2>
           <p className="mb-4">
-            Du forplikter deg til å bruke tjenestene våre på en lovlig og etisk måte, og ikke å misbruke 
-            eller forstyrre funksjonaliteten på nettstedet.
+            Disse vilkårene gjelder for all bruk av vår nettside og våre tjenester. Vi ber deg lese vilkårene nøye. Ved å bruke vår nettside erkjenner du at du har lest, forstått og aksepterer vilkårene. Hvis du ikke godtar disse, skal du ikke bruke nettsiden vår.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">3. Nøyaktighet av informasjon</h2>
+          <h2 className="text-2xl font-semibold mb-4">3. Bruk av nettsiden</h2>
           <p className="mb-4">
-            Vi streber etter å gi nøyaktig og oppdatert informasjon om strømavtaler og priser. Imidlertid kan vi ikke garantere:
-          </p>
-          <ul className="list-disc list-inside space-y-2 mb-4">
-            <li>At all informasjon er 100% nøyaktig til enhver tid</li>
-            <li>At priser ikke endres mellom oppdateringer</li>
-            <li>At alle tilgjengelige avtaler er inkludert i sammenligningen</li>
-            <li>At leverandørenes vilkår ikke endres</li>
-          </ul>
-          <p className="mb-4">
-            Vi anbefaler at du alltid verifiserer informasjonen direkte med strømleverandøren før du inngår en avtale.
+            Du forplikter deg til å bruke nettsiden i samsvar med gjeldende lover og regler. Misbruk av nettsiden, inkludert forsøk på å omgå sikkerhetstiltak eller uautorisert tilgang til systemer, vil kunne føre til utestengelse.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">4. Bytte av strømleverandør</h2>
+          <h2 className="text-2xl font-semibold mb-4">4. Endringer i vilkårene</h2>
           <p className="mb-4">
-            Når du velger å bytte strømleverandør gjennom våre tjenester:
+            Strømsjef.no forbeholder seg retten til å oppdatere brukervilkårene ved behov, men kun når dette er nødvendig på grunn av endringer i lovgivning, regulatoriske krav, tekniske justeringer eller forbedringer av våre tjenester.
           </p>
-          <ul className="list-disc list-inside space-y-2 mb-4">
-            <li>Du inngår avtalen direkte med strømleverandøren, ikke med oss</li>
-            <li>Vi fungerer som en uavhengig megler og mottar kompensasjon fra leverandøren</li>
-            <li>Bytteprosessen håndteres av den nye leverandøren</li>
-            <li>Du kan vanligvis angre på avtalen innen 14 dager</li>
-          </ul>
           <p className="mb-4">
-            Vi er ikke ansvarlige for eventuelle problemer som oppstår i forbindelse med bytteprosessen eller 
-            leverandørens tjenester.
+            Alle endringer vil bli varslet på vår nettside minst 14 dager før de trer i kraft, med mindre endringene er nødvendige av sikkerhetsmessige årsaker eller for å oppfylle lovpålagte krav, hvor endringer vil tre i kraft umiddelbart.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">5. Kompensasjon og affiliate-lenker</h2>
+          <h2 className="text-2xl font-semibold mb-4">5. Tilbud fra strømleverandører</h2>
           <p className="mb-4">
-            Vi mottar kompensasjon fra strømleverandører når du bytter leverandør gjennom våre affiliate-lenker. 
-            Dette påvirker ikke prisen du betaler - du får samme vilkår som om du hadde gått direkte til leverandøren.
+            Strømsjef.no kan presentere tilbud fra alle strømleverandører som er oppført på Forbrukertilsynets strømportal.
           </p>
           <p className="mb-4">
-            Kompensasjonen hjelper oss å holde tjenestene våre gratis for deg og å fortsette å forbedre 
-            sammenligningstjenesten.
+            Vårt mål er å gi deg et bredt utvalg av strømavtaler, slik at du kan velge den som best passer dine behov.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">6. Personvern</h2>
+          <h2 className="text-2xl font-semibold mb-4">6. Kontaktinformasjon</h2>
           <p className="mb-4">
-            Håndtering av dine personopplysninger reguleres av vår 
-            <a href="/privacy-policy" className="text-blue-600 hover:underline ml-1">
-              personvernerklæring
-            </a>. 
-            Ved å bruke våre tjenester godtar du også vilkårene i personvernerklæringen.
+            For spørsmål om brukervilkår, vennligst kontakt oss på post@stromsjef.no
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">7. Intellektuell eiendom</h2>
+          <h2 className="text-2xl font-semibold mb-4">7. Angrerett</h2>
           <p className="mb-4">
-            Alt innhold på nettstedet, inkludert tekst, bilder, logoer, design og programvare, er beskyttet av 
-            opphavsrett og andre intellektuelle eiendomsrettigheter som tilhører Strømsjef eller våre lisensgivere.
-          </p>
-          <p className="mb-4">
-            Du kan ikke kopiere, distribuere, endre eller på annen måte bruke innholdet uten vår skriftlige tillatelse.
+            Du har angrerett ved inngåelse av strømavtale over nett. For nærmere informasjon om hvordan du kan benytte deg av angreretten, henvises det til avtalen med strømleverandøren.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">8. Ansvarsfraskrivelse</h2>
+          <h2 className="text-2xl font-semibold mb-4">8. Feil ved tjenestene</h2>
           <p className="mb-4">
-            Tjenestene våre tilbys "som de er" uten garantier av noen art. Vi fraskriver oss spesielt ansvar for:
+            Strømsjef.no er ikke ansvarlig for tap eller skade som følge av bruk av tjenestene eller informasjonen på nettstedet, heller ikke ved manglende tilgjengelighet av informasjon. Vi garanterer ikke at nettsiden alltid vil være tilgjengelig eller fri for feil.
           </p>
-          <ul className="list-disc list-inside space-y-2 mb-4">
-            <li>Tap av penger eller besparelser som ikke realiseres</li>
-            <li>Problemer med strømleverandørenes tjenester</li>
-            <li>Tekniske feil eller avbrudd i tjenestene</li>
-            <li>Skade som oppstår som følge av bruk av nettstedet</li>
-          </ul>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">9. Ansvarsbegrensning</h2>
           <p className="mb-4">
-            Vårt totale ansvar overfor deg er begrenset til det beløp du har betalt oss for tjenestene, 
-            eller 1000 NOK, avhengig av hva som er høyest. Dette gjelder ikke i tilfeller av grov uaktsomhet 
-            eller forsætlig handling.
+            Strømleverandøren er ansvarlig for å levere i henhold til avtalen du inngår med dem. Strømsjef.no representerer ikke strømleverandørene. Ved feil, kontakt strømleverandøren direkte. Gi beskjed innen rimelig tid etter at feilen ble oppdaget.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">10. Endringer i vilkårene</h2>
+          <h2 className="text-2xl font-semibold mb-4">9. Priser og betaling</h2>
           <p className="mb-4">
-            Vi forbeholder oss retten til å endre disse vilkårene når som helst. Endringer vil bli publisert 
-            på nettstedet med en oppdatert dato. Din fortsatte bruk av tjenestene etter endringer utgjør 
-            aksept av de nye vilkårene.
+            Bruken av Strømsjef.no er gratis. Det påløper ingen ekstra kostnader på strømregningen ved å bruke våre tjenester.
+          </p>
+          <p className="mb-4">
+            Strømleverandørene oppgir prisene for strømavtalene. Vi prøver å holde prisene og avtalevilkårene oppdatert, men tar forbehold om endringer gjort av strømleverandørene. Strømsjef.no kan ikke garantere at all informasjon er korrekt, da denne innhentes fra tredjeparter.
+          </p>
+          <p className="mb-4">
+            Betalingen gjøres direkte til den valgte strømleverandøren i henhold til avtalen du inngår med dem.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">11. Oppsigelse</h2>
+          <h2 className="text-2xl font-semibold mb-4">10. Konfliktløsning og verneting</h2>
           <p className="mb-4">
-            Du kan når som helst avslutte bruken av våre tjenester. Vi kan også avslutte eller begrense 
-            din tilgang til tjenestene hvis du bryter disse vilkårene.
+            Eventuelle tvister skal forsøkes løst i minnelighet. Hvis dette ikke lykkes, kan kjøperen kontakte Forbrukertilsynet for mekling. Forbrukertilsynet kan nås på telefon 23 400 600 eller www.forbrukertilsynet.no
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">12. Lovvalg og tvisteløsning</h2>
+          <h2 className="text-2xl font-semibold mb-4">11. Lovvalg og verneting</h2>
           <p className="mb-4">
-            Disse vilkårene reguleres av norsk lov. Eventuelle tvister skal løses ved forhandling, og ved 
-            uenighet skal tvisten avgjøres av norske domstoler med Oslo tingrett som første instans.
-          </p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">13. Kontaktinformasjon</h2>
-          <p className="mb-4">
-            Hvis du har spørsmål om disse vilkårene, kan du kontakte oss på:
-          </p>
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <p className="mb-2"><strong>E-post:</strong> vilkar@stromsjef.no</p>
-            <p className="mb-2"><strong>Adresse:</strong> [Bedriftsadresse]</p>
-            <p><strong>Telefon:</strong> [Telefonnummer]</p>
-          </div>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">14. Forbrukerrettigheter</h2>
-          <p className="mb-4">
-            Som forbruker har du rettigheter i henhold til norsk forbrukerlovgivning. Disse vilkårene 
-            påvirker ikke dine lovpålagte rettigheter som forbruker.
-          </p>
-          <p className="mb-4">
-            Hvis du er misfornøyd med våre tjenester, kan du klage til Forbrukertilsynet eller ta kontakt 
-            med oss direkte.
+            Disse brukervilkårene er underlagt norsk lov. Partene vedtar Oslo tingrett som rett verneting.
           </p>
         </section>
       </div>
