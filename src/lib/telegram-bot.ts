@@ -171,13 +171,16 @@ function getHelpMessage(): string {
 
 export async function sendTelegramMessage(chatId: number, message: string): Promise<void> {
   if (!bot) {
-    console.error('Bot not initialized');
+    console.error('❌ sendTelegramMessage: Bot not initialized');
     return;
   }
 
   try {
+    console.log(`📤 sendTelegramMessage: Sending to chat ${chatId}:`, message.substring(0, 100) + '...');
     await bot.sendMessage(chatId, message, { parse_mode: 'Markdown' });
-  } catch {
-    console.error('Failed to send Telegram message');
+    console.log('✅ sendTelegramMessage: Message sent successfully');
+  } catch (error) {
+    console.error('❌ sendTelegramMessage: Failed to send Telegram message:', error);
+    console.error('❌ sendTelegramMessage: Error details:', error instanceof Error ? error.message : String(error));
   }
 } 
