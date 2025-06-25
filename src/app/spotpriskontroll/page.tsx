@@ -61,69 +61,69 @@ const FastpriskalkulatorPage = () => {
             <h2 className="text-2xl font-bold mb-6">Beregn besparelse</h2>
             
             <form onSubmit={calculateSavings} className="space-y-6">
-              <div>
+    <div>
                 <label htmlFor="consumption" className="block text-sm font-medium text-gray-700 mb-2">
                   Årlig strømforbruk (kWh)
                 </label>
-                <input
-                  type="number"
-                  id="consumption"
-                  value={consumption}
-                  onChange={(e) => setConsumption(e.target.value)}
+          <input
+            type="number"
+            id="consumption"
+            value={consumption}
+            onChange={(e) => setConsumption(e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="f.eks. 16000"
-                  required
-                />
+            placeholder="f.eks. 16000"
+            required
+          />
                 <p className="text-sm text-gray-500 mt-1">
                   Du finner dette på din siste strømregning
                 </p>
-              </div>
+        </div>
 
               <div>
                 <label htmlFor="currentPrice" className="block text-sm font-medium text-gray-700 mb-2">
                   Nåværende pris per kWh (øre)
                 </label>
-                <input
-                  type="number"
-                  id="currentPrice"
-                  step="0.1"
-                  value={currentPrice}
-                  onChange={(e) => setCurrentPrice(e.target.value)}
+          <input
+            type="number"
+            id="currentPrice"
+            step="0.1"
+            value={currentPrice}
+            onChange={(e) => setCurrentPrice(e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="f.eks. 70.5"
-                  required
-                />
+            placeholder="f.eks. 70.5"
+            required
+          />
                 <p className="text-sm text-gray-500 mt-1">
                   Inkludert alle gebyrer og påslag
                 </p>
-              </div>
+        </div>
 
               <div>
                 <label htmlFor="newPrice" className="block text-sm font-medium text-gray-700 mb-2">
                   Ny fastpris per kWh (øre)
                 </label>
-                <input
-                  type="number"
-                  id="newPrice"
-                  step="0.1"
-                  value={newPrice}
-                  onChange={(e) => setNewPrice(e.target.value)}
+          <input
+            type="number"
+            id="newPrice"
+            step="0.1"
+            value={newPrice}
+            onChange={(e) => setNewPrice(e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="f.eks. 65.0"
-                  required
-                />
+            placeholder="f.eks. 65.0"
+            required
+          />
                 <p className="text-sm text-gray-500 mt-1">
                   Fra den nye fastprisavtalen du vurderer
                 </p>
-              </div>
+        </div>
 
               <div className="flex gap-4">
                 <button 
                   type="submit" 
                   className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                 >
-                  Beregn besparelse
-                </button>
+          Beregn besparelse
+        </button>
                 <button 
                   type="button"
                   onClick={resetForm}
@@ -132,7 +132,7 @@ const FastpriskalkulatorPage = () => {
                   Nullstill
                 </button>
               </div>
-            </form>
+      </form>
           </div>
 
           {/* Results Section */}

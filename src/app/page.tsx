@@ -37,18 +37,17 @@ export default async function Home() {
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 -mx-4 px-4 mb-8">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Sammenlign strømavtaler og spar penger
+            Våre anbefalte avtaler
           </h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Finn den beste strømavtalen for deg. Vi sammenligner priser fra ledende leverandører 
-            og hjelper deg å bytte enkelt og gratis.
+            Du får tilgang til strømavtaler vi har valgt ut basert på pris og vilkår.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="#sammenligning" 
               className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
             >
-              Start sammenligning
+              Se avtaler
             </Link>
             <Link 
               href="/fastpriskalkulator" 
@@ -70,8 +69,8 @@ export default async function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Sammenlign priser</h3>
-              <p className="text-gray-600">Se alle tilgjengelige strømavtaler på ett sted og finn den beste prisen for din situasjon.</p>
+              <h3 className="text-xl font-semibold mb-2">Utvalgte avtaler</h3>
+              <p className="text-gray-600">Vi har valgt ut de beste strømavtalene basert på pris, vilkår og kundetilfredshet.</p>
             </div>
             <div className="text-center">
               <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -89,7 +88,7 @@ export default async function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Enkelt bytte</h3>
-              <p className="text-gray-600">Vi ordner alt det praktiske for deg. Bytte av strømleverandør er gratis og enkelt.</p>
+              <p className="text-gray-600">Bytte av strømleverandør er kostnadsfritt og tar bare noen minutter.</p>
             </div>
           </div>
         </div>
@@ -98,7 +97,7 @@ export default async function Home() {
       {/* Plan Comparison Section */}
       <section id="sammenligning">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">Sammenlign strømavtaler</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">Våre anbefalte avtaler</h2>
           <PlanComparisonClient initialPlans={plans} />
         </div>
       </section>
@@ -108,13 +107,13 @@ export default async function Home() {
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Klar til å spare på strømregningen?</h2>
           <p className="text-lg text-gray-600 mb-6">
-            Start sammenligningen nå og finn den beste strømavtalen for deg.
+            Se våre anbefalte avtaler og finn den beste strømavtalen for deg.
           </p>
           <Link 
             href="#sammenligning" 
             className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
-            Start sammenligning
+            Se avtaler
           </Link>
         </div>
       </section>
