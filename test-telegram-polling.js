@@ -109,20 +109,41 @@ bot.on('message', async (msg) => {
   if (lowerText === '/report' || lowerText === 'report') {
     console.log('📊 Fetching click statistics');
     try {
-      const response = await fetch('http://localhost:3000/api/telegram/test', {
-        method: 'POST',
+      // First test the database function directly
+      console.log('📊 Testing database function directly...');
+      const dbResponse = await fetch('http://localhost:3000/api/telegram/test', {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text, userId }),
       });
 
-      const data = await response.json();
+      const dbData = await dbResponse.json();
+      console.log('📊 Database test response:', dbData);
       
-      if (data.reportResult) {
-        await bot.sendMessage(chatId, data.reportResult, { parse_mode: 'Markdown' });
+      if (dbData.success) {
+        console.log('📊 Database function works, now testing full report...');
+        
+        // Now test the full report through the bot handler
+        const response = await fetch('http://localhost:3000/api/telegram/test', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text, userId }),
+        });
+
+        const data = await response.json();
+        console.log('📊 Full report response:', data);
+        
+        if (data.success && data.response) {
+          await bot.sendMessage(chatId, data.response, { parse_mode: 'Markdown' });
+        } else {
+          await bot.sendMessage(chatId, '❌ Could not fetch click statistics.');
+        }
       } else {
-        await bot.sendMessage(chatId, '❌ Could not fetch click statistics.');
+        console.error('📊 Database function failed:', dbData.error);
+        await bot.sendMessage(chatId, `❌ Database error: ${dbData.error}`);
       }
     } catch (error) {
       console.error('Error fetching click statistics:', error);
