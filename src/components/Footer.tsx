@@ -8,18 +8,46 @@ const Footer = () => {
   const [email, setEmail] = useState('');
   const [zone, setZone] = useState<PriceZone | ''>('');
   const [consent, setConsent] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!consent) {
-      alert('Du må godta personvernvilkårene.');
+      setMessage({ type: 'error', text: 'Du må godta personvernvilkårene.' });
       return;
     }
-    // Here you would typically handle the form submission, e.g., send to an API
-    alert(`Takk for din påmelding! E-post: ${email}, Sone: ${zone}`);
-    setEmail('');
-    setZone('');
-    setConsent(false);
+
+    setIsSubmitting(true);
+    setMessage(null);
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, zone, marketingConsent }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: data.message });
+        setEmail('');
+        setZone('');
+        setConsent(false);
+      } else {
+        setMessage({ type: 'error', text: data.error || 'En feil oppstod ved påmelding' });
+      }
+    } catch (error) {
+      console.error('Newsletter signup error:', error);
+      setMessage({ type: 'error', text: 'En feil oppstod ved påmelding' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -28,6 +56,17 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-bold mb-2">Nyhetsbrev</h3>
           <p className="text-sm text-gray-400 mb-4">Få de beste tilbudene og nyhetene rett i innboksen.</p>
+          
+          {message && (
+            <div className={`p-3 rounded-md mb-4 text-sm ${
+              message.type === 'success' 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-red-100 text-red-800'
+            }`}>
+              {message.text}
+            </div>
+          )}
+          
           <form onSubmit={handleNewsletterSubmit}>
             <input 
               type="email" 
@@ -36,15 +75,20 @@ const Footer = () => {
               onChange={e => setEmail(e.target.value)}
               className="w-full p-2 rounded-md text-gray-900 mb-2"
               required
+              disabled={isSubmitting}
             />
             <select
               value={zone}
               onChange={e => setZone(e.target.value as PriceZone)}
               className="w-full p-2 rounded-md text-gray-900 mb-2"
               required
+              disabled={isSubmitting}
             >
               <option value="" disabled>Velg din prissone</option>
-              {Object.values(PriceZone).map(z => <option key={z} value={z}>{z} ({PriceZoneNames[z]})</option>)}
+              {Object.values(PriceZone).map(z => (
+                <option key={z} value={z}>{z} ({PriceZoneNames[z]})</option>
+              ))}
+              <option value="Bedrift">Bedrift (for bedrifter)</option>
             </select>
             <div className="flex items-center text-left mb-4">
               <input 
@@ -53,13 +97,35 @@ const Footer = () => {
                 checked={consent}
                 onChange={e => setConsent(e.target.checked)}
                 className="mr-2"
+                disabled={isSubmitting}
               />
               <label htmlFor="consent" className="text-xs text-gray-400">
                 Jeg godtar <Link href="/privacy-policy" className="underline">personvernvilkårene</Link>.
               </label>
             </div>
-            <button type="submit" className="w-full bg-blue-600 py-2 rounded-md hover:bg-blue-700 transition-colors">
-              Meld meg på
+            <div className="flex items-center text-left mb-4">
+              <input
+                type="checkbox"
+                id="marketingConsent"
+                checked={marketingConsent}
+                onChange={e => setMarketingConsent(e.target.checked)}
+                className="mr-2"
+                disabled={isSubmitting}
+              />
+              <label htmlFor="marketingConsent" className="text-xs text-gray-400">
+                Ja, jeg samtykker til å motta markedsføring på epost
+              </label>
+            </div>
+            <button 
+              type="submit" 
+              className={`w-full py-2 rounded-md transition-colors ${
+                isSubmitting 
+                  ? 'bg-gray-500 cursor-not-allowed' 
+                  : 'bg-blue-600 hover:bg-blue-700'
+              }`}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Meld på...' : 'Meld meg på'}
             </button>
           </form>
         </div>
