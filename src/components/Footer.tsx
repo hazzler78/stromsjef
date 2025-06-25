@@ -68,7 +68,7 @@ const Footer = () => {
           <h3 className="text-lg font-bold mb-2">Snarveier</h3>
           <ul className="space-y-2 text-sm">
             <li><Link href="/" className="hover:underline">Sammenlign avtaler</Link></li>
-            <li><Link href="/spotpriskontroll" className="hover:underline">Fastpriskalkulator</Link></li>
+            <li><Link href="/fastpriskalkulator" className="hover:underline">Fastpriskalkulator</Link></li>
             <li><Link href="/faq" className="hover:underline">Ofte stilte spørsmål</Link></li>
           </ul>
         </div>
