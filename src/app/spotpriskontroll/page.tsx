@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const SpotpriskontrollPage = () => {
+const FastpriskalkulatorPage = () => {
   const [consumption, setConsumption] = useState('');
   const [currentPrice, setCurrentPrice] = useState('');
   const [newPrice, setNewPrice] = useState('');
@@ -41,13 +41,13 @@ const SpotpriskontrollPage = () => {
   return (
     <div className="max-w-4xl mx-auto">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-green-800 text-white py-16 -mx-4 px-4 mb-8">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 -mx-4 px-4 mb-8">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Spotpriskontroll
+            Fastpriskalkulator
           </h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Beregn hvor mye du kan spare ved å bytte strømavtale. 
+            Beregn hvor mye du kan spare ved å bytte til en fastprisavtale. 
             Se den potensielle besparelsen basert på ditt faktiske forbruk.
           </p>
         </div>
@@ -70,7 +70,7 @@ const SpotpriskontrollPage = () => {
                   id="consumption"
                   value={consumption}
                   onChange={(e) => setConsumption(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="f.eks. 16000"
                   required
                 />
@@ -89,7 +89,7 @@ const SpotpriskontrollPage = () => {
                   step="0.1"
                   value={currentPrice}
                   onChange={(e) => setCurrentPrice(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="f.eks. 70.5"
                   required
                 />
@@ -100,7 +100,7 @@ const SpotpriskontrollPage = () => {
 
               <div>
                 <label htmlFor="newPrice" className="block text-sm font-medium text-gray-700 mb-2">
-                  Ny pris per kWh (øre)
+                  Ny fastpris per kWh (øre)
                 </label>
                 <input
                   type="number"
@@ -108,19 +108,19 @@ const SpotpriskontrollPage = () => {
                   step="0.1"
                   value={newPrice}
                   onChange={(e) => setNewPrice(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="f.eks. 65.0"
                   required
                 />
                 <p className="text-sm text-gray-500 mt-1">
-                  Fra den nye strømavtalen du vurderer
+                  Fra den nye fastprisavtalen du vurderer
                 </p>
               </div>
 
               <div className="flex gap-4">
                 <button 
                   type="submit" 
-                  className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                  className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                 >
                   Beregn besparelse
                 </button>
@@ -141,9 +141,9 @@ const SpotpriskontrollPage = () => {
             
             {savings !== null ? (
               <div className="space-y-6">
-                <div className="text-center p-6 bg-green-50 rounded-lg border border-green-200">
+                <div className="text-center p-6 bg-blue-50 rounded-lg border border-blue-200">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Estimert årlig besparelse</h3>
-                  <p className={`text-4xl font-bold ${savings > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <p className={`text-4xl font-bold ${savings > 0 ? 'text-blue-600' : 'text-red-600'}`}>
                     {savings.toFixed(0)} kr
                   </p>
                   {savings > 0 && (
@@ -181,9 +181,9 @@ const SpotpriskontrollPage = () => {
                 <div className="text-center">
                   <Link 
                     href="/#sammenligning" 
-                    className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                    className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                   >
-                    Se tilgjengelige avtaler
+                    Se tilgjengelige fastprisavtaler
                   </Link>
                 </div>
               </div>
@@ -205,18 +205,18 @@ const SpotpriskontrollPage = () => {
 
       {/* Tips Section */}
       <section className="mb-12">
-        <h2 className="text-3xl font-bold mb-8 text-center">Tips for å spare på strøm</h2>
+        <h2 className="text-3xl font-bold mb-8 text-center">Fordeler med fastprisavtaler</h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Sammenlign priser</h3>
+            <h3 className="text-lg font-semibold mb-2">Forutsigbarhet</h3>
             <p className="text-gray-600 text-sm">
-              Bruk vår sammenligningstjeneste for å finne den beste strømavtalen for deg. 
-              Prisene kan variere betydelig mellom leverandører.
+              Med fastpris vet du nøyaktig hva du betaler hver måned. 
+              Ingen overraskelser når strømprisene stiger.
             </p>
           </div>
 
@@ -226,23 +226,23 @@ const SpotpriskontrollPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Reduser forbruket</h3>
+            <h3 className="text-lg font-semibold mb-2">Beskyttelse mot prisstigninger</h3>
             <p className="text-gray-600 text-sm">
-              Bruk energisparende apparater, slå av lys når du ikke trenger det, og vær oppmerksom 
-              på standby-forbruk fra elektroniske enheter.
+              Fastpris gir deg beskyttelse mot høye strømpriser i vintermånedene. 
+              Du betaler samme pris hele året.
             </p>
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Følg markedet</h3>
+            <h3 className="text-lg font-semibold mb-2">Enkel budsjettering</h3>
             <p className="text-gray-600 text-sm">
-              Hvis du har spotpris, kan du spare ved å bruke strøm når prisen er lav. 
-              Sjekk strømprisene på nettet og planlegg forbruket deretter.
+              Fastpris gjør det enkelt å budsjettere. Du kan planlegge utgiftene 
+              dine uten å bekymre deg for svingninger i strømprisene.
             </p>
           </div>
         </div>
@@ -251,13 +251,13 @@ const SpotpriskontrollPage = () => {
       {/* CTA Section */}
       <section className="bg-gray-50 py-12 -mx-4 px-4">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Klar til å spare på strømregningen?</h2>
+          <h2 className="text-3xl font-bold mb-4">Klar til å få forutsigbare strømregninger?</h2>
           <p className="text-lg text-gray-600 mb-6">
-            Start sammenligningen nå og finn den beste strømavtalen for deg.
+            Start sammenligningen nå og finn den beste fastprisavtalen for deg.
           </p>
           <Link 
             href="/#sammenligning" 
-            className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Start sammenligning
           </Link>
@@ -267,4 +267,4 @@ const SpotpriskontrollPage = () => {
   );
 };
 
-export default SpotpriskontrollPage; 
+export default FastpriskalkulatorPage; 
