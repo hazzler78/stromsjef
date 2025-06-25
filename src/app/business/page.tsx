@@ -64,10 +64,9 @@ const BusinessPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Enkel administrasjon</h3>
+            <h3 className="text-xl font-semibold mb-2">Raskt og trygt bytte</h3>
             <p className="text-gray-600">
-              Vi ordner alt det praktiske for deg. Fra sammenligning til bytte av leverandør - 
-              alt skjer enkelt og uten forstyrrelser i driften.
+              Strømbytte skjer enkelt. Du velger avtale, leverandøren ordner resten – du slipper papirarbeid og bryderi.
             </p>
           </div>
 
@@ -77,10 +76,9 @@ const BusinessPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Detaljert rapportering</h3>
+            <h3 className="text-xl font-semibold mb-2">Skreddersydde løsninger</h3>
             <p className="text-gray-600">
-              Få oversikt over energiforbruket og kostnadene. Mange leverandører tilbyr 
-              avanserte rapporteringsverktøy for bedrifter.
+              Vi hjelper deg finne riktig strømavtale basert på bedriftens behov og forbruk.
             </p>
           </div>
         </div>
