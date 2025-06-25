@@ -225,21 +225,43 @@ export async function incrementClick(buttonId: string): Promise<void> {
 }
 
 export async function getAllClickCounts(): Promise<Record<string, number>> {
-  if (isDevelopmentMode) {
-    return { ...inMemoryClicks };
+  try {
+    console.log('🔍 getAllClickCounts: Starting...');
+    console.log('🔍 getAllClickCounts: isDevelopmentMode =', isDevelopmentMode);
+    
+    if (isDevelopmentMode) {
+      console.log('🔍 getAllClickCounts: Using in-memory clicks:', inMemoryClicks);
+      return { ...inMemoryClicks };
+    }
+    
+    console.log('🔍 getAllClickCounts: Using KV storage...');
+    // Dynamically include all plan button IDs
+    const plans: ElectricityPlan[] = await getAllPlans();
+    console.log('🔍 getAllClickCounts: Got plans, count:', plans.length);
+    
+    const planButtonIds: string[] = plans.map((plan: ElectricityPlan) => `plan-${plan.id}`);
+    console.log('🔍 getAllClickCounts: Plan button IDs:', planButtonIds);
+    
+    const buttonIds: string[] = [
+      'business-hero-se-tilbud',
+      'business-cta-se-tilbud',
+      ...planButtonIds,
+    ];
+    console.log('🔍 getAllClickCounts: All button IDs:', buttonIds);
+    
+    const result: Record<string, number> = {};
+    for (const id of buttonIds) {
+      const key: string = `clicks:${id}`;
+      console.log('🔍 getAllClickCounts: Fetching key:', key);
+      result[id] = (await kv.get<number>(key)) || 0;
+      console.log('🔍 getAllClickCounts: Key', key, '=', result[id]);
+    }
+    
+    console.log('🔍 getAllClickCounts: Final result:', result);
+    return result;
+  } catch (error) {
+    console.error('❌ getAllClickCounts: Error:', error);
+    console.error('❌ getAllClickCounts: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+    throw error; // Re-throw to be caught by the calling function
   }
-  // Dynamically include all plan button IDs
-  const plans: ElectricityPlan[] = await getAllPlans();
-  const planButtonIds: string[] = plans.map((plan: ElectricityPlan) => `plan-${plan.id}`);
-  const buttonIds: string[] = [
-    'business-hero-se-tilbud',
-    'business-cta-se-tilbud',
-    ...planButtonIds,
-  ];
-  const result: Record<string, number> = {};
-  for (const id of buttonIds) {
-    const key: string = `clicks:${id}`;
-    result[id] = (await kv.get<number>(key)) || 0;
-  }
-  return result;
 } 

@@ -52,9 +52,14 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
   // Handle report command
   if (normalizedText === '/report' || normalizedText === 'report') {
     try {
+      console.log('📊 /report: Starting to fetch click counts...');
       const clickCounts = await getAllClickCounts();
+      console.log('📊 /report: Successfully fetched click counts:', clickCounts);
+      
       // Only show buttons with at least 1 click
       const filtered = Object.entries(clickCounts).filter(([_, count]) => count > 0);
+      console.log('📊 /report: Filtered clicks:', filtered);
+      
       if (filtered.length === 0) {
         return '📊 *Klikkstatistikk:*\nIngen klikk registrert ennå.';
       }
@@ -65,6 +70,8 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
       }
       return report;
     } catch (error) {
+      console.error('❌ /report: Error fetching click counts:', error);
+      console.error('❌ /report: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
       return `❌ Kunne ikke hente klikkstatistikk.\nFeilmelding: ${error instanceof Error ? error.message : String(error)}`;
     }
   }
