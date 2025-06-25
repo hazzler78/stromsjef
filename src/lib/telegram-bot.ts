@@ -53,8 +53,16 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
   if (normalizedText === '/report' || normalizedText === 'report') {
     try {
       console.log('📊 /report: Starting to fetch click counts...');
+      console.log('📊 /report: getAllClickCounts function exists:', typeof getAllClickCounts);
+      console.log('📊 /report: getAllClickCounts is function:', typeof getAllClickCounts === 'function');
+      console.log('📊 /report: About to call getAllClickCounts()...');
+      
       const clickCounts = await getAllClickCounts();
+      
+      console.log('📊 /report: getAllClickCounts() completed successfully');
       console.log('📊 /report: Successfully fetched click counts:', clickCounts);
+      console.log('📊 /report: Click counts type:', typeof clickCounts);
+      console.log('📊 /report: Click counts keys:', Object.keys(clickCounts));
       
       // Only show buttons with at least 1 click
       const filtered = Object.entries(clickCounts).filter(([_, count]) => count > 0);
@@ -76,7 +84,10 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
       console.log('📊 /report: Report message length:', report.length);
       return report;
     } catch (error) {
-      console.error('❌ /report: Error fetching click counts:', error);
+      console.error('❌ /report: Error caught in try-catch block:', error);
+      console.error('❌ /report: Error type:', typeof error);
+      console.error('❌ /report: Error constructor:', error?.constructor?.name);
+      console.error('❌ /report: Error message:', error instanceof Error ? error.message : String(error));
       console.error('❌ /report: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
       
       // Create detailed error message for Telegram
