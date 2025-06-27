@@ -140,18 +140,46 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
     return await handlePriceUpdateCommand(text);
   }
 
-  // Handle /feature <id> and /unfeature <id>
+  // Handle /feature <id> and /unfeature <id> (now via Vercel API)
   if (normalizedText.startsWith('/feature ')) {
     const id = text.split(' ')[1]?.trim();
     if (!id) return '❌ Du må oppgi en plan-ID. Eksempel: /feature ce-spot-no1';
-    const ok = await setPlanFeatured(id, true);
-    return ok ? `✅ Planen med id ${id} er nå markert som utvalgt!` : `❌ Fant ingen plan med id ${id}.`;
+    try {
+      const apiBase = process.env.VERCEL_API_BASE || 'https://ditt-vercel-namn.vercel.app';
+      const res = await fetch(`${apiBase}/api/plans/feature`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, featured: true })
+      });
+      const data = await res.json();
+      if (data.success) {
+        return `✅ Planen med id ${id} er nå markert som utvalgt!`;
+      } else {
+        return `❌ Kunne ikke markere plan med id ${id} som utvalgt. (${data.error || 'Ukjent feil'})`;
+      }
+    } catch (error) {
+      return `❌ Feil ved oppdatering: ${error instanceof Error ? error.message : String(error)}`;
+    }
   }
   if (normalizedText.startsWith('/unfeature ')) {
     const id = text.split(' ')[1]?.trim();
     if (!id) return '❌ Du må oppgi en plan-ID. Eksempel: /unfeature ce-spot-no1';
-    const ok = await setPlanFeatured(id, false);
-    return ok ? `✅ Planen med id ${id} er ikke lenger utvalgt.` : `❌ Fant ingen plan med id ${id}.`;
+    try {
+      const apiBase = process.env.VERCEL_API_BASE || 'https://ditt-vercel-namn.vercel.app';
+      const res = await fetch(`${apiBase}/api/plans/feature`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, featured: false })
+      });
+      const data = await res.json();
+      if (data.success) {
+        return `✅ Planen med id ${id} er ikke lenger utvalgt.`;
+      } else {
+        return `❌ Kunne ikke fjerne utvalgt-status for plan med id ${id}. (${data.error || 'Ukjent feil'})`;
+      }
+    } catch (error) {
+      return `❌ Feil ved oppdatering: ${error instanceof Error ? error.message : String(error)}`;
+    }
   }
 
   return `❓ I didn't understand that command. Try:\n${getHelpMessage()}`;
