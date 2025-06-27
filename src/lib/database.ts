@@ -23,9 +23,14 @@ export async function initializeDatabase(): Promise<void> {
       return;
     }
 
-    // Always update with latest mock data in production too
-    await kv.set(PLANS_KEY, mockElectricityPlans);
-    console.log('Database initialized with latest mock data');
+    // Only set mock data if not already initialized in production
+    const existing = await kv.get(PLANS_KEY);
+    if (!existing) {
+      await kv.set(PLANS_KEY, mockElectricityPlans);
+      console.log('Database initialized with latest mock data');
+    } else {
+      console.log('Database already initialized, skipping mock data overwrite');
+    }
   } catch (error) {
     console.error('Error initializing database:', error);
     // Fallback to in-memory storage
