@@ -217,14 +217,11 @@ export default async function Home() {
 
       {/* Plan Comparison Section */}
       <section id="sammenligning">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">Våre anbefalte avtaler</h2>
-          <PlanComparisonClient initialPlans={plans} />
-        </div>
+        <PlanComparisonClient initialPlans={plans} />
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gray-50 py-12 -mx-4 px-4 mt-12">
+      <section className="bg-white py-12 -mx-4 px-4">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Klar til å spare på strømregningen?</h2>
           <p className="text-lg text-gray-600 mb-6">
