@@ -214,9 +214,14 @@ function getHelpMessage() {
     '🤖 *Strømsjef Price Bot*\n' +
     '\n*Kommandor:*\n' +
     '• /help - Vis denne hjelpeteksten\n' +
-    '• /prices - Vis gjeldende strømpriser\n' +
+    '• /prices - Vis gjeldende strømpriser (inkluderer plan-ID)\n' +
     '• /report - Vis antall klikk på knapper\n' +
-    '• /reset - Tilbakestill alle priser til standardprisene (inkludert nye Kilden Kraft 5-års avtaler)\n' +
+    '• /reset - Tilbakestill alle priser til standardprisene\n' +
+    '\n*Utvalgte avtaler:*\n' +
+    '• /feature <id> - Marker en avtale som utvalgt (viser banner på nettsiden)\n' +
+    '• /unfeature <id> - Fjern utvalgt-status fra en avtale\n' +
+    '  → Du finner planens ID ved å bruke /prices (ID vises i listen)\n' +
+    '  → Utvalgte avtaler får en blå "Utvalgt"-banner på kortet på nettsiden.\n' +
     '\n*Prisoppdatering:*\n' +
     '• Set [Supplier] [PlanType] [BindingTime] [BindingDate] in [Zone] to [Price]\n' +
     '• Sett [Supplier] [PlanType] [BindingTime] [BindingDate] i [Zone] til [Price] (Norsk)\n' +

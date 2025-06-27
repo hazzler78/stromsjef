@@ -28,4 +28,5 @@ export interface ElectricityPlan {
   priceZone: PriceZone;
   logoUrl?: string;
   affiliateLink: string;
+  featured?: boolean; // Mark as recommended/featured
 } 

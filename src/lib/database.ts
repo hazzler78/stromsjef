@@ -276,4 +276,26 @@ export async function getAllClickCounts(): Promise<Record<string, number>> {
     console.log('🔍 getAllClickCounts: Falling back to in-memory storage due to error');
     return { ...inMemoryClicks };
   }
+}
+
+export async function setPlanFeatured(id: string, featured: boolean): Promise<boolean> {
+  try {
+    const plans: ElectricityPlan[] = await getAllPlans();
+    const planIndex = plans.findIndex(plan => plan.id === id);
+    if (planIndex === -1) {
+      console.error(`Plan not found for setPlanFeatured: ${id}`);
+      return false;
+    }
+    plans[planIndex].featured = featured;
+    if (isDevelopmentMode) {
+      inMemoryPlans = [...plans];
+    } else {
+      await kv.set(PLANS_KEY, plans);
+    }
+    console.log(`Set featured=${featured} for plan id=${id}`);
+    return true;
+  } catch (error) {
+    console.error('Error setting plan featured:', error);
+    return false;
+  }
 } 

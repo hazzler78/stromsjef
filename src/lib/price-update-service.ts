@@ -80,7 +80,7 @@ export async function getCurrentPrices(supplier?: string, priceZone?: string): P
     }
 
     const priceList = filteredPlans.map(plan => 
-      `${plan.supplierName} ${plan.planName} in ${plan.priceZone}: ${plan.pricePerKwh} øre/kWh`
+      `[${plan.id}] ${plan.supplierName} ${plan.planName} in ${plan.priceZone}: ${plan.pricePerKwh} øre/kWh`
     );
 
     return `Current prices:\n${priceList.join('\n')}`;

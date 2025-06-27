@@ -33,25 +33,10 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
     return zoneMatch && planTypeMatch;
   });
 
-  // Get recommended plans (top 4 cheapest plans)
-  const getRecommendedPlans = (allPlans: ElectricityPlan[]) => {
-    return allPlans
-      .sort((a, b) => a.pricePerKwh - b.pricePerKwh)
-      .slice(0, 4);
-  };
-
-  // Get all other plans (excluding recommended ones)
-  const getAllOtherPlans = (allPlans: ElectricityPlan[]) => {
-    const recommendedIds = getRecommendedPlans(allPlans).map(p => p.id);
-    return allPlans.filter(plan => !recommendedIds.includes(plan.id));
-  };
-
-  const recommendedPlans = getRecommendedPlans(filteredPlans);
-  const allOtherPlans = getAllOtherPlans(filteredPlans);
-
-  console.log("Filtered plans:", filteredPlans);
-  console.log("Recommended plans:", recommendedPlans);
-  console.log("All other plans:", allOtherPlans);
+  // Utvalgte avtaler: featured === true
+  const featuredPlans = filteredPlans.filter(plan => plan.featured);
+  // Alle andre avtaler
+  const otherPlans = filteredPlans.filter(plan => !plan.featured);
 
   const refreshPlans = async (isAutoRefresh = false) => {
     if (isRefreshing) {
@@ -180,24 +165,24 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
           </div>
         </div>
 
-        {/* Recommended Plans Section */}
-        {recommendedPlans.length > 0 && (
+        {/* Featured Plans Section */}
+        {featuredPlans.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6 text-center">⭐ Utvalgte avtaler</h2>
+            {/* No heading here */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {recommendedPlans.map(plan => (
-                <PlanCard key={`recommended-${plan.id}-${plan.pricePerKwh}-${refreshCount}`} plan={plan} />
+              {featuredPlans.map(plan => (
+                <PlanCard key={`featured-${plan.id}-${plan.pricePerKwh}-${refreshCount}`} plan={plan} />
               ))}
             </div>
           </div>
         )}
 
         {/* All Other Plans Section */}
-        {allOtherPlans.length > 0 && (
+        {otherPlans.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold mb-6 text-center">Alle avtaler</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {allOtherPlans.map(plan => (
+              {otherPlans.map(plan => (
                 <PlanCard key={`all-${plan.id}-${plan.pricePerKwh}-${refreshCount}`} plan={plan} />
               ))}
             </div>

@@ -10,6 +10,15 @@ interface PlanCardProps {
 const PlanCard = ({ plan }: PlanCardProps) => {
   return (
     <div className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col relative">
+      {/* Featured Banner - top right */}
+      {plan.featured && (
+        <div className="absolute top-2 right-2 z-20">
+          <div className="bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded shadow-md select-none rotate-12">
+            Utvalgt
+          </div>
+        </div>
+      )}
+      {/* Logo */}
       {plan.logoUrl && (
         <div className="absolute top-4 right-4 h-12 w-24">
           <Image
