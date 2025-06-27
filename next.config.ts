@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         destination: '/fastpriskalkulator',
         permanent: true, // 301 redirect for SEO
       },
+      {
+        source: '/om-stromsjef',
+        destination: '/om-oss',
+        permanent: true,
+      },
     ];
   },
 };
