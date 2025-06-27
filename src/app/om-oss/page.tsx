@@ -56,7 +56,7 @@ export default function OmOss() {
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Hvem står bak?</h2>
-        <p className="mb-2">Strømsjef.no eies og drives av <strong>Normann Salg AS</strong> (Org.nr. 927 985 780). Vi samarbeider med flere strømleverandører for å forhandle frem gode priser til kundene våre.</p>
+        <p className="mb-2">Strømsjef.no eies og drives av <strong>Normann Salg</strong> (Org.nr. 927 985 780). Vi samarbeider med flere strømleverandører for å forhandle frem gode priser til kundene våre.</p>
         <p className="mb-2">Vi tar personvern på alvor og følger GDPR. Du kan lese mer om hvordan vi behandler personopplysninger i vår <a href="/personvern" className="underline text-blue-600">personvernerklæring</a>.</p>
       </section>
 
