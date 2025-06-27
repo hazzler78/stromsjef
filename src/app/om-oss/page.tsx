@@ -20,7 +20,7 @@ export default function OmOss() {
         <h2 className="text-2xl font-semibold mb-4">Hva vi tilbyr</h2>
         <ul className="list-disc pl-6 space-y-2">
           <li>
-            <strong>Jämförelse av utvalda avtal:</strong> Vi viser deg nøye utvalgte strømavtaler fra pålitelige leverandører. Med vår sammenligningstjeneste kan du enkelt finne den avtaletypen som passer deg best – enten du foretrekker spotpris eller fastpris.
+            <strong>Sammenligning av utvalgte avtaler:</strong> Vi viser deg nøye utvalgte strømavtaler fra pålitelige leverandører. Med vår sammenligningstjeneste kan du enkelt finne den avtaletypen som passer deg best – enten du foretrekker spotpris eller fastpris.
           </li>
           <li>
             <strong>Fastpris- og spotprisavtaler:</strong> Se og sammenlign ulike fastprisavtaler (med ulike bindingstider) eller spotprisavtaler som følger markedet. Vi gir deg tydelig informasjon om priser, påslag og eventuelle avgifter.
