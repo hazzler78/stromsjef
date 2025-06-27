@@ -154,7 +154,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm">
             <li><Link href="/terms-of-service" className="hover:underline">Brukervilkår</Link></li>
             <li><Link href="/privacy-policy" className="hover:underline">Personvern</Link></li>
-            <li><Link href="/business" className="hover:underline">For bedrifter</Link></li>
+            <li><Link href="/bedrift" className="hover:underline">For bedrifter</Link></li>
           </ul>
         </div>
 

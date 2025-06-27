@@ -44,7 +44,7 @@ const Header = () => {
               </li>
               <li>
                 <Link 
-                  href="/business" 
+                  href="/bedrift" 
                   className="text-white !text-white hover:!text-blue-100 transition-colors font-medium"
                   style={{ color: 'white' }}
                 >
@@ -120,7 +120,7 @@ const Header = () => {
               </li>
               <li>
                 <Link 
-                  href="/business" 
+                  href="/bedrift" 
                   className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
                   style={{ color: 'white' }}
                   onClick={() => setIsMobileMenuOpen(false)}
