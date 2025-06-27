@@ -17,22 +17,15 @@ const inMemoryClicks: Record<string, number> = {};
 export async function initializeDatabase(): Promise<void> {
   try {
     if (isDevelopmentMode) {
-      // Use in-memory storage for local development
-      if (!inMemoryPlans) {
-        inMemoryPlans = [...mockElectricityPlans];
-        console.log('Database initialized with mock data (in-memory mode)');
-      }
+      // Always use latest mock data for development
+      inMemoryPlans = [...mockElectricityPlans];
+      console.log('Database initialized with latest mock data (in-memory mode)');
       return;
     }
 
-    // Check if plans already exist in database
-    const existingPlans: ElectricityPlan[] | null = await kv.get<ElectricityPlan[]>(PLANS_KEY);
-    
-    if (!existingPlans || existingPlans.length === 0) {
-      // Initialize with mock data
-      await kv.set(PLANS_KEY, mockElectricityPlans);
-      console.log('Database initialized with mock data');
-    }
+    // Always update with latest mock data in production too
+    await kv.set(PLANS_KEY, mockElectricityPlans);
+    console.log('Database initialized with latest mock data');
   } catch (error) {
     console.error('Error initializing database:', error);
     // Fallback to in-memory storage

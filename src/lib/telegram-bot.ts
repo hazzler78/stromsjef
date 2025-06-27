@@ -1,6 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { parsePriceUpdateCommand, validatePriceUpdateCommand, formatPriceUpdateResponse } from './nlp-utils';
-import { updateElectricityPrices, getCurrentPrices } from './price-update-service';
+import { updateElectricityPrices, getCurrentPrices, resetToDefaultPrices } from './price-update-service';
 import { getAllClickCounts } from './database';
 
 // Bot token should be set in environment variables
@@ -105,6 +105,26 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
     }
   }
 
+  // Handle reset command
+  if (normalizedText === '/reset' || normalizedText === 'reset') {
+    try {
+      console.log('🔄 /reset: Starting to reset prices to default...');
+      const { resetToDefaultPrices } = await import('./price-update-service');
+      const result = await resetToDefaultPrices();
+      
+      if (result.success) {
+        console.log('✅ /reset: Successfully reset prices to default');
+        return '✅ *Priser tilbakestilt til standardpriser*\n\nAlle priser er nå tilbakestilt til standardprisene fra mock-data, inkludert de nye Kilden Kraft 5-års avtalene.';
+      } else {
+        console.error('❌ /reset: Failed to reset prices:', result.message);
+        return `❌ *Kunne ikke tilbakestille priser*\n\n${result.message}`;
+      }
+    } catch (error) {
+      console.error('❌ /reset: Error resetting prices:', error);
+      return '❌ *Feil ved tilbakestilling av priser*\n\nKunne ikke tilbakestille priser til standardprisene.';
+    }
+  }
+
   // Handle price update commands
   if (normalizedText.includes('set') || normalizedText.includes('sett') || normalizedText.includes('sätt') ||
       normalizedText.includes('update') || normalizedText.includes('oppdater') || normalizedText.includes('uppdatera') ||
@@ -159,6 +179,7 @@ function getHelpMessage(): string {
     '• /help - Vis denne hjelpeteksten\n' +
     '• /prices - Vis gjeldende strømpriser\n' +
     '• /report - Vis antall klikk på knapper\n' +
+    '• /reset - Tilbakestill alle priser til standardprisene (inkludert nye Kilden Kraft 5-års avtaler)\n' +
     '\n*Prisoppdatering:*\n' +
     '• Set [Supplier] [PlanType] [BindingTime] [BindingDate] in [Zone] to [Price]\n' +
     '• Sett [Supplier] [PlanType] [BindingTime] [BindingDate] i [Zone] til [Price] (Norsk)\n' +
@@ -191,6 +212,7 @@ function getHelpMessage(): string {
     '• Sett Kilden Kraft spot i NO2 til 0.58 - Norsk\n' +
     '• Sätt Cheap Energy fast i NO3 till 0.61 - Svensk\n' +
     '• /report - Få oversikt over klikk på knapper\n' +
+    '• /reset - Tilbakestill alle priser til standardprisene\n' +
     '\n*Merk:* Priser er i øre per kWh. Negative priser støttes.\n' +
     '\n*Filterlogikk:*\n' +
     '• Hvis både bindingstid og dato er oppgitt, må begge matche for at en avtale skal oppdateres.\n' +
