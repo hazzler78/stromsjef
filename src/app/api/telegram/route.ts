@@ -30,7 +30,10 @@ export async function POST(request: NextRequest) {
     console.log(`🔐 Telegram webhook: Allowed users:`, authorizedUsers);
     console.log(`🔐 Telegram webhook: User ${userId} authorized:`, authorizedUsers.includes(userId || 0));
     
-    if (!userId || !authorizedUsers.includes(userId)) {
+    // Temporarily allow all users if no authorized users are configured
+    if (authorizedUsers.length === 0) {
+      console.log(`⚠️ No authorized users configured, allowing all users temporarily`);
+    } else if (!userId || !authorizedUsers.includes(userId)) {
       console.log(`❌ Unauthorized access attempt from user ${userId}`);
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
