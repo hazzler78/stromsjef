@@ -60,6 +60,15 @@ const Header = () => {
                   FAQ
                 </Link>
               </li>
+              <li>
+                <Link 
+                  href="/om-oss" 
+                  className="text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                  style={{ color: 'white' }}
+                >
+                  Om oss
+                </Link>
+              </li>
             </ul>
           </nav>
 

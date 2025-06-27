@@ -146,6 +146,7 @@ const Footer = () => {
             <li><Link href="/" className="hover:underline">Avtaler</Link></li>
             <li><Link href="/fastpriskalkulator" className="hover:underline">Fastpriskalkulator</Link></li>
             <li><Link href="/ofte-stilte-sporsmal" className="hover:underline">Ofte stilte spørsmål</Link></li>
+            <li><Link href="/om-oss" className="hover:underline">Om oss</Link></li>
           </ul>
         </div>
         
