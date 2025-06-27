@@ -74,35 +74,41 @@ export default async function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="mb-12">
+      <section className="mb-12 bg-slate-50 py-10">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
+                {/* Heroicon: Sparkles */}
+                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414 1.414m12.728 0l-1.414-1.414M6.05 6.05L4.636 4.636" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Utvalgte avtaler</h3>
-              <p className="text-gray-600">Vi har valgt ut de beste strømavtalene basert på pris, vilkår og kundetilfredshet.</p>
+              <h3 className="text-lg font-bold mb-2 flex items-center justify-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                Utvalgte avtaler
+              </h3>
+              <p className="text-gray-600">Kun de beste og mest relevante strømavtalene.</p>
             </div>
             <div className="text-center">
               <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
+                {/* Heroicon: AdjustmentsHorizontal */}
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /><circle cx="8" cy="6" r="2" fill="currentColor" /><circle cx="16" cy="12" r="2" fill="currentColor" /><circle cx="8" cy="18" r="2" fill="currentColor" /></svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Spar penger</h3>
-              <p className="text-gray-600">Bytt til en billigere strømavtale og spar hundrevis av kroner hvert år på strømregningen.</p>
+              <h3 className="text-lg font-bold mb-2 flex items-center justify-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                Spotpris eller fastpris
+              </h3>
+              <p className="text-gray-600">Velg det som passer deg best – full fleksibilitet.</p>
             </div>
             <div className="text-center">
               <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+                {/* Heroicon: ArrowPathRoundedSquare */}
+                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 6A9 9 0 116.582 9M4 9h5" /></svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Enkelt bytte</h3>
-              <p className="text-gray-600">Bytte av strømleverandør er kostnadsfritt og tar bare noen minutter.</p>
+              <h3 className="text-lg font-bold mb-2 flex items-center justify-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                Enkelt og gratis bytte
+              </h3>
+              <p className="text-gray-600">Bytt leverandør på minutter – helt kostnadsfritt.</p>
             </div>
           </div>
         </div>
