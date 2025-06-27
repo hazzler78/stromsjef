@@ -28,9 +28,10 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
     return '❌ Could not identify user.';
   }
 
-  if (!isAuthorizedUser(userId)) {
-    return '❌ You are not authorized to use this bot.';
-  }
+  // TEMPORARILY DISABLED: User authorization check
+  // if (!isAuthorizedUser(userId)) {
+  //   return '❌ You are not authorized to use this bot.';
+  // }
 
   if (!text) {
     return '❌ Please send a text message.';
@@ -114,7 +115,7 @@ export async function handleTelegramMessage(message: TelegramBot.Message): Promi
       
       if (result.success) {
         console.log('✅ /reset: Successfully reset prices to default');
-        return '✅ *Priser tilbakestilt til standardpriser*\n\nAlle priser er nå tilbakestilt til standardprisene fra mock-data, inkludert de nye Kilden Kraft 5-års avtalene.';
+        return '✅ *Priser tilbakestilt til standardpriser*\n\nAlle priser er nu tilbakestilt til standardprisene fra mock-data, inkludert de nye Kilden Kraft 5-års avtalene.';
       } else {
         console.error('❌ /reset: Failed to reset prices:', result.message);
         return `❌ *Kunne ikke tilbakestille priser*\n\n${result.message}`;

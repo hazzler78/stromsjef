@@ -23,21 +23,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No chat ID found' }, { status: 400 });
     }
 
-    // Check if user is authorized
-    const authorizedUsers = process.env.TELEGRAM_ALLOWED_USERS?.split(',').map(id => parseInt(id.trim())) || [];
-    
-    console.log(`🔐 Telegram webhook: Checking authorization for user ${userId}`);
-    console.log(`🔐 Telegram webhook: Allowed users:`, authorizedUsers);
-    console.log(`🔐 Telegram webhook: User ${userId} authorized:`, authorizedUsers.includes(userId || 0));
-    
-    // Temporarily allow all users if no authorized users are configured
-    if (authorizedUsers.length === 0) {
-      console.log(`⚠️ No authorized users configured, allowing all users temporarily`);
-    } else if (!userId || !authorizedUsers.includes(userId)) {
-      console.log(`❌ Unauthorized access attempt from user ${userId}`);
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+    // TEMPORARILY DISABLED: User authorization check
     console.log(`📨 Telegram webhook: Received message from user ${userId} in chat ${chatId}: ${text}`);
 
     // Process the message
