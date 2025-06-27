@@ -4,7 +4,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   // Cheap Energy Norge Spotpris
   {
     id: 'ce-spot-no1',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Spotpris',
     pricePerKwh: -1.7,
     monthlyFee: 0,
@@ -17,7 +17,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-spot-no2',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Spotpris',
     pricePerKwh: -1.7,
     monthlyFee: 0,
@@ -30,7 +30,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-spot-no3',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Spotpris',
     pricePerKwh: -1.7,
     monthlyFee: 0,
@@ -43,7 +43,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-spot-no4',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Spotpris',
     pricePerKwh: -1.7,
     monthlyFee: 0,
@@ -56,7 +56,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-spot-no5',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Spotpris',
     pricePerKwh: -1.7,
     monthlyFee: 0,
@@ -71,7 +71,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   // Cheap Energy Norge Fastpris 69,9
   {
     id: 'ce-fast69-no1',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 69,9',
     pricePerKwh: 69.9,
     monthlyFee: 0,
@@ -84,7 +84,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
     {
     id: 'ce-fast69-no2',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 69,9',
     pricePerKwh: 69.9,
     monthlyFee: 0,
@@ -97,7 +97,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-fast69-no3',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 69,9',
     pricePerKwh: 69.9,
     monthlyFee: 0,
@@ -110,7 +110,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-fast69-no4',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 69,9',
     pricePerKwh: 69.9,
     monthlyFee: 0,
@@ -123,7 +123,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-fast69-no5',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 69,9',
     pricePerKwh: 69.9,
     monthlyFee: 0,
@@ -138,7 +138,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   // Cheap Energy Norge Fastpris 96,9
   {
     id: 'ce-fast96-no1',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 96,9',
     pricePerKwh: 96.9,
     monthlyFee: 0,
@@ -150,7 +150,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-fast96-no2',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 96,9',
     pricePerKwh: 96.9,
     monthlyFee: 0,
@@ -162,7 +162,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-fast96-no3',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 96,9',
     pricePerKwh: 96.9,
     monthlyFee: 0,
@@ -174,7 +174,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-fast96-no4',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 96,9',
     pricePerKwh: 96.9,
     monthlyFee: 0,
@@ -186,7 +186,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
   },
   {
     id: 'ce-fast96-no5',
-    supplierName: 'Cheap Energy Norge',
+    supplierName: 'Cheap Energy',
     planName: 'Fastpris 96,9',
     pricePerKwh: 96.9,
     monthlyFee: 0,

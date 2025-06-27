@@ -223,7 +223,7 @@ function getHelpMessage() {
     '• Sätt [Supplier] [PlanType] [BindingTime] [BindingDate] i [Zone] till [Price] (Svensk)\n' +
     '\n*Støttede leverandører:*\n' +
     '• Kilden Kraft\n' +
-    '• Cheap Energy Norge\n' +
+    '• Cheap Energy\n' +
     '\n*Støttede avtale-typer:*\n' +
     '• spotpris / spot - Spotprisavtaler\n' +
     '• fastpris / fast / fixed - Fastprisavtaler\n' +

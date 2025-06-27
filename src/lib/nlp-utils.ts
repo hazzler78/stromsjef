@@ -12,10 +12,10 @@ const SUPPLIER_MAPPINGS: Record<string, string> = {
   // English
   'kilden': 'Kilden Kraft',
   'kilden kraft': 'Kilden Kraft',
-  'cheap': 'Cheap Energy Norge',
-  'cheap energy': 'Cheap Energy Norge',
-  'cheap energy norway': 'Cheap Energy Norge',
-  'cheap energy norge': 'Cheap Energy Norge',
+  'cheap': 'Cheap Energy',
+  'cheap energy': 'Cheap Energy',
+  'cheap energy norway': 'Cheap Energy',
+  'cheap energy norge': 'Cheap Energy',
 };
 
 // Price zone mappings
