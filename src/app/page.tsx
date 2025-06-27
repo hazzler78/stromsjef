@@ -34,15 +34,15 @@ export default async function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 -mx-4 px-4 mb-8">
+      <section className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500 text-white py-16 -mx-4 px-4 mb-8">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Våre anbefalte avtaler
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-4">
+            Bytt strømavtale enkelt – spar penger på minutter.
           </h1>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Du får tilgang til strømavtaler vi har valgt ut basert på pris og vilkår.
+          <p className="text-2xl mb-8 max-w-2xl mx-auto font-medium">
+            Sammenlign avtaler fra utvalgte leverandører. 100% gratis.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link 
               href="#sammenligning" 
               className="bg-blue-600 !text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
@@ -55,6 +55,20 @@ export default async function Home() {
             >
               Fastpriskalkulator
             </Link>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4">
+            <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
+              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              Norsk tjeneste
+            </span>
+            <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
+              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              GDPR
+            </span>
+            <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
+              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              1000+ fornøyde kunder
+            </span>
           </div>
         </div>
       </section>
