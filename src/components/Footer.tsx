@@ -106,7 +106,7 @@ const Footer = () => {
                 disabled={isSubmitting}
               />
               <label htmlFor="consent" className="text-xs text-gray-400">
-                Jeg godtar <Link href="/terms-of-service" className="underline">Brukervilkår</Link>/<Link href="/privacy-policy" className="underline">Personvern</Link>.
+                Jeg godtar <Link href="/brukervilkar" className="underline">Brukervilkår</Link>/<Link href="/personvern" className="underline">Personvern</Link>.
               </label>
             </div>
             <div className="flex items-center text-left mb-4">
@@ -145,15 +145,15 @@ const Footer = () => {
           <ul className="space-y-2 text-sm">
             <li><Link href="/" className="hover:underline">Avtaler</Link></li>
             <li><Link href="/fastpriskalkulator" className="hover:underline">Fastpriskalkulator</Link></li>
-            <li><Link href="/faq" className="hover:underline">Ofte stilte spørsmål</Link></li>
+            <li><Link href="/ofte-stilte-sporsmal" className="hover:underline">Ofte stilte spørsmål</Link></li>
           </ul>
         </div>
         
         <div>
           <h3 className="text-lg font-bold mb-2">Juridisk</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/terms-of-service" className="hover:underline">Brukervilkår</Link></li>
-            <li><Link href="/privacy-policy" className="hover:underline">Personvern</Link></li>
+            <li><Link href="/brukervilkar" className="hover:underline">Brukervilkår</Link></li>
+            <li><Link href="/personvern" className="hover:underline">Personvern</Link></li>
             <li><Link href="/bedrift" className="hover:underline">For bedrifter</Link></li>
           </ul>
         </div>
