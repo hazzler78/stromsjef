@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
@@ -54,6 +55,7 @@ export default function RootLayout({
         <Header />
         <main className="container mx-auto p-4">{children}</main>
         <Footer />
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
