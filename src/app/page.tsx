@@ -4,6 +4,7 @@ import PlanComparisonClient from '@/components/PlanComparisonClient';
 import { ElectricityPlan } from '@/types/electricity';
 import Link from 'next/link';
 import Image from 'next/image';
+import PlanCard from '@/components/PlanCard';
 
 // Force dynamic rendering to get fresh data
 export const dynamic = 'force-dynamic';
@@ -70,6 +71,18 @@ export default async function Home() {
               <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               1000+ fornøyde kunder
             </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Utvalgte strømavtaler - NY SEKTION */}
+      <section className="bg-gray-50 py-10 mb-8">
+        <div className="container mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-800">Våre utvalgte strømavtaler</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {plans.filter(plan => plan.featured).map(plan => (
+              <PlanCard key={`top-featured-${plan.id}`} plan={plan} />
+            ))}
           </div>
         </div>
       </section>
