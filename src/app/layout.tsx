@@ -37,6 +37,9 @@ export default function RootLayout({
             }}
           />
         )}
+        <link rel="icon" href="/logo-lightning.svg" type="image/svg+xml" />
+        <meta property="og:image" content="/logo-lightning.svg" />
+        <meta name="twitter:image" content="/logo-lightning.svg" />
       </head>
       <body>
         {/* Google Tag Manager (noscript) */}
