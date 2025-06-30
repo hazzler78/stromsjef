@@ -35,6 +35,27 @@ export default async function Home() {
 
   return (
     <div>
+      {/* Ny introduktionstext */}
+      <section className="bg-white py-8">
+        <div className="container mx-auto text-center">
+          <p className="text-lg md:text-xl text-gray-700 mb-2">Ingen strømkunder ønsker å betale mer enn man må.</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-1 tracking-tight">STRØMSJEF</h1>
+          <p className="text-xl md:text-2xl text-gray-800 font-medium">Strømvalg&nbsp;gjort&nbsp;enkelt</p>
+        </div>
+      </section>
+
+      {/* Utvalgte strømavtaler - FLYTTAD HÖGST UPP */}
+      <section className="bg-gray-50 py-10 mb-8">
+        <div className="container mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-800">Våre utvalgte strømavtaler</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {plans.filter(plan => plan.featured).map(plan => (
+              <PlanCard key={`top-featured-${plan.id}`} plan={plan} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500 text-white py-16 -mx-4 px-4 mb-8">
         <div className="container mx-auto text-center">
@@ -51,17 +72,11 @@ export default async function Home() {
             >
               Se avtaler
             </Link>
-            <Link 
-              href="/fastpriskalkulator" 
-              className="border-2 border-white !text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
-            >
-              Fastpriskalkulator
-            </Link>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4">
             <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
               <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              Norsk tjeneste
+              Kun gode avtaler
             </span>
             <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
               <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
@@ -71,18 +86,6 @@ export default async function Home() {
               <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
               1000+ fornøyde kunder
             </span>
-          </div>
-        </div>
-      </section>
-
-      {/* Utvalgte strømavtaler - NY SEKTION */}
-      <section className="bg-gray-50 py-10 mb-8">
-        <div className="container mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-800">Våre utvalgte strømavtaler</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {plans.filter(plan => plan.featured).map(plan => (
-              <PlanCard key={`top-featured-${plan.id}`} plan={plan} />
-            ))}
           </div>
         </div>
       </section>
