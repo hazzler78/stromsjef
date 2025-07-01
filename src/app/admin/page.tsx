@@ -127,7 +127,7 @@ function AddProductModal({ onClose, onProductSaved, mode, initialPlan }: {
     planName: initialPlan?.planName || '',
     pricePerKwh: initialPlan?.pricePerKwh?.toString() || '',
     monthlyFee: initialPlan?.monthlyFee?.toString() || '',
-    priceZone: initialPlan?.priceZone || 'ALL',
+    priceZone: initialPlan?.priceZone || 'ALLE',
     bindingTime: initialPlan?.bindingTime?.toString() || '',
     featured: initialPlan?.featured || false,
     affiliateLink: initialPlan?.affiliateLink || '',

@@ -11,7 +11,7 @@ interface PlanComparisonClientProps {
 type PlanType = 'all' | 'spotpris' | 'fastpris';
 
 export default function PlanComparisonClient({ initialPlans }: PlanComparisonClientProps) {
-  const [selectedZone, setSelectedZone] = useState<PriceZone | 'all'>('all');
+  const [selectedZone, setSelectedZone] = useState<PriceZone | 'alle'>('alle');
   const [selectedPlanType, setSelectedPlanType] = useState<PlanType>('all');
   const [plans, setPlans] = useState<ElectricityPlan[]>(initialPlans);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -26,7 +26,7 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
 
   // Filter plans based on selected zone and plan type
   const filteredPlans = plans.filter(plan => {
-    const zoneMatch = selectedZone === 'all' || plan.priceZone === selectedZone;
+    const zoneMatch = selectedZone === 'alle' || plan.priceZone === selectedZone;
     const planTypeMatch = selectedPlanType === 'all' || 
       (selectedPlanType === 'spotpris' && plan.planName.toLowerCase().includes('spot')) ||
       (selectedPlanType === 'fastpris' && plan.planName.toLowerCase().includes('fast'));
@@ -144,10 +144,10 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-2xl">
             <select 
               value={selectedZone} 
-              onChange={(e) => setSelectedZone(e.target.value as PriceZone | 'all')}
+              onChange={(e) => setSelectedZone(e.target.value as PriceZone | 'alle')}
               className="p-3 border rounded-lg bg-white shadow-sm flex-1"
             >
-              <option value="all">Alle prissoner</option>
+              <option value="alle">Alle prissoner</option>
               {Object.values(PriceZone).map(zone => (
                 <option key={zone} value={zone}>{zone} ({PriceZoneNames[zone]})</option>
               ))}
