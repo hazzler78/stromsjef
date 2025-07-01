@@ -129,6 +129,7 @@ function AddProductModal({ onClose, onProductSaved, mode, initialPlan }: {
     monthlyFee: initialPlan?.monthlyFee?.toString() || '',
     priceZone: initialPlan?.priceZone || 'ALLE',
     bindingTime: initialPlan?.bindingTime?.toString() || '',
+    bindingTimeText: initialPlan?.bindingTimeText || '',
     featured: initialPlan?.featured || false,
     affiliateLink: initialPlan?.affiliateLink || '',
     logoUrl: initialPlan?.logoUrl || '',
@@ -156,6 +157,7 @@ function AddProductModal({ onClose, onProductSaved, mode, initialPlan }: {
       pricePerKwh: parseFloat(form.pricePerKwh),
       monthlyFee: parseFloat(form.monthlyFee),
       bindingTime: parseInt(form.bindingTime, 10),
+      bindingTimeText: form.bindingTimeText || undefined,
     };
     const res = await fetch('/api/plans', {
       method: mode === 'add' ? 'POST' : 'PUT',
@@ -209,6 +211,10 @@ function AddProductModal({ onClose, onProductSaved, mode, initialPlan }: {
               <label className="block font-semibold mb-1">Bindingstid (månader)</label>
               <input name="bindingTime" value={form.bindingTime} onChange={handleChange} className="w-full border rounded px-3 py-2" required type="number" min="0" />
             </div>
+          </div>
+          <div>
+            <label className="block font-semibold mb-1">Bindningstid (text/dato, valfri)</label>
+            <input name="bindingTimeText" value={form.bindingTimeText} onChange={handleChange} className="w-full border rounded px-3 py-2" placeholder="Til 01.10.2025" />
           </div>
           <div>
             <label className="inline-flex items-center gap-2">
