@@ -303,4 +303,21 @@ export async function setPlanFeatured(id: string, featured: boolean): Promise<bo
     console.error('Error setting plan featured:', error);
     return false;
   }
+}
+
+export async function addPlan(plan: ElectricityPlan): Promise<boolean> {
+  try {
+    const plans: ElectricityPlan[] = await getAllPlans();
+    plans.push(plan);
+    if (isDevelopmentMode) {
+      inMemoryPlans = [...plans];
+    } else {
+      await kv.set(PLANS_KEY, plans);
+    }
+    console.log('addPlan: Added new plan', plan);
+    return true;
+  } catch (error) {
+    console.error('addPlan: Error adding plan:', error);
+    return false;
+  }
 } 

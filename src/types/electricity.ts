@@ -1,4 +1,5 @@
 export enum PriceZone {
+  ALL = 'ALL', // Gjelder alle soner
   NO1 = 'NO1', // Øst-Norge
   NO2 = 'NO2', // Sør-Norge
   NO3 = 'NO3', // Midt-Norge
@@ -7,6 +8,7 @@ export enum PriceZone {
 }
 
 export const PriceZoneNames: Record<PriceZone, string> = {
+  [PriceZone.ALL]: 'Alle soner',
   [PriceZone.NO1]: 'Østlandet',
   [PriceZone.NO2]: 'Sørlandet',
   [PriceZone.NO3]: 'Midt-Norge',

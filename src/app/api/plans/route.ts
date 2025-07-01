@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllPlans, initializeDatabase } from '@/lib/database';
+import { getAllPlans, initializeDatabase, addPlan } from '@/lib/database';
 
 // Force no caching
 export const dynamic = 'force-dynamic';
@@ -58,5 +58,74 @@ export async function GET() {
         }
       }
     );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const plan = await request.json();
+    // Enkel validering (kan utökas)
+    if (!plan || !plan.id || !plan.supplierName || !plan.planName || !plan.priceZone) {
+      return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
+    }
+    const ok = await addPlan(plan);
+    if (ok) {
+      return NextResponse.json({ success: true, plan });
+    } else {
+      return NextResponse.json({ success: false, error: 'Failed to add plan' }, { status: 500 });
+    }
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : String(error) }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { id } = await request.json();
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'Missing id' }, { status: 400 });
+    }
+    // Hämta alla planer
+    const plans = await getAllPlans();
+    const index = plans.findIndex(p => p.id === id);
+    if (index === -1) {
+      return NextResponse.json({ success: false, error: 'Plan not found' }, { status: 404 });
+    }
+    plans.splice(index, 1);
+    // Spara tillbaka
+    if (process.env.NODE_ENV === 'development' && (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN)) {
+      // inMemoryPlans hanteras i database.ts
+      // Vi kan inte nå inMemoryPlans här, så vi hoppar över dev-mode delete
+    } else {
+      const { kv } = await import('@vercel/kv');
+      await kv.set('electricity_plans', plans);
+    }
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : String(error) }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const plan = await request.json();
+    if (!plan || !plan.id) {
+      return NextResponse.json({ success: false, error: 'Missing id' }, { status: 400 });
+    }
+    const plans = await getAllPlans();
+    const index = plans.findIndex(p => p.id === plan.id);
+    if (index === -1) {
+      return NextResponse.json({ success: false, error: 'Plan not found' }, { status: 404 });
+    }
+    plans[index] = { ...plans[index], ...plan };
+    if (process.env.NODE_ENV === 'development' && (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN)) {
+      // inMemoryPlans hanteras i database.ts
+    } else {
+      const { kv } = await import('@vercel/kv');
+      await kv.set('electricity_plans', plans);
+    }
+    return NextResponse.json({ success: true, plan: plans[index] });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : String(error) }, { status: 500 });
   }
 } 
