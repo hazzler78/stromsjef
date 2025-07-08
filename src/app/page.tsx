@@ -225,9 +225,6 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Kilden Kraft</p>
             </div>
           </div>
-          <p className="text-gray-500 mt-6 text-sm">
-            Alle leverandører er godkjent av Forbrukerrådet og NVE
-          </p>
         </div>
       </section>
 
