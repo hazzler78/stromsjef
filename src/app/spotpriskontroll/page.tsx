@@ -253,13 +253,13 @@ const FastpriskalkulatorPage = () => {
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Klar til å få forutsigbare strømregninger?</h2>
           <p className="text-lg text-gray-600 mb-6">
-            Start sammenligningen nå og finn den beste fastprisavtalen for deg.
+            Start søket nå og finn den beste fastprisavtalen for deg.
           </p>
           <Link 
             href="/#sammenligning" 
             className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
-            Start sammenligning
+            Start søk
           </Link>
         </div>
       </section>

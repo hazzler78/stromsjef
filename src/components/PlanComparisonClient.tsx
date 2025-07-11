@@ -121,7 +121,7 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
       <div className="container mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-center mb-2">Finn den beste strømavtalen for deg</h1>
-          <p className="text-lg text-gray-600 text-center">Sammenlign og spar penger på strømregningen.</p>
+          <p className="text-lg text-gray-600 text-center">Finn billig strømavtale og spar penger på strømregningen.</p>
         </div>
 
         {/* Status and Controls */}

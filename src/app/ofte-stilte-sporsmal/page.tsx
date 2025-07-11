@@ -42,7 +42,7 @@ const FAQPage = () => {
       </div>
       <div className="space-y-2">
         <FAQItem question="Hva er Strømsjef?">
-          Strømsjef er en uavhengig sammenligningstjeneste for strømavtaler. Vi hjelper deg å finne den beste avtalen for deg – enkelt, gratis og uforpliktende.
+          Strømsjef er en uavhengig tjeneste for å finne billige strømavtaler. Vi hjelper deg å finne den beste avtalen for deg – enkelt, gratis og uforpliktende.
         </FAQItem>
         <FAQItem question="Hvor ofte oppdateres prisene?">
           Prisene oppdateres daglig, og vi gjør vårt beste for å vise deg de nyeste og mest korrekte tallene. Husk å dobbeltsjekke hos leverandøren før du bytter.

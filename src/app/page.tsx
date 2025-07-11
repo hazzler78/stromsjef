@@ -63,7 +63,7 @@ export default async function Home() {
             Bytt strømavtale enkelt – spar penger på minutter.
           </h1>
           <p className="text-2xl mb-8 max-w-2xl mx-auto font-medium">
-            Sammenlign avtaler fra utvalgte leverandører. 100% gratis.
+            Finn billig strømavtale fra utvalgte leverandører. 100% gratis.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link 
@@ -108,7 +108,7 @@ export default async function Home() {
                 1
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">
-                Sammenlign avtaler
+                Finn billig strømavtale
               </h3>
               <p className="text-gray-600 leading-relaxed">
                 Se alle tilgjengelige strømavtaler side om side med priser og vilkår.

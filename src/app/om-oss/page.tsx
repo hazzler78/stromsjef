@@ -12,7 +12,7 @@ export default function OmOss() {
           Vi i Strømsjef brenner for én ting: å gjøre strømavtaler enklere, billigere og mer oversiktlige for både privatpersoner og bedrifter i Norge.
         </p>
         <p className="mb-4">
-          Hos oss kan du sammenligne utvalgte strømavtaler fra våre samarbeidspartnere, få full oversikt over pris, vilkår og bindingstid – og bytte strømleverandør helt enkelt og kostnadsfritt.
+          Hos oss kan du finne billige strømavtaler fra våre samarbeidspartnere, få full oversikt over pris, vilkår og bindingstid – og bytte strømleverandør helt enkelt og kostnadsfritt.
         </p>
       </section>
 
@@ -20,7 +20,7 @@ export default function OmOss() {
         <h2 className="text-2xl font-semibold mb-4">Hva vi tilbyr</h2>
         <ul className="list-disc pl-6 space-y-2">
           <li>
-            <strong>Sammenligning av utvalgte avtaler:</strong> Vi viser deg nøye utvalgte strømavtaler fra pålitelige leverandører. Med vår sammenligningstjeneste kan du enkelt finne den avtaletypen som passer deg best – enten du foretrekker spotpris eller fastpris.
+            <strong>Finn billig strømavtale:</strong> Vi viser deg nøye utvalgte strømavtaler fra pålitelige leverandører. Med vår tjeneste kan du enkelt finne den avtaletypen som passer deg best – enten du foretrekker spotpris eller fastpris.
           </li>
           <li>
             <strong>Fastpris- og spotprisavtaler:</strong> Se og sammenlign ulike fastprisavtaler (med ulike bindingstider) eller spotprisavtaler som følger markedet. Vi gir deg tydelig informasjon om priser, påslag og eventuelle avgifter.
@@ -46,7 +46,7 @@ export default function OmOss() {
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Hvorfor velge Strømsjef?</h2>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Enkel og brukervennlig sammenligning</li>
+          <li>Enkel og brukervennlig tjeneste</li>
           <li>Konkurransedyktige avtaler fra utvalgte leverandører</li>
           <li>Ingen skjulte kostnader eller overraskelser</li>
           <li>Rask og gratis bytte</li>

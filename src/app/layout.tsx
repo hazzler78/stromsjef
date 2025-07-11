@@ -9,8 +9,8 @@ import { Analytics } from "@vercel/analytics/next";
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 
 export const metadata: Metadata = {
-  title: "Strømsjef - Sammenlign strømavtaler",
-  description: "Sammenlign strømavtaler og bytt strømleverandør for å spare penger.",
+  title: "Strømsjef - Finn billig strømavtale",
+  description: "Finn billig strømavtale og bytt strømleverandør for å spare penger.",
 };
 
 export default function RootLayout({
