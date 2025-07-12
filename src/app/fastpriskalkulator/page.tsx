@@ -78,26 +78,26 @@ const FastpriskalkulatorPage = () => {
             <h3 className="text-xl font-semibold mb-4 text-blue-800">
               Kommende funksjoner:
             </h3>
-            <ul className="text-left space-y-3 text-gray-700">
-              <li className="flex items-start gap-3">
+            <ul className="text-left space-y-3" style={{ color: '#111827', fontWeight: 500 }}>
+              <li className="flex items-start gap-3" style={{ color: '#111827', fontWeight: 500 }}>
                 <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>Last opp strømfakturaer direkte i kalkulatoren</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3" style={{ color: '#111827', fontWeight: 500 }}>
                 <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>AI-drevet analyse som automatisk beregner besparelser</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3" style={{ color: '#111827', fontWeight: 500 }}>
                 <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 <span>Mer nøyaktige beregninger basert på faktisk forbruk</span>
               </li>
-              <li className="flex items-start gap-3">
+              <li className="flex items-start gap-3" style={{ color: '#111827', fontWeight: 500 }}>
                 <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
@@ -117,8 +117,8 @@ const FastpriskalkulatorPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
-                <h4 className="font-semibold mb-2">Se tilgjengelige avtaler</h4>
-                <p className="text-sm text-gray-600 mb-3">
+                <h4 className="font-semibold mb-2" style={{ color: '#111827' }}>Se tilgjengelige avtaler</h4>
+                <p className="text-sm mb-3" style={{ color: '#1f2937' }}>
                   Utforsk våre anbefalte strømavtaler
                 </p>
                 <Link 
@@ -134,8 +134,8 @@ const FastpriskalkulatorPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h4 className="font-semibold mb-2">Spotpriskontroll</h4>
-                <p className="text-sm text-gray-600 mb-3">
+                <h4 className="font-semibold mb-2" style={{ color: '#111827' }}>Spotpriskontroll</h4>
+                <p className="text-sm mb-3" style={{ color: '#1f2937' }}>
                   Sjekk om spotpris er riktig for deg
                 </p>
                 <Link 
@@ -151,10 +151,10 @@ const FastpriskalkulatorPage = () => {
           {/* Contact Form Section */}
           <div className="bg-green-50 p-6 rounded-lg border border-green-200 mb-8">
             <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-semibold mb-4 text-green-800">
+              <h3 className="text-xl font-semibold mb-4" style={{ color: '#166534' }}>
                 Få beskjed når den nye kalkulatoren er klar!
               </h3>
-              <p className="text-sm text-gray-600 mb-6">
+              <p className="text-sm mb-6" style={{ color: '#1f2937' }}>
                 Anmäl dig för att få uppdateringar när den nya AI-drivna fastpriskalkulatorn lanseras
               </p>
               
@@ -172,7 +172,7 @@ const FastpriskalkulatorPage = () => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="name" className="block text-sm font-medium mb-1" style={{ color: '#111827' }}>
                       Namn
                     </label>
                     <input
@@ -186,7 +186,7 @@ const FastpriskalkulatorPage = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="email" className="block text-sm font-medium mb-1" style={{ color: '#111827' }}>
                       E-post
                     </label>
                     <input
@@ -204,7 +204,7 @@ const FastpriskalkulatorPage = () => {
                     disabled={isSubmitting}
                     className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? 'Anmäler...' : 'Anmäl för uppdateringar'}
+                    {isSubmitting ? 'Anmäler...' : 'Anmäl för oppdateringer'}
                   </button>
                 </form>
               )}
@@ -212,7 +212,7 @@ const FastpriskalkulatorPage = () => {
           </div>
 
           <div className="text-center">
-            <p className="text-gray-600 mb-4">
+            <p className="mb-4" style={{ color: '#1f2937' }}>
               Følg med på oppdateringer - den nye kalkulatoren kommer snart!
             </p>
             <Link 
