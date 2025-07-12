@@ -183,7 +183,7 @@ const FastpriskalkulatorPage = () => {
                     href="/#sammenligning" 
                     className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                   >
-                    Se tilgjengelige fastprisavtaler
+                    Finn billig strømavtale
                   </Link>
                 </div>
               </div>
@@ -259,7 +259,7 @@ const FastpriskalkulatorPage = () => {
             href="/#sammenligning" 
             className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
-            Start søk
+            Finn billig strømavtale
           </Link>
         </div>
       </section>

@@ -23,7 +23,7 @@ export default function OmOss() {
             <strong>Finn billig strømavtale:</strong> Vi viser deg nøye utvalgte strømavtaler fra pålitelige leverandører. Med vår tjeneste kan du enkelt finne den avtaletypen som passer deg best – enten du foretrekker spotpris eller fastpris.
           </li>
           <li>
-            <strong>Fastpris- og spotprisavtaler:</strong> Se og sammenlign ulike fastprisavtaler (med ulike bindingstider) eller spotprisavtaler som følger markedet. Vi gir deg tydelig informasjon om priser, påslag og eventuelle avgifter.
+            <strong>Fastpris- og spotprisavtaler:</strong> Finn billig strømavtale med ulike fastprisavtaler (med ulike bindingstider) eller spotprisavtaler som følger markedet. Vi gir deg tydelig informasjon om priser, påslag og eventuelle avgifter.
           </li>
           <li>
             <strong>Skreddersydde løsninger for bedrifter:</strong> Vi tilbyr også rådgivning og spesialtilpassede strømavtaler for bedrifter som ønsker bedre kontroll og lavere strømkostnader.

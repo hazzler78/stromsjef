@@ -74,7 +74,7 @@ const PlanCard = ({ plan }: PlanCardProps) => {
         )}
       </div>
       <div className="mt-4 text-xs text-gray-500 text-center">
-        Avtalen kan sammenlignes med andre avtaler på{' '}
+        Finn billig strømavtale på{' '}
         <Link href="https://www.forbrukerradet.no/strompris/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">
           Forbrukerrådets strømprisportal
         </Link>.
