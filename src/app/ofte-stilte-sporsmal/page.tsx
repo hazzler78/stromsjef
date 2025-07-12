@@ -17,7 +17,7 @@ const FAQItem = ({ question, children }: FAQItemProps) => {
         className="w-full text-left py-4 px-2 flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors"
       >
         <span className="text-lg font-medium text-gray-900">{question}</span>
-        <span className="text-2xl text-blue-600 font-light">{isOpen ? '−' : '+'}</span>
+        <span className="text-2xl text-blue-700 font-light">{isOpen ? '−' : '+'}</span>
       </button>
       {isOpen && (
         <div className="pb-4 px-2 text-gray-600 leading-relaxed">
@@ -35,7 +35,7 @@ const FAQPage = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-8">
         <p className="text-gray-700">
           Her finner du svar på de vanligste spørsmålene om Strømsjef og strømavtaler. Finner du ikke svaret du leter etter?
-          <Link href="mailto:info@stromsjef.no" className="text-blue-600 hover:underline ml-1">
+          <Link href="mailto:info@stromsjef.no" className="text-blue-700 hover:underline ml-1">
             Ta kontakt med oss
           </Link> så hjelper vi deg gjerne!
         </p>
@@ -51,7 +51,7 @@ const FAQPage = () => {
           Noen strømavtaler gjelder kun for bestemte geografiske områder eller prissoner. Skriv inn ditt postnummer for å se hvilke avtaler som gjelder for deg.
         </FAQItem>
         <FAQItem question="Hvordan kan jeg kontakte dere?">
-          Du kan sende oss en e-post på <a href="mailto:info@stromsjef.no" className="text-blue-600 hover:underline">info@stromsjef.no</a> – vi svarer så raskt vi kan!
+          Du kan sende oss en e-post på <a href="mailto:info@stromsjef.no" className="text-blue-700 hover:underline">info@stromsjef.no</a> – vi svarer så raskt vi kan!
         </FAQItem>
         <FAQItem question="Hvordan fungerer bytte av strømleverandør?">
           Det er enkelt! Finn en avtale du liker, bestill via lenken, og den nye leverandøren ordner resten – inkludert oppsigelse av din gamle avtale. Du får ingen strømbrudd.
