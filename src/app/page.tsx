@@ -5,6 +5,7 @@ import { ElectricityPlan } from '@/types/electricity';
 import Link from 'next/link';
 import Image from 'next/image';
 import PlanCard from '@/components/PlanCard';
+import ContactForm from '@/components/ContactForm';
 
 // Force dynamic rendering to get fresh data
 export const dynamic = 'force-dynamic';
@@ -225,6 +226,15 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Kilden Kraft</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="py-12 bg-blue-50">
+        <div className="container mx-auto max-w-2xl">
+          <h2 className="text-3xl font-bold text-center text-blue-800 mb-4">Bli oppringt av Strømsjef</h2>
+          <p className="text-center text-blue-900 mb-8">Legg igjen kontaktinfo, så ringer vi deg for en uforpliktende prat om strømavtale. Helt gratis!</p>
+          <ContactForm />
         </div>
       </section>
 

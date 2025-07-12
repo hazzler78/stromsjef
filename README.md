@@ -56,6 +56,14 @@ KV_REST_API_READ_ONLY_TOKEN=your_readonly_token
 - `/report clicks` - Get click statistics
 - `/prices` - Show current prices
 
+## Kontakt- och callback-skjema med Telegram-varsling
+
+- Henvendelser fra hovedsidens kontaktskjema sendes til en fast Telegram-chat via botten.
+- Sett miljøvariabelen `TELEGRAM_CONTACT_CHAT_IDS` til chat-IDene du vil motta varsler i (kommaseparert liste).
+- Eksempel: `TELEGRAM_CONTACT_CHAT_IDS=123456789,987654321,555666777`
+- Skjemaet støtter navn, e-post, telefon og (valgfritt) nyhetsbrev.
+- Hvis noen meldinger feiler å sendes, returneres fortsatt suksess så lenge minst én melding ble sendt.
+
 ## Development
 
 ### Local Development
