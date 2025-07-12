@@ -14,7 +14,7 @@ const GROUP_ID_MAP: Record<string, string> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, zone, marketingConsent } = await request.json();
+    const { email, zone, marketingConsent, name, source } = await request.json();
 
     if (!email || !zone) {
       return NextResponse.json(
@@ -46,9 +46,10 @@ export async function POST(request: NextRequest) {
         groups: [groupId],
         fields: {
           zone: zone,
-          source: 'stromsjef_website',
+          source: source || 'stromsjef_website',
           signup_date: new Date().toISOString(),
           marketingConsent: marketingConsent ? 'yes' : 'no',
+          name: name || '',
         }
       })
     });
