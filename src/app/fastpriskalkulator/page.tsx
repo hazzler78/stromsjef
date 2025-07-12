@@ -124,6 +124,7 @@ const FastpriskalkulatorPage = () => {
                 <Link 
                   href="/#sammenligning" 
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
+                  style={{ color: '#fff' }}
                 >
                   Se avtaler
                 </Link>
@@ -141,6 +142,7 @@ const FastpriskalkulatorPage = () => {
                 <Link 
                   href="/spotpriskontroll" 
                   className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors"
+                  style={{ color: '#fff' }}
                 >
                   Sjekk spotpris
                 </Link>
@@ -203,6 +205,7 @@ const FastpriskalkulatorPage = () => {
                     type="submit" 
                     disabled={isSubmitting}
                     className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ color: '#fff' }}
                   >
                     {isSubmitting ? 'Anmäler...' : 'Anmäl för oppdateringer'}
                   </button>
@@ -218,6 +221,7 @@ const FastpriskalkulatorPage = () => {
             <Link 
               href="/" 
               className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+              style={{ color: '#fff' }}
             >
               Tilbake til forsiden
             </Link>

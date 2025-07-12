@@ -101,7 +101,7 @@ export default function AdminPage() {
                   <td className="px-4 py-2">{PriceZoneNames[plan.priceZone]}</td>
                   <td className="px-4 py-2 text-center">{plan.featured ? '✅' : ''}</td>
                   <td className="px-4 py-2 text-center">
-                    <button onClick={() => handleEdit(plan)} className="bg-blue-600 text-white px-4 py-2 rounded font-semibold hover:bg-blue-700 transition-colors">Redigera</button>
+                    <button onClick={() => handleEdit(plan)} className="bg-blue-600 text-white px-4 py-2 rounded font-semibold hover:bg-blue-700 transition-colors" style={{ color: '#fff' }}>Redigera</button>
                   </td>
                   <td className="px-4 py-2 text-center">
                     <button onClick={() => handleDelete(plan.id)} className="text-red-600 hover:underline">Ta bort</button>
