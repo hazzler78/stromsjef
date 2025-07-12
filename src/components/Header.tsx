@@ -69,6 +69,15 @@ const Header = () => {
                   Om oss
                 </Link>
               </li>
+              <li>
+                <Link 
+                  href="/media" 
+                  className="text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                  style={{ color: 'white' }}
+                >
+                  I media
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -145,6 +154,16 @@ const Header = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   FAQ
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/media" 
+                  className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                  style={{ color: 'white' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  I media
                 </Link>
               </li>
             </ul>
