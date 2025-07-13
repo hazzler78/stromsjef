@@ -48,7 +48,6 @@ export default async function Home() {
       {/* Utvalgte strømavtaler - FLYTTAD HÖGST UPP */}
       <section className="bg-gray-50 py-10 mb-8">
         <div className="container mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-800">Våre utvalgte strømavtaler</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {plans.filter(plan => plan.featured).map(plan => (
               <PlanCard key={`top-featured-${plan.id}`} plan={plan} />
