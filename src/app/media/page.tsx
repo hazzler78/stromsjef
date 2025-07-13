@@ -3,13 +3,13 @@ import React from 'react';
 const mediaPosts = [
   {
     title: 'Reagerer på økt nettleie: – Kynisk',
-    description: 'TV 2-artikkel der Mathias Nilsson, strøminfluenser og grunnlegger av «Alt om strøm; tips og triks!», kommenterer økt nettleie og konsekvenser for forbrukere.',
+    description: 'TV 2-artikkel der Mathias Nilsson, strøminfluenser og grunnlegger av Strømsjef, kommenterer økt nettleie og konsekvenser for forbrukere.',
     url: 'https://www.tv2.no/nyheter/innenriks/reagerer-pa-okt-nettleie-kynisk/17045778/',
     date: '2024-10-11',
   },
   {
     title: 'Influenseren som endret strømsalg-bransjen',
-    description: 'Europower-profilintervju med Mathias Nilsson, mannen bak «Alt om strøm; tips og triks!».',
+    description: 'Europower-profilintervju med Mathias Nilsson, mannen bak Strømsjef.',
     url: 'https://www.europower.no/forbruker/influenseren-som-endret-stromsalg-bransjen/2-1-1536646',
     date: '2023-10-25',
   },
