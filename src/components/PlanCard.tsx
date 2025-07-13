@@ -14,7 +14,7 @@ const PlanCard = ({ plan }: PlanCardProps) => {
       {plan.featured && (
         <div className="absolute top-2 right-2 z-20">
           <div className="bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded shadow-md select-none rotate-12">
-            Utvalgt
+            Mest populær
           </div>
         </div>
       )}
