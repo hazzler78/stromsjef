@@ -90,6 +90,15 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Kontaktformulär - flyttad upp */}
+      <section className="py-12 bg-blue-50">
+        <div className="container mx-auto max-w-2xl">
+          <h2 className="text-3xl font-bold text-center text-blue-800 mb-4">Få personlig hjelp – vi finner den beste strømavtalen for deg!</h2>
+          <p className="text-center text-blue-900 mb-8">Legg igjen navn og nummer, så ringer vi deg for en gratis og uforpliktende prat. Vi hjelper deg å spare penger – enkelt og trygt!</p>
+          <ContactForm />
+        </div>
+      </section>
+
       {/* How it works Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto">
@@ -225,15 +234,6 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Kilden Kraft</p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Contact Form Section */}
-      <section className="py-12 bg-blue-50">
-        <div className="container mx-auto max-w-2xl">
-          <h2 className="text-3xl font-bold text-center text-blue-800 mb-4">Bli oppringt av Strømsjef</h2>
-          <p className="text-center text-blue-900 mb-8">Legg igjen kontaktinfo, så ringer vi deg for en uforpliktende prat om strømavtale. Helt gratis!</p>
-          <ContactForm />
         </div>
       </section>
 
