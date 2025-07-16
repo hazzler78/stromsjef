@@ -11,6 +11,35 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
   title: "Strømsjef - Finn billig strømavtale",
   description: "Finn billig strømavtale og bytt strømleverandør for å spare penger.",
+  keywords: [
+    "strøm", "strømavtale", "billig strøm", "bytte strøm", "strømleverandør", "strømpriser", "Norge", "fastpris", "spotpris", "finn billig strømavtale"
+  ],
+  openGraph: {
+    title: "Strømsjef - Finn billig strømavtale",
+    description: "Finn billig strømavtale og bytt strømleverandør for å spare penger.",
+    url: "https://stromsjef.no/",
+    type: "website",
+    siteName: "Strømsjef",
+    images: [
+      {
+        url: "/logo-lightning.svg",
+        width: 1200,
+        height: 630,
+        alt: "Strømsjef logo"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Strømsjef - Finn billig strømavtale",
+    description: "Finn billig strømavtale og bytt strømleverandør for å spare penger.",
+    images: [
+      "/logo-lightning.svg"
+    ]
+  },
+  alternates: {
+    canonical: "https://stromsjef.no/"
+  }
 };
 
 export default function RootLayout({
@@ -40,6 +69,16 @@ export default function RootLayout({
         <link rel="icon" href="/logo-lightning.svg" type="image/svg+xml" />
         <meta property="og:image" content="/logo-lightning.svg" />
         <meta name="twitter:image" content="/logo-lightning.svg" />
+        <meta name="keywords" content="strøm, strømavtale, billig strøm, bytte strøm, strømleverandør, strømpriser, Norge, fastpris, spotpris, finn billig strømavtale" />
+        <meta property="og:title" content="Strømsjef - Finn billig strømavtale" />
+        <meta property="og:description" content="Finn billig strømavtale og bytt strømleverandør for å spare penger." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://stromsjef.no/" />
+        <meta property="og:site_name" content="Strømsjef" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Strømsjef - Finn billig strømavtale" />
+        <meta name="twitter:description" content="Finn billig strømavtale og bytt strømleverandør for å spare penger." />
+        <link rel="canonical" href="https://stromsjef.no/" />
       </head>
       <body>
         {/* Google Tag Manager (noscript) */}
