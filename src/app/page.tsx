@@ -233,6 +233,28 @@ export default async function Home() {
               </div>
               <p className="text-sm text-gray-600 font-medium">Kilden Kraft</p>
             </div>
+            <div className="flex flex-col items-center">
+              <div className="relative w-32 h-16 mb-2">
+                <Image
+                  src="/logos/barum-energi.png"
+                  alt="Bærum Energi"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <p className="text-sm text-gray-600 font-medium">Bærum Energi</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="relative w-32 h-16 mb-2">
+                <Image
+                  src="/logos/vstrom.png"
+                  alt="VStrøm"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <p className="text-sm text-gray-600 font-medium">VStrøm</p>
+            </div>
           </div>
         </div>
       </section>
