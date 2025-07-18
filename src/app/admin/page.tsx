@@ -1,11 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AdminPage() {
+  // Lösenordsskydd
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+
+  // Produktdata
+  const [plans, setPlans] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -16,6 +22,20 @@ export default function AdminPage() {
       setLoginError("Feil passord. Prøv igjen.");
     }
   }
+
+  useEffect(() => {
+    if (!authenticated) return;
+    setLoading(true);
+    setError(null);
+    fetch('/api/plans')
+      .then(res => {
+        if (!res.ok) throw new Error('Kunde ikke hente produkter');
+        return res.json();
+      })
+      .then(data => setPlans(data.plans || []))
+      .catch(err => setError(err.message || 'Noe gikk galt'))
+      .finally(() => setLoading(false));
+  }, [authenticated]);
 
   if (!authenticated) {
     return (
@@ -40,7 +60,32 @@ export default function AdminPage() {
   return (
     <div className="max-w-5xl mx-auto py-12">
       <h1 className="text-3xl font-bold mb-8">Admin: Produkter</h1>
-      <p>Du er logget inn!</p>
+      {loading ? (
+        <div className="p-8 text-center text-gray-500">Laster produkter...</div>
+      ) : error ? (
+        <div className="p-8 text-center text-red-500">{error}</div>
+      ) : (
+        <table className="min-w-full bg-white border rounded shadow">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 border-b">Namn</th>
+              <th className="px-4 py-2 border-b">Leverandør</th>
+              <th className="px-4 py-2 border-b">Pris (øre/kWh)</th>
+              <th className="px-4 py-2 border-b">Prissone</th>
+            </tr>
+          </thead>
+          <tbody>
+            {plans.map(plan => (
+              <tr key={plan.id} className="border-b hover:bg-gray-50">
+                <td className="px-4 py-2">{plan.planName}</td>
+                <td className="px-4 py-2">{plan.supplierName}</td>
+                <td className="px-4 py-2">{plan.pricePerKwh}</td>
+                <td className="px-4 py-2">{plan.priceZone}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 } 
