@@ -16,6 +16,41 @@ export default function AdminPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
 
+  // Lösenordsskydd
+  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    if (password === "grodan2025") {
+      setAuthenticated(true);
+      setLoginError("");
+    } else {
+      setLoginError("Feil passord. Prøv igjen.");
+    }
+  }
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow-md w-full max-w-xs">
+          <h2 className="text-xl font-bold mb-4 text-center">Admin Login</h2>
+          <input
+            type="password"
+            placeholder="Passord"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className="w-full border rounded px-3 py-2 mb-4"
+            autoFocus
+          />
+          {loginError && <div className="text-red-600 text-sm mb-2">{loginError}</div>}
+          <button type="submit" className="bg-blue-600 text-white w-full py-2 rounded font-semibold hover:bg-blue-700 transition-colors">Logg inn</button>
+        </form>
+      </div>
+    );
+  }
+
   useEffect(() => {
     async function fetchPlans() {
       setLoading(true);
