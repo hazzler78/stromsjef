@@ -51,7 +51,7 @@ export default function NorgesprisLanding() {
       </section>
 
       <section className="text-center mt-12">
-        <Link href="/" className="bg-green-600 !text-white px-10 py-4 rounded-lg font-bold text-xl hover:bg-green-700 transition-colors shadow-lg">Spar penger – bytt i dag!</Link>
+        <Link href="https://cheapenergy.no/privat/cheap-spot/?utm_source=stromsjef.no&utm_medium=affiliate" className="bg-green-600 !text-white px-10 py-4 rounded-lg font-bold text-xl hover:bg-green-700 transition-colors shadow-lg" target="_blank" rel="noopener noreferrer">Spar penger – bytt i dag!</Link>
         <p className="text-gray-400 text-xs mt-6">Det tar kun 2 minutter å bytte. Ingen bindingstid.</p>
       </section>
     </div>
