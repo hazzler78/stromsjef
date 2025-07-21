@@ -3,19 +3,20 @@ import Link from 'next/link';
 export default function NorgesprisLanding() {
   return (
     <div className="max-w-3xl mx-auto py-12 px-4">
-      <section className="mb-10 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 mb-4">Få billigere enn Norgespris med Strømsjef</h1>
-        <p className="text-xl md:text-2xl text-gray-800 mb-6 font-medium">Norges nye strømordning gir fastpris på 40 øre/kWh – men de fleste betaler mye mer enn de tror. Med Strømsjef får du en avtale <span className="font-bold text-green-600">UTEN gebyrer</span> og faktisk <span className="font-bold text-green-600">-1,7 øre i påslag</span>!</p>
-        <div className="flex flex-col md:flex-row gap-4 justify-center mb-6">
-          <Link href="/" className="bg-blue-600 !text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-lg shadow-md">Bytt til Strømsjef nå</Link>
+      <section className="mb-8 bg-red-50 border-l-4 border-red-500 p-6 rounded flex items-center gap-4">
+        <svg className="w-8 h-8 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9-4h.01" /></svg>
+        <div>
+          <h2 className="text-lg font-bold text-red-700 mb-1">Viktig å vite!</h2>
+          <p className="text-red-700 font-medium">Norgespris på 40 øre/kWh er <span className="underline">uten moms</span> (eks. mva). Med 25% moms blir det faktisk <span className="font-bold">50 øre/kWh</span> du betaler!</p>
+          <p className="text-xs text-red-600 mt-1">Mange tror 40 øre er totalprisen, men det er før moms. Dette er lett å misforstå!</p>
         </div>
-        <p className="text-gray-500 text-sm">Spar penger – få markedets beste avtale på strøm!</p>
       </section>
 
       <section className="mb-10 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded">
         <h2 className="text-2xl font-bold mb-2 text-yellow-800">Hva er Norgespris?</h2>
         <ul className="list-disc pl-6 text-gray-700 text-base mb-2">
-          <li>Regjeringen innfører fra 1. oktober 2025 en statlig fastpris på 40 øre/kWh (eks. mva) for husholdninger.</li>
+          <li>Regjeringen innfører fra 1. oktober 2025 en statlig fastpris på 40 øre/kWh <span className="font-bold">uten moms</span> (eks. mva) for husholdninger.</li>
+          <li><span className="font-bold">Med moms blir dette 50 øre/kWh</span> – det er dette du faktisk betaler på regningen.</li>
           <li>Du kan velge mellom Norgespris eller vanlig strømavtale med strømstøtte.</li>
           <li>De fleste strømleverandører legger til påslag og månedsgebyr – det gjør regningen mye høyere enn du tror!</li>
         </ul>
