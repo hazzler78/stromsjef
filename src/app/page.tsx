@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { fetchElectricityPlans } from '@/lib/strom-api';
 import { mockElectricityPlans } from '@/data/mock-plans';
 import PlanComparisonClient from '@/components/PlanComparisonClient';
@@ -6,6 +7,37 @@ import Link from 'next/link';
 import Image from 'next/image';
 import PlanCard from '@/components/PlanCard';
 import ContactForm from '@/components/ContactForm';
+
+export const metadata: Metadata = {
+  title: "Du betaler strømmen. Du bestemmer. | Strømsjef.no",
+  description: "Strømsjef.no hjelper deg å velge en avtale som faktisk er god. Finn, sammenlign og bytt strømavtale – enkelt, gratis og uten skjulte gebyrer.",
+  openGraph: {
+    title: "Du betaler strømmen. Du bestemmer. | Strømsjef.no",
+    description: "Strømsjef.no hjelper deg å velge en avtale som faktisk er god. Finn, sammenlign og bytt strømavtale – enkelt, gratis og uten skjulte gebyrer.",
+    url: "https://stromsjef.no/",
+    type: "website",
+    siteName: "Strømsjef.no",
+    images: [
+      {
+        url: "/logo-lightning.svg",
+        width: 1200,
+        height: 630,
+        alt: "Strømsjef logo"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Du betaler strømmen. Du bestemmer. | Strømsjef.no",
+    description: "Strømsjef.no hjelper deg å velge en avtale som faktisk er god. Finn, sammenlign og bytt strømavtale – enkelt, gratis og uten skjulte gebyrer.",
+    images: [
+      "/logo-lightning.svg"
+    ]
+  },
+  alternates: {
+    canonical: "https://stromsjef.no/"
+  }
+};
 
 // Force dynamic rendering to get fresh data
 export const dynamic = 'force-dynamic';
@@ -73,19 +105,14 @@ export default async function Home() {
               Se avtaler
             </Link>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-4">
-            <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
-              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              Kun gode avtaler
-            </span>
-            <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
-              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              Ingen skjulte gebyrer
-            </span>
-            <span className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm font-semibold border border-white/20">
-              <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-              1000+ fornøyde kunder
-            </span>
+          {/* Ny fordel-liste */}
+          <div className="bg-white/10 rounded-xl p-6 max-w-xl mx-auto mt-8">
+            <h2 className="text-2xl font-bold mb-4">Hva du får med Strømsjef.no</h2>
+            <ul className="text-left space-y-3 text-lg">
+              <li className="flex items-start gap-2"><span className="text-green-300 text-xl">✔️</span>Vi viser bare avtaler som er verdt å vurdere</li>
+              <li className="flex items-start gap-2"><span className="text-green-300 text-xl">✔️</span>Gratis bytte – din gamle avtale sies opp automatisk</li>
+              <li className="flex items-start gap-2"><span className="text-green-300 text-xl">✔️</span>Full valgfrihet – velg mellom spotpris (markedspris) eller fastpris med valgt periode</li>
+            </ul>
           </div>
         </div>
       </section>
