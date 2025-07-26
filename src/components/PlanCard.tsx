@@ -43,7 +43,7 @@ const PlanCard = ({ plan }: PlanCardProps) => {
           </div>
           <div>
             <p className="text-sm text-gray-500">Bindingstid</p>
-            <p>{plan.bindingTimeText ? plan.bindingTimeText : `${plan.bindingTime} mnd`}</p>
+            <p>{plan.bindingTimeText ? plan.bindingTimeText : (plan.bindingTime === 0 ? 'Ingen bindingstid' : `${plan.bindingTime} mnd`)}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Prissone</p>
