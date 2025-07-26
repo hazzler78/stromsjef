@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: "Strømsjef",
     images: [
       {
-        url: "/logo-lightning.svg",
+        url: "https://stromsjef.no/logo-lightning.svg",
         width: 1200,
         height: 630,
         alt: "Strømsjef logo"
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "Strømsjef - Finn billig strømavtale",
     description: "Finn billig strømavtale og bytt strømleverandør for å spare penger.",
     images: [
-      "/logo-lightning.svg"
+      "https://stromsjef.no/logo-lightning.svg"
     ]
   },
   alternates: {
@@ -67,8 +67,8 @@ export default function RootLayout({
           />
         )}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <meta property="og:image" content="/logo-lightning.svg" />
-        <meta name="twitter:image" content="/logo-lightning.svg" />
+        <meta property="og:image" content="https://stromsjef.no/logo-lightning.svg" />
+        <meta name="twitter:image" content="https://stromsjef.no/logo-lightning.svg" />
         <meta name="keywords" content="strøm, strømavtale, billig strøm, bytte strøm, strømleverandør, strømpriser, Norge, fastpris, spotpris, finn billig strømavtale" />
         <meta property="og:title" content="Strømsjef - Finn billig strømavtale" />
         <meta property="og:description" content="Finn billig strømavtale og bytt strømleverandør for å spare penger." />
