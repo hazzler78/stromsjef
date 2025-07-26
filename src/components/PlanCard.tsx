@@ -41,10 +41,16 @@ const PlanCard = ({ plan }: PlanCardProps) => {
             <p className="text-sm text-gray-500">Månedsgebyr</p>
             <p className="text-lg font-semibold">{plan.monthlyFee} kr</p>
           </div>
-          <div>
-            <p className="text-sm text-gray-500">Bindingstid</p>
-            <p>{plan.bindingTimeText ? plan.bindingTimeText : (plan.bindingTime === 0 ? 'Ingen bindingstid' : `${plan.bindingTime} mnd`)}</p>
-          </div>
+          {plan.bindingTime === 0 ? (
+            <div>
+              <p className="text-sm text-gray-500">Ingen bindingstid</p>
+            </div>
+          ) : (
+            <div>
+              <p className="text-sm text-gray-500">Bindingstid</p>
+              <p>{plan.bindingTimeText ? plan.bindingTimeText : `${plan.bindingTime} mnd`}</p>
+            </div>
+          )}
           <div>
             <p className="text-sm text-gray-500">Prissone</p>
             <p>{plan.priceZone}</p>
