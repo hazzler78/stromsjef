@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     siteName: "Strømsjef.no",
     images: [
       {
-        url: "/logo-lightning.svg",
+        url: "https://stromsjef.no/logo-lightning.png",
         width: 1200,
         height: 630,
         alt: "Strømsjef logo"
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Om oss – Strømsjef.no",
     description: "Bli kjent med folkene bak Strømsjef.no og vårt mål om å gjøre strømmarkedet enklere og mer rettferdig for alle.",
     images: [
-      "/logo-lightning.svg"
+      "https://stromsjef.no/logo-lightning.png"
     ]
   },
   alternates: {
