@@ -33,9 +33,6 @@ export const metadata: Metadata = {
     images: [
       "/logo-lightning.svg"
     ]
-  },
-  alternates: {
-    canonical: "https://stromsjef.no/"
   }
 };
 
