@@ -33,8 +33,9 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
     return zoneMatch && planTypeMatch;
   });
 
-  // Utvalgte avtaler: featured === true
-  const featuredPlans = filteredPlans.filter(plan => plan.featured);
+  // Utvalgte avtaler: featured === true, sorterade efter sortOrder
+  const featuredPlans = filteredPlans.filter(plan => plan.featured)
+    .sort((a, b) => (a.sortOrder || 999) - (b.sortOrder || 999));
   // Alle andre avtaler
   const otherPlans = filteredPlans.filter(plan => !plan.featured);
 

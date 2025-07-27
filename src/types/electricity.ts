@@ -31,4 +31,5 @@ export interface ElectricityPlan {
   logoUrl?: string;
   affiliateLink: string;
   featured?: boolean; // Mark as recommended/featured
+  sortOrder?: number; // Order for featured products (lower number = higher priority)
 } 

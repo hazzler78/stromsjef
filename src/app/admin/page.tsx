@@ -26,6 +26,7 @@ export default function AdminPage() {
     pricePerKwh: '',
     priceZone: '',
     featured: false,
+    sortOrder: '',
     logoUrl: '',
     affiliateLink: '',
     terminationFee: '',
@@ -61,6 +62,7 @@ export default function AdminPage() {
       pricePerKwh: plan.pricePerKwh,
       priceZone: plan.priceZone,
       featured: !!plan.featured,
+      sortOrder: plan.sortOrder || '',
       logoUrl: plan.logoUrl || '',
       affiliateLink: plan.affiliateLink || '',
       terminationFee: plan.terminationFee || '',
@@ -83,12 +85,12 @@ export default function AdminPage() {
       const res = await fetch('/api/plans', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined }),
+        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunde inte spara ändringar');
       // Uppdatera listan
-      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined } : p));
+      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined } : p));
       setEditId(null);
       setEditValues({});
     } catch (err: any) {
@@ -112,7 +114,7 @@ export default function AdminPage() {
     setAddError(null);
     try {
       const id = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : Math.random().toString(36).slice(2);
-      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined };
+      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), featured: !!newProduct.featured, sortOrder: newProduct.sortOrder ? Number(newProduct.sortOrder) : undefined, terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined };
       const res = await fetch('/api/plans', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -121,7 +123,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunde inte legge til produkt');
       setPlans(plans => [...plans, data.plan]);
-      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, logoUrl: '', affiliateLink: '', terminationFee: '' });
+      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '' });
     } catch (err: any) {
       setAddError(err.message || 'Noe gikk galt ved lagring');
     } finally {
@@ -194,6 +196,7 @@ export default function AdminPage() {
         <label className="flex items-center gap-1">
           <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} /> Mest populär
         </label>
+        <input name="sortOrder" type="number" value={newProduct.sortOrder} onChange={handleNewProductChange} placeholder="Ordning (1=främst)" className="border rounded px-2 py-1" />
         <button type="submit" disabled={adding} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Legg til</button>
         {addError && <span className="text-red-600 text-sm ml-2">{addError}</span>}
       </form>
@@ -210,6 +213,7 @@ export default function AdminPage() {
               <th className="px-4 py-2 border-b">Pris (øre/kWh)</th>
               <th className="px-4 py-2 border-b">Prissone</th>
               <th className="px-4 py-2 border-b">Mest populär</th>
+              <th className="px-4 py-2 border-b">Ordning</th>
               <th className="px-4 py-2 border-b">Bruddgebyr</th>
               <th className="px-4 py-2 border-b">Bild-URL</th>
               <th className="px-4 py-2 border-b">Länk</th>
@@ -226,6 +230,7 @@ export default function AdminPage() {
                     <td className="px-4 py-2"><input name="pricePerKwh" type="number" value={editValues.pricePerKwh} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2"><input name="priceZone" value={editValues.priceZone} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2 text-center"><input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} /></td>
+                    <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Ordning" /></td>
                     <td className="px-4 py-2"><input name="terminationFee" type="number" value={editValues.terminationFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bruddgebyr (kr)" /></td>
                     <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bild-URL (logoUrl)" /></td>
                     <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Länk (affiliateLink)" /></td>
@@ -241,6 +246,7 @@ export default function AdminPage() {
                     <td className="px-4 py-2">{plan.pricePerKwh}</td>
                     <td className="px-4 py-2">{plan.priceZone}</td>
                     <td className="px-4 py-2 text-center">{plan.featured ? '✓' : ''}</td>
+                    <td className="px-4 py-2">{plan.sortOrder || '-'}</td>
                     <td className="px-4 py-2">{plan.terminationFee || '-'}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.logoUrl}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.affiliateLink}</td>

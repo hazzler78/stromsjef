@@ -15,6 +15,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
     logoUrl: '/logos/cheap-energy.png',
     affiliateLink: 'https://cheapenergy.no/privat/cheap-spot/?utm_source=stromsjef.no&utm_medium=affiliate',
     featured: true,
+    sortOrder: 1,
   },
   {
     id: 'ce-spot-no2',
@@ -83,6 +84,7 @@ export const mockElectricityPlans: ElectricityPlan[] = [
     logoUrl: '/logos/cheap-energy.png',
     affiliateLink: 'https://cheapenergy.no/privat/cheap-fast/?utm_source=stromsjef.no&utm_medium=affiliate',
     featured: true,
+    sortOrder: 2,
   },
     {
     id: 'ce-fast69-no2',
