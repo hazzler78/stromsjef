@@ -254,6 +254,7 @@ export async function getAllClickCounts(): Promise<Record<string, number>> {
     const buttonIds: string[] = [
       'business-hero-se-tilbud',
       'business-cta-se-tilbud',
+      'norgespris-cta',
       ...planButtonIds,
     ];
     console.log('🔍 getAllClickCounts: All button IDs:', buttonIds);

@@ -12,6 +12,10 @@ export default function AdminPage() {
   const [plans, setPlans] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Click statistics
+  const [clickStats, setClickStats] = useState<Record<string, number>>({});
+  const [statsLoading, setStatsLoading] = useState(true);
 
   // Lägg till state för redigering
   const [editId, setEditId] = useState<string | null>(null);
@@ -151,14 +155,24 @@ export default function AdminPage() {
     if (!authenticated) return;
     setLoading(true);
     setError(null);
-    fetch('/api/plans')
-      .then(res => {
+    
+    // Fetch plans and click stats
+    Promise.all([
+      fetch('/api/plans').then(res => {
         if (!res.ok) throw new Error('Kunde ikke hente produkter');
         return res.json();
+      }),
+      fetch('/api/plans/dump').then(res => res.json())
+    ])
+      .then(([plansData, statsData]) => {
+        setPlans(plansData.plans || []);
+        setClickStats(statsData.clickStats || {});
       })
-      .then(data => setPlans(data.plans || []))
       .catch(err => setError(err.message || 'Noe gikk galt'))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        setStatsLoading(false);
+      });
   }, [authenticated]);
 
   if (!authenticated) {
@@ -184,6 +198,25 @@ export default function AdminPage() {
   return (
     <div className="max-w-5xl mx-auto py-12">
       <h1 className="text-3xl font-bold mb-8">Admin: Produkter</h1>
+      
+      {/* Click Statistics */}
+      <div className="mb-8 bg-white p-6 rounded shadow">
+        <h2 className="text-2xl font-bold mb-4">Click Statistics</h2>
+        {statsLoading ? (
+          <div className="text-gray-500">Loading click statistics...</div>
+        ) : Object.keys(clickStats).length === 0 ? (
+          <div className="text-gray-500">No click data available yet.</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(clickStats).map(([buttonId, count]) => (
+              <div key={buttonId} className="bg-gray-50 p-3 rounded">
+                <div className="font-mono text-sm text-gray-600">{buttonId}</div>
+                <div className="text-2xl font-bold text-blue-600">{count}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       {/* Lägg till produkt-formulär */}
       <form onSubmit={addProduct} className="mb-8 bg-white p-4 rounded shadow flex flex-wrap gap-4 items-end">
         <input name="planName" value={newProduct.planName} onChange={handleNewProductChange} placeholder="Namn" className="border rounded px-2 py-1" required />
