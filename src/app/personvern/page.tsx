@@ -5,7 +5,7 @@ const PrivacyPolicyPage = () => {
       
       <div className="prose prose-lg max-w-none">
         <p className="text-gray-600 mb-8">
-          Denne avtalen ble sist endret: September 2024
+          Denne avtalen ble sist endret: Juli 2025
         </p>
 
         <section className="mb-8">
