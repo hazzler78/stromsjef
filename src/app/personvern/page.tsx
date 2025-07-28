@@ -11,15 +11,15 @@ const PrivacyPolicyPage = () => {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">PERSONVERN</h2>
           <p className="mb-4">
-            Denne erklæringen gir deg informasjon om hvordan Normann Salg, organisasjonsnummer 927 985 780 (heretter kalt «Selskapet»), håndterer dine personopplysninger, og hvilke rettigheter du har ved bruk av vår nettside "Stromsjef.no". Denne erklæringen gjelder for deg som bruker våre nettsider.
+            Denne erklæringen gir deg informasjon om hvordan VKNG LTD, organisasjonsnummer HE477501 (heretter kalt «Selskapet»), håndterer dine personopplysninger, og hvilke rettigheter du har ved bruk av vår nettside "Stromsjef.no". Denne erklæringen gjelder for deg som bruker våre nettsider.
           </p>
           <p className="mb-4">
             Personopplysninger refererer til informasjon som kan identifisere en fysisk person. Behandling av personopplysninger inkluderer enhver bruk av slik informasjon, både automatisk og manuelt, som innsamling, strukturering, lagring og sletting.
           </p>
           <div className="bg-gray-50 p-4 rounded-lg mb-4">
             <p className="mb-2"><strong>Kontaktinformasjon behandlingsansvarlig:</strong></p>
-            <p className="mb-1"><strong>Navn:</strong> Normann Salg</p>
-            <p className="mb-1"><strong>Org.nr.:</strong> 927 985 780</p>
+            <p className="mb-1"><strong>Navn:</strong> VKNG LTD</p>
+            <p className="mb-1"><strong>Org.nr.:</strong> HE477501</p>
             <p><strong>E-post:</strong> normann.salg@gmail.com</p>
           </div>
         </section>

@@ -168,10 +168,10 @@ const Footer = () => {
               </a>
             </li>
             <li className="text-gray-400">
-              Normann Salg
+              VKNG LTD
             </li>
             <li className="text-gray-400">
-              Org.nr.: 927 985 780
+              Org.nr.: HE477501
             </li>
           </ul>
         </div>

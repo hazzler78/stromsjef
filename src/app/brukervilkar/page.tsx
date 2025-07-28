@@ -11,7 +11,7 @@ const TermsOfServicePage = () => {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">1. Strømsjef.no og våre tjenester</h2>
           <p className="mb-4">
-            Normann Salg (referert til som «Strømsjef.no», «vi», eller «oss») tilbyr en plattform for formidling av strømavtaler via Strømsjef.no.
+            VKNG LTD (referert til som «Strømsjef.no», «vi», eller «oss») tilbyr en plattform for formidling av strømavtaler via Strømsjef.no.
           </p>
           <p className="mb-4">
             Formålet med tjenesten er å gjøre det enklere for forbrukere å finne en god strømavtale ved å presentere et utvalg av forhandlede avtaler.
