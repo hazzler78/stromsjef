@@ -20,7 +20,7 @@ const PrivacyPolicyPage = () => {
             <p className="mb-2"><strong>Kontaktinformasjon behandlingsansvarlig:</strong></p>
             <p className="mb-1"><strong>Navn:</strong> VKNG LTD</p>
             <p className="mb-1"><strong>Org.nr.:</strong> HE477501</p>
-            <p><strong>E-post:</strong> normann.salg@gmail.com</p>
+            <p><strong>E-post:</strong> post@stromsjef.no</p>
           </div>
         </section>
 
