@@ -80,9 +80,9 @@ export default async function LandingPage() {
               </div>
             </div>
             
-            {/* Urgency Indicator */}
+            {/* Savings Indicator */}
             <div className="bg-yellow-400 text-black font-bold text-lg px-6 py-3 rounded-lg mb-8 inline-block animate-pulse-slow">
-              Begrenset tilbud – Ikke gå glipp av det!
+              Spar penger på strømmen
             </div>
             
             <div className="bg-red-600/20 backdrop-blur-sm rounded-2xl p-6 inline-block animate-slide-up-delay-3">
@@ -91,7 +91,7 @@ export default async function LandingPage() {
                 href="https://cheapenergy.no/privat/cheap-spot/?utm_source=stromsjef.no&utm_medium=affiliate"
                 className="btn-cta btn-cta-primary btn-cta-xl hover-glow"
               >
-                JA TAKK – vis meg den billigste strømmen
+                JA TAKK – bestill nå
               </TrackedButton>
             </div>
           </div>
