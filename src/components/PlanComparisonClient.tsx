@@ -169,7 +169,7 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
         {/* Featured Plans Section */}
         {featuredPlans.length > 0 && (
           <div className="mb-12">
-            {/* No heading here */}
+            <h2 className="text-2xl font-bold mb-6 text-center">Mest populære</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredPlans.map(plan => (
                 <PlanCard key={`featured-${plan.id}-${plan.pricePerKwh}-${refreshCount}`} plan={plan} />
@@ -178,22 +178,10 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
           </div>
         )}
 
-        {/* All Other Plans Section */}
-        {otherPlans.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-6 text-center">Alle avtaler</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {otherPlans.map(plan => (
-                <PlanCard key={`all-${plan.id}-${plan.pricePerKwh}-${refreshCount}`} plan={plan} />
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* No Plans Found */}
-        {filteredPlans.length === 0 && (
+        {featuredPlans.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-lg text-gray-600">Fant ingen avtaler for valgte filter.</p>
+            <p className="text-lg text-gray-600">Fant ingen populære avtaler for valgte filter.</p>
             <p className="text-sm text-gray-500 mt-2">Prøv å endre prissone eller avtalestype.</p>
           </div>
         )}

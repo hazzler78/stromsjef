@@ -110,7 +110,7 @@ export default function ContactForm() {
       {error && <div className="text-red-600 text-sm text-center">{error}</div>}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-colors flex items-center justify-center"
+        className="btn-form"
         disabled={loading}
       >
         {loading ? (
