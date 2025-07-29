@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import TrackedButton from '@/components/TrackedButton';
-import PlanComparisonClient from '@/components/PlanComparisonClient';
 import ContactForm from '@/components/ContactForm';
-import { fetchElectricityPlans } from '@/lib/strom-api';
-import { mockElectricityPlans } from '@/data/mock-plans';
-import { ElectricityPlan } from '@/types/electricity';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
@@ -35,29 +31,7 @@ export const metadata: Metadata = {
   }
 };
 
-// Force dynamic rendering to get fresh data
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-export const fetchCache = 'force-no-store';
-
-export default async function LandingPage() {
-  let plans: ElectricityPlan[];
-
-  try {
-    console.log('🔄 Fetching fresh plans from database...');
-    plans = await fetchElectricityPlans();
-    console.log(`✅ Fetched ${plans.length} plans from database`);
-    
-    // Fallback if API returns empty array
-    if (!plans || plans.length === 0) {
-      console.warn("API returned no plans, falling back to mock data.");
-      plans = mockElectricityPlans;
-    }
-  } catch (error) {
-    console.error("API fetch failed, falling back to mock data.", error);
-    plans = mockElectricityPlans; 
-  }
-
+export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Hero Section */}
@@ -286,11 +260,6 @@ export default async function LandingPage() {
             </TrackedButton>
           </div>
         </div>
-      </section>
-
-      {/* Plan Comparison Section - Real Integration */}
-      <section id="sammenligning">
-        <PlanComparisonClient initialPlans={plans} />
       </section>
 
       {/* Contact Support Section */}
