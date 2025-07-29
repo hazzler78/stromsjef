@@ -208,8 +208,13 @@ export default function LandingPage() {
               </div>
               
               <div className="bg-gray-50 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-3">Hva er spotpris?</h3>
+                <p className="text-gray-700">Spotpris er den daglige markedsprisen for strøm. Avtaler du finner på stromsjef.no er ofte uten påslag eller med minuspåslag, noe som betyr at du kan få strøm billigere enn spotpris.</p>
+              </div>
+              
+              <div className="bg-gray-50 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-3">Er det noen bindingstid?</h3>
-                <p className="text-gray-700">Nei, ingen bindingstid. Du kan bytte leverandør når som helst uten gebyrer.</p>
+                <p className="text-gray-700">De fleste spotprisavtaler er uten bindingstid, men fastprisavtaler har bindingstid. Du kan bytte leverandør når som helst uten gebyrer på spotprisavtaler.</p>
               </div>
               
               <div className="bg-gray-50 rounded-xl p-6">
@@ -270,7 +275,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="mailto:kontakt@stromsjef.no"
+                href="mailto:post@stromsjef.no"
                 className="btn-cta btn-cta-primary"
               >
                 Send e-post
