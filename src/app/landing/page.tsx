@@ -54,16 +54,11 @@ export default function LandingPage() {
               </div>
             </div>
             
-            {/* Savings Indicator */}
-            <div className="bg-yellow-400 text-black font-bold text-lg px-6 py-3 rounded-lg mb-8 inline-block animate-pulse-slow">
-              Spar penger på strømmen
-            </div>
-            
-            <div className="bg-red-600/20 backdrop-blur-sm rounded-2xl p-6 inline-block animate-slide-up-delay-3">
+            <div className="bg-yellow-400/20 backdrop-blur-sm rounded-2xl p-6 inline-block">
               <TrackedButton
                 buttonId="hero-cta"
                 href="https://cheapenergy.no/privat/cheap-spot/?utm_source=stromsjef.no&utm_medium=affiliate"
-                className="btn-cta btn-cta-primary btn-cta-xl hover-glow"
+                className="btn-cta btn-cta-primary btn-cta-xl hover-glow animate-pulse-slow"
               >
                 JA TAKK – bestill nå
               </TrackedButton>
