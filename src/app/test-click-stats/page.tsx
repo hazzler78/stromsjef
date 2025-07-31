@@ -11,13 +11,29 @@ export default function TestClickStats() {
   const [clickStats, setClickStats] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
-  function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (password === "grodan2025") {
-      setAuthenticated(true);
-      setLoginError("");
-    } else {
-      setLoginError("Feil passord. Prøv igjen.");
+    setLoginError("");
+    
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setAuthenticated(true);
+        setPassword("");
+      } else {
+        setLoginError(data.error || "Feil passord. Prøv igjen.");
+      }
+    } catch (error) {
+      setLoginError("Kunne ikke koble til server. Prøv igjen.");
     }
   }
 

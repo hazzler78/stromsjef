@@ -59,14 +59,14 @@ export default function MediaPage() {
                   <span className="text-xs text-gray-400">Publisert: {post.date}</span>
                 )}
               </div>
-              {/* Plats for logotyp eller bilde i framtiden */}
+              {/* Plass for logo eller bilde i fremtiden */}
             </div>
           </a>
         ))}
       </div>
       <div className="mt-10 text-center">
         <a
-          href="https://www.google.com/search?q=mathias+nilsson+str%C3%B8m&oq=mathias+nilsson+str%C3%B8m+&gs_lcrp=EgZjaHJvbWUyCggAEEUYFhgeGDkyBggBECMYJzIKCAIQABiABBiiBDIKCAMQABiABBiiBDIHCAQQABjvBdIBCTY1MzQ3ajBqNKgCDrACAfEF2jF6Kjpct74&client=ms-android-samsung-ss&sourceid=chrome-mobile&ie=UTF-8#ip=1"
+          href="https://www.google.com/search?q=mathias+nilsson+str%C3%B8msjef"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block mt-4 text-blue-700 hover:underline text-lg font-medium"

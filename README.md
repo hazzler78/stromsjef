@@ -29,7 +29,12 @@ A Next.js application for comparing electricity plans in Norway, integrated with
 
 ## Environment Variables
 
+Create a `.env.local` file in the root directory with the following variables:
+
 ```env
+# Admin Authentication (REQUIRED)
+ADMIN_PASSWORD=your_secure_password_here
+
 # Telegram Bot
 TELEGRAM_BOT_TOKEN=your_bot_token
 TELEGRAM_WEBHOOK_URL=your_webhook_url
@@ -39,7 +44,19 @@ AUTHORIZED_USER_IDS=user_id1,user_id2
 KV_REST_API_URL=your_kv_url
 KV_REST_API_TOKEN=your_kv_token
 KV_REST_API_READ_ONLY_TOKEN=your_readonly_token
+
+# Google Tag Manager
+GTM_ID=your_gtm_id_here
 ```
+
+### Vercel Deployment
+
+For production deployment on Vercel, add these environment variables in your Vercel dashboard:
+
+1. Go to your project in Vercel
+2. Navigate to Settings → Environment Variables
+3. Add each variable from the list above
+4. Make sure to set `ADMIN_PASSWORD` to a secure password
 
 ## API Endpoints
 
