@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function AdminPage() {
-  // Lösenordsskydd
+  // Passordsskydd
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -17,13 +17,13 @@ export default function AdminPage() {
   const [clickStats, setClickStats] = useState<Record<string, number>>({});
   const [statsLoading, setStatsLoading] = useState(true);
 
-  // Lägg till state för redigering
+  // Legg til state for redigering
   const [editId, setEditId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<any>({});
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  // State för ny produkt
+  // State for ny produkt
   const [newProduct, setNewProduct] = useState({
     planName: '',
     supplierName: '',
@@ -48,7 +48,7 @@ export default function AdminPage() {
     }
   }
 
-  // Hantera ändring i inputfält
+  // Håndter endring i inputfelt
   function handleEditChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value, type, checked } = e.target;
     setEditValues({
@@ -57,7 +57,7 @@ export default function AdminPage() {
     });
   }
 
-  // Starta redigering
+  // Start redigering
   function startEdit(plan: any) {
     setEditId(plan.id);
     setEditValues({
@@ -81,7 +81,7 @@ export default function AdminPage() {
     setSaveError(null);
   }
 
-  // Spara ändringar
+  // Lagre endringer
   async function saveEdit(plan: any) {
     setSaving(true);
     setSaveError(null);
@@ -92,13 +92,13 @@ export default function AdminPage() {
         body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined }),
       });
       const data = await res.json();
-      if (!data.success) throw new Error(data.error || 'Kunde inte spara ändringar');
-      // Uppdatera listan
+      if (!data.success) throw new Error(data.error || 'Kunne ikke lagre endringer');
+      // Oppdater listen
       setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined } : p));
       setEditId(null);
       setEditValues({});
     } catch (err: any) {
-      setSaveError(err.message || 'Något gick fel vid sparande');
+      setSaveError(err.message || 'Noe gikk galt ved lagring');
     } finally {
       setSaving(false);
     }
@@ -125,7 +125,7 @@ export default function AdminPage() {
         body: JSON.stringify(planToAdd),
       });
       const data = await res.json();
-      if (!data.success) throw new Error(data.error || 'Kunde inte legge til produkt');
+      if (!data.success) throw new Error(data.error || 'Kunne ikke legge til produkt');
       setPlans(plans => [...plans, data.plan]);
       setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '' });
     } catch (err: any) {
@@ -144,7 +144,7 @@ export default function AdminPage() {
         body: JSON.stringify({ id: plan.id }),
       });
       const data = await res.json();
-      if (!data.success) throw new Error(data.error || 'Kunde ikke slette produkt');
+      if (!data.success) throw new Error(data.error || 'Kunne ikke slette produkt');
       setPlans(plans => plans.filter(p => p.id !== plan.id));
     } catch (err: any) {
       alert(err.message || 'Noe gikk galt ved sletting');
@@ -159,7 +159,7 @@ export default function AdminPage() {
     // Fetch plans and click stats
     Promise.all([
       fetch('/api/plans').then(res => {
-        if (!res.ok) throw new Error('Kunde ikke hente produkter');
+        if (!res.ok) throw new Error('Kunne ikke hente produkter');
         return res.json();
       }),
       fetch('/api/plans/dump').then(res => res.json())
@@ -217,19 +217,19 @@ export default function AdminPage() {
           </div>
         )}
       </div>
-      {/* Lägg till produkt-formulär */}
+      {/* Legg til produkt-formulær */}
       <form onSubmit={addProduct} className="mb-8 bg-white p-4 rounded shadow flex flex-wrap gap-4 items-end">
-        <input name="planName" value={newProduct.planName} onChange={handleNewProductChange} placeholder="Namn" className="border rounded px-2 py-1" required />
+        <input name="planName" value={newProduct.planName} onChange={handleNewProductChange} placeholder="Navn" className="border rounded px-2 py-1" required />
         <input name="supplierName" value={newProduct.supplierName} onChange={handleNewProductChange} placeholder="Leverandør" className="border rounded px-2 py-1" required />
         <input name="pricePerKwh" type="number" value={newProduct.pricePerKwh} onChange={handleNewProductChange} placeholder="Pris (øre/kWh)" className="border rounded px-2 py-1" required />
         <input name="priceZone" value={newProduct.priceZone} onChange={handleNewProductChange} placeholder="Prissone" className="border rounded px-2 py-1" required />
-        <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Bild-URL (logoUrl)" className="border rounded px-2 py-1" />
-        <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Länk (affiliateLink)" className="border rounded px-2 py-1" />
+        <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Bilde-URL (logoUrl)" className="border rounded px-2 py-1" />
+        <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Lenke (affiliateLink)" className="border rounded px-2 py-1" />
         <input name="terminationFee" type="number" value={newProduct.terminationFee} onChange={handleNewProductChange} placeholder="Bruddgebyr (kr)" className="border rounded px-2 py-1" />
         <label className="flex items-center gap-1">
-          <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} /> Mest populär
+          <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} /> Mest populær
         </label>
-        <input name="sortOrder" type="number" value={newProduct.sortOrder} onChange={handleNewProductChange} placeholder="Ordning (1=främst)" className="border rounded px-2 py-1" />
+        <input name="sortOrder" type="number" value={newProduct.sortOrder} onChange={handleNewProductChange} placeholder="Rekkefølge (1=først)" className="border rounded px-2 py-1" />
         <button type="submit" disabled={adding} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Legg til</button>
         {addError && <span className="text-red-600 text-sm ml-2">{addError}</span>}
       </form>
@@ -241,15 +241,15 @@ export default function AdminPage() {
         <table className="min-w-full bg-white border rounded shadow">
           <thead>
             <tr>
-              <th className="px-4 py-2 border-b">Namn</th>
+              <th className="px-4 py-2 border-b">Navn</th>
               <th className="px-4 py-2 border-b">Leverandør</th>
               <th className="px-4 py-2 border-b">Pris (øre/kWh)</th>
               <th className="px-4 py-2 border-b">Prissone</th>
-              <th className="px-4 py-2 border-b">Mest populär</th>
-              <th className="px-4 py-2 border-b">Ordning</th>
+              <th className="px-4 py-2 border-b">Mest populær</th>
+              <th className="px-4 py-2 border-b">Rekkefølge</th>
               <th className="px-4 py-2 border-b">Bruddgebyr</th>
-              <th className="px-4 py-2 border-b">Bild-URL</th>
-              <th className="px-4 py-2 border-b">Länk</th>
+              <th className="px-4 py-2 border-b">Bilde-URL</th>
+              <th className="px-4 py-2 border-b">Lenke</th>
               <th className="px-4 py-2 border-b"></th>
             </tr>
           </thead>
@@ -263,12 +263,12 @@ export default function AdminPage() {
                     <td className="px-4 py-2"><input name="pricePerKwh" type="number" value={editValues.pricePerKwh} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2"><input name="priceZone" value={editValues.priceZone} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2 text-center"><input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} /></td>
-                    <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Ordning" /></td>
+                    <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Rekkefølge" /></td>
                     <td className="px-4 py-2"><input name="terminationFee" type="number" value={editValues.terminationFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bruddgebyr (kr)" /></td>
-                    <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bild-URL (logoUrl)" /></td>
-                    <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Länk (affiliateLink)" /></td>
+                    <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bilde-URL (logoUrl)" /></td>
+                    <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Lenke (affiliateLink)" /></td>
                     <td className="px-4 py-2 flex gap-2">
-                      <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Spara</button>
+                      <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Lagre</button>
                       <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400">Avbryt</button>
                     </td>
                   </>
@@ -284,7 +284,7 @@ export default function AdminPage() {
                     <td className="px-4 py-2 break-all text-xs">{plan.logoUrl}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.affiliateLink}</td>
                     <td className="px-4 py-2">
-                      <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Redigera</button>
+                      <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Rediger</button>
                       <button onClick={() => deleteProduct(plan)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 ml-2">Ta bort</button>
                     </td>
                   </>

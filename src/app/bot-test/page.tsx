@@ -10,9 +10,9 @@ interface Message {
 
 interface TestResult {
   originalMessage?: string;
-  parsedCommands?: unknown[];
-  validationResults?: unknown[];
-  updateResult?: unknown;
+  parsedCommands?: any[];
+  validationResults?: any[];
+  updateResult?: any;
   currentPrices?: string;
   error?: string;
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function TestClickStats() {
-  // Lösenordsskydd
+  // Passordsskydd
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");

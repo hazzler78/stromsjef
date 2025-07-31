@@ -157,7 +157,7 @@ const FastpriskalkulatorPage = () => {
                 Få beskjed når den nye kalkulatoren er klar!
               </h3>
               <p className="text-sm mb-6" style={{ color: '#1f2937' }}>
-                Anmäl dig för att få uppdateringar när den nya AI-drivna fastpriskalkulatorn lanseras
+                Meld deg på for å få oppdateringer når den nye AI-drevne fastpriskalkulatoren lanseres
               </p>
               
               {isSubmitted ? (
@@ -167,7 +167,7 @@ const FastpriskalkulatorPage = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <p className="text-green-800 font-medium">
-                      Tack! Du är nu anmäld för uppdateringar
+                      Takk! Du er nå meldt på for oppdateringer
                     </p>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ const FastpriskalkulatorPage = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-1" style={{ color: '#111827' }}>
-                      Namn
+                      Navn
                     </label>
                     <input
                       type="text"
@@ -183,7 +183,7 @@ const FastpriskalkulatorPage = () => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="Ditt namn"
+                      placeholder="Ditt navn"
                       required
                     />
                   </div>
@@ -197,7 +197,7 @@ const FastpriskalkulatorPage = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                      placeholder="din@mail.no"
+                      placeholder="din@epost.no"
                       required
                     />
                   </div>
@@ -207,7 +207,7 @@ const FastpriskalkulatorPage = () => {
                     className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     style={{ color: '#fff' }}
                   >
-                    {isSubmitting ? 'Anmäler...' : 'Anmäl för oppdateringer'}
+                    {isSubmitting ? 'Meld på...' : 'Meld på for oppdateringer'}
                   </button>
                 </form>
               )}

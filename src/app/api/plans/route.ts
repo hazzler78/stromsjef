@@ -64,7 +64,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const plan = await request.json();
-    // Enkel validering (kan utökas)
+    // Enkel validering (kan utvides)
     if (!plan || !plan.id || !plan.supplierName || !plan.planName || !plan.priceZone) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
@@ -85,17 +85,17 @@ export async function DELETE(request: Request) {
     if (!id) {
       return NextResponse.json({ success: false, error: 'Missing id' }, { status: 400 });
     }
-    // Hämta alla planer
+    // Hent alle planer
     const plans = await getAllPlans();
     const index = plans.findIndex(p => p.id === id);
     if (index === -1) {
       return NextResponse.json({ success: false, error: 'Plan not found' }, { status: 404 });
     }
     plans.splice(index, 1);
-    // Spara tillbaka
+    // Lagre tilbake
     if (process.env.NODE_ENV === 'development' && (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN)) {
-      // inMemoryPlans hanteras i database.ts
-      // Vi kan inte nå inMemoryPlans här, så vi hoppar över dev-mode delete
+      // inMemoryPlans håndteres i database.ts
+      // Vi kan ikke nå inMemoryPlans her, så vi hopper over dev-mode delete
     } else {
       const { kv } = await import('@vercel/kv');
       await kv.set('electricity_plans', plans);
@@ -119,7 +119,7 @@ export async function PUT(request: Request) {
     }
     plans[index] = { ...plans[index], ...plan };
     if (process.env.NODE_ENV === 'development' && (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN)) {
-      // inMemoryPlans hanteras i database.ts
+      // inMemoryPlans håndteres i database.ts
     } else {
       const { kv } = await import('@vercel/kv');
       await kv.set('electricity_plans', plans);

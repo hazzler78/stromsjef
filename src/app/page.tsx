@@ -116,7 +116,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Kontaktformulär - flyttad upp */}
+      {/* Kontaktformulær - flyttet opp */}
       <section className="py-12 bg-blue-50">
         <div className="container mx-auto max-w-2xl">
           <h2 className="text-3xl font-bold text-center text-blue-800 mb-4">Få personlig hjelp – vi finner den beste strømavtalen for deg!</h2>
