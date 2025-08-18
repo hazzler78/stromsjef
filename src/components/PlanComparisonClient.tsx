@@ -26,7 +26,14 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
 
   // Filter plans based on selected zone and plan type
   const filteredPlans = plans.filter(plan => {
-    const zoneMatch = selectedZone === 'alle' || plan.priceZone === selectedZone;
+    const planZone = String(plan.priceZone ?? '').toUpperCase().trim();
+    const selectedZoneNormalized = selectedZone === 'alle'
+      ? 'ALLE'
+      : String(selectedZone).toUpperCase().trim();
+    const zoneMatch =
+      selectedZone === 'alle' ||
+      planZone === selectedZoneNormalized ||
+      planZone === 'ALLE';
     const planTypeMatch = selectedPlanType === 'all' || 
       (selectedPlanType === 'spotpris' && plan.planName.toLowerCase().includes('spot')) ||
       (selectedPlanType === 'fastpris' && plan.planName.toLowerCase().includes('fast'));
@@ -149,9 +156,11 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
               className="p-3 border rounded-lg bg-white shadow-sm flex-1"
             >
               <option value="alle">Alle prissoner</option>
-              {Object.values(PriceZone).map(zone => (
-                <option key={zone} value={zone}>{zone} ({PriceZoneNames[zone]})</option>
-              ))}
+              {Object.values(PriceZone)
+                .filter(zone => zone !== PriceZone.ALLE)
+                .map(zone => (
+                  <option key={zone} value={zone}>{zone} ({PriceZoneNames[zone]})</option>
+                ))}
             </select>
             
             <select 
@@ -183,6 +192,18 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
           <div className="text-center py-12">
             <p className="text-lg text-gray-600">Fant ingen populære avtaler for valgte filter.</p>
             <p className="text-sm text-gray-500 mt-2">Prøv å endre prissone eller avtalestype.</p>
+          </div>
+        )}
+
+        {/* Other Plans Section */}
+        {otherPlans.length > 0 && (
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold mb-6 text-center">Alle avtaler</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {otherPlans.map(plan => (
+                <PlanCard key={`other-${plan.id}-${plan.pricePerKwh}-${refreshCount}`} plan={plan} />
+              ))}
+            </div>
           </div>
         )}
       </div>
