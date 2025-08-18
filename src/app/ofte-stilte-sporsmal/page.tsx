@@ -35,7 +35,7 @@ const FAQPage = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-8">
         <p className="text-gray-700">
           Her finner du svar på de vanligste spørsmålene om Strømsjef og strømavtaler. Finner du ikke svaret du leter etter?
-          <Link href="mailto:info@stromsjef.no" className="text-blue-700 hover:underline ml-1">
+          <Link href="mailto:post@stromsjef.no" className="text-blue-700 hover:underline ml-1">
             Ta kontakt med oss
           </Link> så hjelper vi deg gjerne!
         </p>
@@ -51,7 +51,7 @@ const FAQPage = () => {
           Noen strømavtaler gjelder kun for bestemte geografiske områder eller prissoner. Skriv inn ditt postnummer for å se hvilke avtaler som gjelder for deg.
         </FAQItem>
         <FAQItem question="Hvordan kan jeg kontakte dere?">
-          Du kan sende oss en e-post på <a href="mailto:info@stromsjef.no" className="text-blue-700 hover:underline">info@stromsjef.no</a> – vi svarer så raskt vi kan!
+          Du kan sende oss en e-post på <a href="mailto:post@stromsjef.no" className="text-blue-700 hover:underline">post@stromsjef.no</a> – vi svarer så raskt vi kan!
         </FAQItem>
         <FAQItem question="Hvordan fungerer bytte av strømleverandør?">
           Det er enkelt! Finn en avtale du liker, bestill via lenken, og den nye leverandøren ordner resten – inkludert oppsigelse av din gamle avtale. Du får ingen strømbrudd.
