@@ -2,10 +2,24 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  return NextResponse.json({ 
-    status: 'ok', 
-    message: 'Test endpoint working',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV
-  });
+  try {
+    console.log('🧪 Test endpoint: Basic functionality test');
+    
+    return NextResponse.json({
+      success: true,
+      message: 'Basic API functionality is working',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Test endpoint error:', error);
+    return NextResponse.json(
+      { 
+        success: false, 
+        error: 'Test endpoint failed',
+        details: error instanceof Error ? error.message : String(error),
+        timestamp: new Date().toISOString()
+      },
+      { status: 500 }
+    );
+  }
 } 

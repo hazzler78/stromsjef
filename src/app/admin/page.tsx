@@ -213,7 +213,17 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-5xl mx-auto py-12">
-      <h1 className="text-3xl font-bold mb-8">Admin: Produkter</h1>
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-bold">Admin: Produkter</h1>
+        <div className="flex gap-2">
+          <a
+            href="/admin/price-updates"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Automatisk prisuppdatering
+          </a>
+        </div>
+      </div>
       
       {/* Click Statistics */}
       <div className="mb-8 bg-white p-6 rounded shadow">

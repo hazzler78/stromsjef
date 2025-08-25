@@ -321,4 +321,6 @@ export async function addPlan(plan: ElectricityPlan): Promise<boolean> {
     console.error('addPlan: Error adding plan:', error);
     return false;
   }
-} 
+}
+
+ 

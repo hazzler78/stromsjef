@@ -104,13 +104,13 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
     }
   };
 
-  // Auto-refresh every 30 seconds
+  // Auto-refresh every 5 minutes
   useEffect(() => {
     console.log('🕐 Setting up auto-refresh timer');
     const interval = setInterval(() => {
       console.log('🕐 Auto-refresh triggered');
       refreshPlans(true); // Pass true to indicate auto-refresh
-    }, 30000); // 30 seconds
+    }, 300000); // 5 minutes
 
     return () => {
       console.log('🕐 Clearing auto-refresh timer');
@@ -145,7 +145,7 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
           )}
           
           <p className="text-sm text-gray-500 mb-4">
-            Sist oppdatert: {lastUpdated.toLocaleTimeString('nb-NO')} (auto-oppdatering hvert 30. sekund, {refreshCount} oppdateringer)
+            Sist oppdatert: {lastUpdated.toLocaleTimeString('nb-NO')} (auto-oppdatering hvert 5. minutt, {refreshCount} oppdateringer)
           </p>
 
           {/* Filters */}

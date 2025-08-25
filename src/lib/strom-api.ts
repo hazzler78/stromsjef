@@ -20,6 +20,13 @@ interface ElectricityPrice {
   timestamp: string;
 }
 
+interface StromArea {
+  name: string;
+  displayName: string;
+  code: string;
+  vatExemption: boolean;
+}
+
 let tokenCache: { token: string; expiresAt: number } | null = null;
 
 async function getAccessToken(): Promise<string> {
@@ -91,7 +98,7 @@ export async function fetchElectricityPlans(): Promise<ElectricityPlan[]> {
   }
 }
 
-async function fetchFromExternalAPI(): Promise<ElectricityPlan[]> {
+export async function fetchFromExternalAPI(): Promise<ElectricityPlan[]> {
   const token = await getAccessToken();
   const response = await fetch(`${process.env.STROM_API_URL}/products`, {
     headers: {
@@ -123,4 +130,24 @@ async function fetchFromExternalAPI(): Promise<ElectricityPlan[]> {
     }));
 
   return plans;
+}
+
+export async function fetchAreasFromStromAPI(): Promise<StromArea[]> {
+  const token = await getAccessToken();
+  const response = await fetch(`${process.env.STROM_API_URL}/areas`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    next: { revalidate: 3600 }
+  });
+
+  if (!response.ok) {
+    console.error('Failed to fetch areas from Strom API:', await response.text());
+    throw new Error('Could not fetch areas from Strom API');
+  }
+
+  const areas: StromArea[] = await response.json();
+  console.log("Strom API areas:", areas);
+
+  return areas;
 } 
