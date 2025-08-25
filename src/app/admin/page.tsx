@@ -36,6 +36,7 @@ export default function AdminPage() {
     terminationFee: '',
     bindingTime: '',
     bindingTimeText: '',
+    finePrint: '',
   });
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
@@ -90,6 +91,7 @@ export default function AdminPage() {
       terminationFee: plan.terminationFee || '',
       bindingTime: plan.bindingTime || '',
       bindingTimeText: plan.bindingTimeText || '',
+      finePrint: plan.finePrint || '',
     });
     setSaveError(null);
   }
@@ -109,12 +111,12 @@ export default function AdminPage() {
       const res = await fetch('/api/plans', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined }),
+        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined, finePrint: editValues.finePrint || undefined }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunne ikke lagre endringer');
       // Oppdater listen
-      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined } : p));
+      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined, finePrint: editValues.finePrint || undefined } : p));
       setEditId(null);
       setEditValues({});
     } catch (err: any) {
@@ -138,7 +140,7 @@ export default function AdminPage() {
     setAddError(null);
     try {
       const id = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : Math.random().toString(36).slice(2);
-      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), featured: !!newProduct.featured, sortOrder: newProduct.sortOrder ? Number(newProduct.sortOrder) : undefined, terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined, bindingTime: newProduct.bindingTime ? Number(newProduct.bindingTime) : undefined, bindingTimeText: newProduct.bindingTimeText || undefined };
+      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), featured: !!newProduct.featured, sortOrder: newProduct.sortOrder ? Number(newProduct.sortOrder) : undefined, terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined, bindingTime: newProduct.bindingTime ? Number(newProduct.bindingTime) : undefined, bindingTimeText: newProduct.bindingTimeText || undefined, finePrint: newProduct.finePrint || undefined };
       const res = await fetch('/api/plans', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -147,7 +149,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunne ikke legge til produkt');
       setPlans(plans => [...plans, data.plan]);
-      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '', bindingTime: '', bindingTimeText: '' });
+      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '', bindingTime: '', bindingTimeText: '', finePrint: '' });
     } catch (err: any) {
       setAddError(err.message || 'Noe gikk galt ved lagring');
     } finally {
@@ -258,6 +260,7 @@ export default function AdminPage() {
         <input name="terminationFee" type="number" value={newProduct.terminationFee} onChange={handleNewProductChange} placeholder="Bruddgebyr (kr)" className="border rounded px-2 py-1" />
         <input name="bindingTime" type="number" value={newProduct.bindingTime} onChange={handleNewProductChange} placeholder="Bindingstid (mnd)" className="border rounded px-2 py-1" />
         <input name="bindingTimeText" value={newProduct.bindingTimeText} onChange={handleNewProductChange} placeholder="Bindingstid tekst (f.eks. 'Til 01.10.2025')" className="border rounded px-2 py-1" />
+        <input name="finePrint" value={newProduct.finePrint} onChange={handleNewProductChange} placeholder="Finstilt text (f.eks. 'Kun for nye kunder, med estimert årsforbruk fra Elhub lavere enn 40.000 kWh.')" className="border rounded px-2 py-1" />
         <label className="flex items-center gap-1">
           <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} /> Mest populær
         </label>
@@ -282,6 +285,7 @@ export default function AdminPage() {
               <th className="px-4 py-2 border-b">Bruddgebyr</th>
               <th className="px-4 py-2 border-b">Bindingstid</th>
               <th className="px-4 py-2 border-b">Bindingstid tekst</th>
+              <th className="px-4 py-2 border-b">Finstilt text</th>
               <th className="px-4 py-2 border-b">Bilde-URL</th>
               <th className="px-4 py-2 border-b">Lenke</th>
               <th className="px-4 py-2 border-b"></th>
@@ -301,6 +305,7 @@ export default function AdminPage() {
                     <td className="px-4 py-2"><input name="terminationFee" type="number" value={editValues.terminationFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bruddgebyr (kr)" /></td>
                     <td className="px-4 py-2"><input name="bindingTime" type="number" value={editValues.bindingTime} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid (mnd)" /></td>
                     <td className="px-4 py-2"><input name="bindingTimeText" value={editValues.bindingTimeText} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid tekst" /></td>
+                    <td className="px-4 py-2"><input name="finePrint" value={editValues.finePrint} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Finstilt text" /></td>
                     <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bilde-URL (logoUrl)" /></td>
                     <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Lenke (affiliateLink)" /></td>
                     <td className="px-4 py-2 flex gap-2">
@@ -319,6 +324,7 @@ export default function AdminPage() {
                     <td className="px-4 py-2">{plan.terminationFee || '-'}</td>
                     <td className="px-4 py-2">{plan.bindingTime || '-'}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.bindingTimeText || '-'}</td>
+                    <td className="px-4 py-2 break-all text-xs">{plan.finePrint || '-'}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.logoUrl}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.affiliateLink}</td>
                     <td className="px-4 py-2">

@@ -27,6 +27,7 @@ export interface ElectricityPlan {
   terminationFee?: number; // Optional termination fee
   termsGuarantee?: string; // Optional terms guarantee text
   guaranteeDisclaimer?: string; // Optional text for after guarantee expires
+  finePrint?: string; // Optional fine print text for special conditions
   priceZone: PriceZone;
   logoUrl?: string;
   affiliateLink: string;

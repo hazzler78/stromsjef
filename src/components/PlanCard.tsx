@@ -78,6 +78,11 @@ const PlanCard = ({ plan }: PlanCardProps) => {
             <p>{plan.guaranteeDisclaimer}</p>
           </div>
         )}
+        {plan.finePrint && (
+          <div className="mt-2 text-xs text-red-600 font-medium">
+            <p>{plan.finePrint}</p>
+          </div>
+        )}
       </div>
       <div className="mt-4 text-xs text-gray-500 text-center">
         Finn billig strømavtale på{' '}
