@@ -34,6 +34,8 @@ export default function AdminPage() {
     logoUrl: '',
     affiliateLink: '',
     terminationFee: '',
+    bindingTime: '',
+    bindingTimeText: '',
   });
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
@@ -86,6 +88,8 @@ export default function AdminPage() {
       logoUrl: plan.logoUrl || '',
       affiliateLink: plan.affiliateLink || '',
       terminationFee: plan.terminationFee || '',
+      bindingTime: plan.bindingTime || '',
+      bindingTimeText: plan.bindingTimeText || '',
     });
     setSaveError(null);
   }
@@ -105,12 +109,12 @@ export default function AdminPage() {
       const res = await fetch('/api/plans', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined }),
+        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunne ikke lagre endringer');
       // Oppdater listen
-      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined } : p));
+      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined } : p));
       setEditId(null);
       setEditValues({});
     } catch (err: any) {
@@ -134,7 +138,7 @@ export default function AdminPage() {
     setAddError(null);
     try {
       const id = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : Math.random().toString(36).slice(2);
-      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), featured: !!newProduct.featured, sortOrder: newProduct.sortOrder ? Number(newProduct.sortOrder) : undefined, terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined };
+      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), featured: !!newProduct.featured, sortOrder: newProduct.sortOrder ? Number(newProduct.sortOrder) : undefined, terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined, bindingTime: newProduct.bindingTime ? Number(newProduct.bindingTime) : undefined, bindingTimeText: newProduct.bindingTimeText || undefined };
       const res = await fetch('/api/plans', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -143,7 +147,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunne ikke legge til produkt');
       setPlans(plans => [...plans, data.plan]);
-      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '' });
+      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '', bindingTime: '', bindingTimeText: '' });
     } catch (err: any) {
       setAddError(err.message || 'Noe gikk galt ved lagring');
     } finally {
@@ -252,6 +256,8 @@ export default function AdminPage() {
         <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Bilde-URL (logoUrl)" className="border rounded px-2 py-1" />
         <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Lenke (affiliateLink)" className="border rounded px-2 py-1" />
         <input name="terminationFee" type="number" value={newProduct.terminationFee} onChange={handleNewProductChange} placeholder="Bruddgebyr (kr)" className="border rounded px-2 py-1" />
+        <input name="bindingTime" type="number" value={newProduct.bindingTime} onChange={handleNewProductChange} placeholder="Bindingstid (mnd)" className="border rounded px-2 py-1" />
+        <input name="bindingTimeText" value={newProduct.bindingTimeText} onChange={handleNewProductChange} placeholder="Bindingstid tekst (f.eks. 'Til 01.10.2025')" className="border rounded px-2 py-1" />
         <label className="flex items-center gap-1">
           <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} /> Mest populær
         </label>
@@ -274,6 +280,8 @@ export default function AdminPage() {
               <th className="px-4 py-2 border-b">Mest populær</th>
               <th className="px-4 py-2 border-b">Rekkefølge</th>
               <th className="px-4 py-2 border-b">Bruddgebyr</th>
+              <th className="px-4 py-2 border-b">Bindingstid</th>
+              <th className="px-4 py-2 border-b">Bindingstid tekst</th>
               <th className="px-4 py-2 border-b">Bilde-URL</th>
               <th className="px-4 py-2 border-b">Lenke</th>
               <th className="px-4 py-2 border-b"></th>
@@ -291,6 +299,8 @@ export default function AdminPage() {
                     <td className="px-4 py-2 text-center"><input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} /></td>
                     <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Rekkefølge" /></td>
                     <td className="px-4 py-2"><input name="terminationFee" type="number" value={editValues.terminationFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bruddgebyr (kr)" /></td>
+                    <td className="px-4 py-2"><input name="bindingTime" type="number" value={editValues.bindingTime} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid (mnd)" /></td>
+                    <td className="px-4 py-2"><input name="bindingTimeText" value={editValues.bindingTimeText} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid tekst" /></td>
                     <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bilde-URL (logoUrl)" /></td>
                     <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Lenke (affiliateLink)" /></td>
                     <td className="px-4 py-2 flex gap-2">
@@ -307,6 +317,8 @@ export default function AdminPage() {
                     <td className="px-4 py-2 text-center">{plan.featured ? '✓' : ''}</td>
                     <td className="px-4 py-2">{plan.sortOrder || '-'}</td>
                     <td className="px-4 py-2">{plan.terminationFee || '-'}</td>
+                    <td className="px-4 py-2">{plan.bindingTime || '-'}</td>
+                    <td className="px-4 py-2 break-all text-xs">{plan.bindingTimeText || '-'}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.logoUrl}</td>
                     <td className="px-4 py-2 break-all text-xs">{plan.affiliateLink}</td>
                     <td className="px-4 py-2">
