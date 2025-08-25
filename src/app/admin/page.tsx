@@ -28,6 +28,7 @@ export default function AdminPage() {
     planName: '',
     supplierName: '',
     pricePerKwh: '',
+    monthlyFee: '',
     priceZone: '',
     featured: false,
     sortOrder: '',
@@ -83,6 +84,7 @@ export default function AdminPage() {
       planName: plan.planName,
       supplierName: plan.supplierName,
       pricePerKwh: plan.pricePerKwh,
+      monthlyFee: plan.monthlyFee || '',
       priceZone: plan.priceZone,
       featured: !!plan.featured,
       sortOrder: plan.sortOrder || '',
@@ -111,12 +113,12 @@ export default function AdminPage() {
       const res = await fetch('/api/plans', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined, finePrint: editValues.finePrint || undefined }),
+        body: JSON.stringify({ ...plan, ...editValues, id: plan.id, pricePerKwh: Number(editValues.pricePerKwh), monthlyFee: Number(editValues.monthlyFee), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined, finePrint: editValues.finePrint || undefined }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunne ikke lagre endringer');
       // Oppdater listen
-      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined, finePrint: editValues.finePrint || undefined } : p));
+      setPlans(plans => plans.map(p => p.id === plan.id ? { ...p, ...editValues, pricePerKwh: Number(editValues.pricePerKwh), monthlyFee: Number(editValues.monthlyFee), featured: !!editValues.featured, sortOrder: editValues.sortOrder ? Number(editValues.sortOrder) : undefined, logoUrl: editValues.logoUrl, affiliateLink: editValues.affiliateLink, terminationFee: editValues.terminationFee ? Number(editValues.terminationFee) : undefined, bindingTime: editValues.bindingTime ? Number(editValues.bindingTime) : undefined, bindingTimeText: editValues.bindingTimeText || undefined, finePrint: editValues.finePrint || undefined } : p));
       setEditId(null);
       setEditValues({});
     } catch (err: any) {
@@ -140,7 +142,7 @@ export default function AdminPage() {
     setAddError(null);
     try {
       const id = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : Math.random().toString(36).slice(2);
-      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), featured: !!newProduct.featured, sortOrder: newProduct.sortOrder ? Number(newProduct.sortOrder) : undefined, terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined, bindingTime: newProduct.bindingTime ? Number(newProduct.bindingTime) : undefined, bindingTimeText: newProduct.bindingTimeText || undefined, finePrint: newProduct.finePrint || undefined };
+      const planToAdd = { ...newProduct, id, pricePerKwh: Number(newProduct.pricePerKwh), monthlyFee: Number(newProduct.monthlyFee), featured: !!newProduct.featured, sortOrder: newProduct.sortOrder ? Number(newProduct.sortOrder) : undefined, terminationFee: newProduct.terminationFee ? Number(newProduct.terminationFee) : undefined, bindingTime: newProduct.bindingTime ? Number(newProduct.bindingTime) : undefined, bindingTimeText: newProduct.bindingTimeText || undefined, finePrint: newProduct.finePrint || undefined };
       const res = await fetch('/api/plans', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -149,7 +151,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (!data.success) throw new Error(data.error || 'Kunne ikke legge til produkt');
       setPlans(plans => [...plans, data.plan]);
-      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '', bindingTime: '', bindingTimeText: '', finePrint: '' });
+      setNewProduct({ planName: '', supplierName: '', pricePerKwh: '', monthlyFee: '', priceZone: '', featured: false, sortOrder: '', logoUrl: '', affiliateLink: '', terminationFee: '', bindingTime: '', bindingTimeText: '', finePrint: '' });
     } catch (err: any) {
       setAddError(err.message || 'Noe gikk galt ved lagring');
     } finally {
@@ -254,6 +256,7 @@ export default function AdminPage() {
         <input name="planName" value={newProduct.planName} onChange={handleNewProductChange} placeholder="Navn" className="border rounded px-2 py-1" required />
         <input name="supplierName" value={newProduct.supplierName} onChange={handleNewProductChange} placeholder="Leverandør" className="border rounded px-2 py-1" required />
         <input name="pricePerKwh" type="number" value={newProduct.pricePerKwh} onChange={handleNewProductChange} placeholder="Pris (øre/kWh)" className="border rounded px-2 py-1" required />
+        <input name="monthlyFee" type="number" value={newProduct.monthlyFee} onChange={handleNewProductChange} placeholder="Månedsgebyr (kr)" className="border rounded px-2 py-1" required />
         <input name="priceZone" value={newProduct.priceZone} onChange={handleNewProductChange} placeholder="Prissone" className="border rounded px-2 py-1" required />
         <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Bilde-URL (logoUrl)" className="border rounded px-2 py-1" />
         <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Lenke (affiliateLink)" className="border rounded px-2 py-1" />
@@ -279,6 +282,7 @@ export default function AdminPage() {
               <th className="px-4 py-2 border-b">Navn</th>
               <th className="px-4 py-2 border-b">Leverandør</th>
               <th className="px-4 py-2 border-b">Pris (øre/kWh)</th>
+              <th className="px-4 py-2 border-b">Månedsgebyr</th>
               <th className="px-4 py-2 border-b">Prissone</th>
               <th className="px-4 py-2 border-b">Mest populær</th>
               <th className="px-4 py-2 border-b">Rekkefølge</th>
@@ -299,6 +303,7 @@ export default function AdminPage() {
                     <td className="px-4 py-2"><input name="planName" value={editValues.planName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2"><input name="supplierName" value={editValues.supplierName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2"><input name="pricePerKwh" type="number" value={editValues.pricePerKwh} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
+                    <td className="px-4 py-2"><input name="monthlyFee" type="number" value={editValues.monthlyFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2"><input name="priceZone" value={editValues.priceZone} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
                     <td className="px-4 py-2 text-center"><input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} /></td>
                     <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Rekkefølge" /></td>
@@ -318,6 +323,7 @@ export default function AdminPage() {
                     <td className="px-4 py-2">{plan.planName}</td>
                     <td className="px-4 py-2">{plan.supplierName}</td>
                     <td className="px-4 py-2">{plan.pricePerKwh}</td>
+                    <td className="px-4 py-2">{plan.monthlyFee}</td>
                     <td className="px-4 py-2">{plan.priceZone}</td>
                     <td className="px-4 py-2 text-center">{plan.featured ? '✓' : ''}</td>
                     <td className="px-4 py-2">{plan.sortOrder || '-'}</td>
