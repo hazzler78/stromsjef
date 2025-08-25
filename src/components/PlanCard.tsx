@@ -79,7 +79,7 @@ const PlanCard = ({ plan }: PlanCardProps) => {
           </div>
         )}
         {plan.finePrint && (
-          <div className="mt-2 text-xs text-red-600 font-medium">
+          <div className="mt-2 text-xs text-gray-500">
             <p>{plan.finePrint}</p>
           </div>
         )}
