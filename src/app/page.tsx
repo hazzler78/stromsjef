@@ -239,7 +239,7 @@ export default async function Home() {
           </h2>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
             <TrackedButton
-              href="https://cheapenergy.no/?utm_source=stromsjef.no"
+              href="https://cheapenergy.no/privat/cheap-start/?utm_source=stromsjef.no"
               buttonId="partner-cheap-energy"
               className="flex flex-col items-center hover:opacity-80 transition-opacity"
               target="_blank"
@@ -256,7 +256,7 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Cheap Energy</p>
             </TrackedButton>
             <TrackedButton
-              href="https://kildenkraft.no/?utm_source=stromsjef.no"
+              href="https://kildenkraft.no/privat/fastpris-1-ar/?utm_source=stromsjef.no"
               buttonId="partner-kilden-kraft"
               className="flex flex-col items-center hover:opacity-80 transition-opacity"
               target="_blank"
@@ -273,7 +273,7 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Kilden Kraft</p>
             </TrackedButton>
             <TrackedButton
-              href="https://barumenergi.no/?utm_source=stromsjef.no"
+              href="https://baerumenergi.no/privat/spotpris-0-0/?utm_source=stromsjef.no"
               buttonId="partner-barum-energi"
               className="flex flex-col items-center hover:opacity-80 transition-opacity"
               target="_blank"
