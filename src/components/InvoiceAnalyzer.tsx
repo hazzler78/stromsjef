@@ -137,7 +137,8 @@ const InvoiceAnalyzer = () => {
                 </p>
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                  className="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                  style={{ color: 'white' }}
                 >
                   Velg fil
                 </button>
@@ -191,7 +192,8 @@ const InvoiceAnalyzer = () => {
             <button
               onClick={handleAnalyze}
               disabled={isAnalyzing}
-              className="w-full bg-green-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-green-600 py-4 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ color: 'white' }}
             >
               {isAnalyzing ? (
                 <div className="flex items-center justify-center gap-3">
@@ -230,7 +232,8 @@ const InvoiceAnalyzer = () => {
           <div className="mt-6 pt-6 border-t border-gray-200">
             <button
               onClick={resetForm}
-              className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+              className="bg-gray-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+              style={{ color: 'white' }}
             >
               Analyser en ny faktura
             </button>

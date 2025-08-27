@@ -139,7 +139,8 @@ const FastpriskalkulatorPage = () => {
       <div className="text-center">
         <Link 
           href="/" 
-          className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+          className="bg-gray-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+          style={{ color: 'white' }}
         >
           Tilbake til forsiden
         </Link>
