@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import PlanCard from '@/components/PlanCard';
 import ContactForm from '@/components/ContactForm';
+import TrackedButton from '@/components/TrackedButton';
 
 export const metadata: Metadata = {
   title: "Du betaler strømmen. Du bestemmer. | Strømsjef.no",
@@ -237,7 +238,13 @@ export default async function Home() {
             Vi samarbeider med pålitelige leverandører
           </h2>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-            <div className="flex flex-col items-center">
+            <TrackedButton
+              href="https://cheapenergy.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              buttonId="partner-cheap-energy"
+              className="flex flex-col items-center hover:opacity-80 transition-opacity"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div className="relative w-32 h-16 mb-2">
                 <Image
                   src="/logos/cheap-energy.png"
@@ -247,8 +254,14 @@ export default async function Home() {
                 />
               </div>
               <p className="text-sm text-gray-600 font-medium">Cheap Energy</p>
-            </div>
-            <div className="flex flex-col items-center">
+            </TrackedButton>
+            <TrackedButton
+              href="https://kildenkraft.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              buttonId="partner-kilden-kraft"
+              className="flex flex-col items-center hover:opacity-80 transition-opacity"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div className="relative w-32 h-16 mb-2">
                 <Image
                   src="/logos/kilden-kraft.png"
@@ -258,8 +271,14 @@ export default async function Home() {
                 />
               </div>
               <p className="text-sm text-gray-600 font-medium">Kilden Kraft</p>
-            </div>
-            <div className="flex flex-col items-center">
+            </TrackedButton>
+            <TrackedButton
+              href="https://barumenergi.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              buttonId="partner-barum-energi"
+              className="flex flex-col items-center hover:opacity-80 transition-opacity"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div className="relative w-32 h-16 mb-2">
                 <Image
                   src="/logos/barum-energi.png"
@@ -269,8 +288,14 @@ export default async function Home() {
                 />
               </div>
               <p className="text-sm text-gray-600 font-medium">Bærum Energi</p>
-            </div>
-            <div className="flex flex-col items-center">
+            </TrackedButton>
+            <TrackedButton
+              href="https://www.vstrom.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              buttonId="partner-vstrom"
+              className="flex flex-col items-center hover:opacity-80 transition-opacity"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div className="relative w-32 h-16 mb-2">
                 <Image
                   src="/logos/vstrom.png"
@@ -280,7 +305,7 @@ export default async function Home() {
                 />
               </div>
               <p className="text-sm text-gray-600 font-medium">VStrøm</p>
-            </div>
+            </TrackedButton>
           </div>
         </div>
       </section>
