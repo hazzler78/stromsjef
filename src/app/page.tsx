@@ -239,7 +239,7 @@ export default async function Home() {
           </h2>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
             <TrackedButton
-              href="https://cheapenergy.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              href="https://cheapenergy.no/?utm_source=stromsjef.no"
               buttonId="partner-cheap-energy"
               className="flex flex-col items-center hover:opacity-80 transition-opacity"
               target="_blank"
@@ -256,7 +256,7 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Cheap Energy</p>
             </TrackedButton>
             <TrackedButton
-              href="https://kildenkraft.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              href="https://kildenkraft.no/?utm_source=stromsjef.no"
               buttonId="partner-kilden-kraft"
               className="flex flex-col items-center hover:opacity-80 transition-opacity"
               target="_blank"
@@ -273,7 +273,7 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Kilden Kraft</p>
             </TrackedButton>
             <TrackedButton
-              href="https://barumenergi.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              href="https://barumenergi.no/?utm_source=stromsjef.no"
               buttonId="partner-barum-energi"
               className="flex flex-col items-center hover:opacity-80 transition-opacity"
               target="_blank"
@@ -290,7 +290,7 @@ export default async function Home() {
               <p className="text-sm text-gray-600 font-medium">Bærum Energi</p>
             </TrackedButton>
             <TrackedButton
-              href="https://www.vstrom.no/?utm_source=stromsjef.no&utm_medium=partner_logo"
+              href="https://www.vstrom.no/?utm_source=stromsjef.no"
               buttonId="partner-vstrom"
               className="flex flex-col items-center hover:opacity-80 transition-opacity"
               target="_blank"
