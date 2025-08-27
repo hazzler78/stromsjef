@@ -37,34 +37,34 @@ const FastpriskalkulatorPage = () => {
           </div>
 
           {/* Features */}
-          <div className="bg-blue-50 p-6 rounded-lg border border-blue-200 mb-8">
-            <h3 className="text-xl font-semibold mb-4 text-blue-800">
+          <div className="bg-blue-600 p-6 rounded-lg border border-blue-700 mb-8">
+            <h3 className="text-xl font-semibold mb-4 text-white">
               Hva kan kalkulatoren gjøre:
             </h3>
             <ul className="text-left space-y-3">
               <li className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Identifiserer automatisk unødvendige avgifter og påslag</span>
+                <span className="text-white">Identifiserer automatisk unødvendige avgifter og påslag</span>
               </li>
               <li className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Beregner nøyaktig hvor mye du kan spare</span>
+                <span className="text-white">Beregner nøyaktig hvor mye du kan spare</span>
               </li>
               <li className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Gir personlige anbefalinger for bedre avtaler</span>
+                <span className="text-white">Gir personlige anbefalinger for bedre avtaler</span>
               </li>
               <li className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Analyserer alle typer strømfakturaer på sekunder</span>
+                <span className="text-white">Analyserer alle typer strømfakturaer på sekunder</span>
               </li>
             </ul>
           </div>
@@ -76,12 +76,12 @@ const FastpriskalkulatorPage = () => {
 
       {/* Contact Form Section */}
       <section className="mb-12">
-        <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+        <div className="bg-blue-600 p-6 rounded-lg border border-blue-700">
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-blue-800 mb-4">
+            <h2 className="text-3xl font-bold text-center text-white mb-4">
               Få personlig hjelp – vi finner den beste strømavtalen for deg!
             </h2>
-            <p className="text-center text-blue-900 mb-8">
+            <p className="text-center text-blue-100 mb-8">
               Legg igjen navn og nummer, så ringer vi deg for en gratis og uforpliktende prat. Vi hjelper deg å spare penger – enkelt og trygt!
             </p>
             <ContactForm />
