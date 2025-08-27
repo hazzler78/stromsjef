@@ -12,7 +12,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-600 text-white shadow-lg">
+    <header className="fixed top-0 w-full bg-blue-600 text-white shadow-lg z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
@@ -114,60 +114,79 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <nav className="md:hidden border-t border-blue-500 py-4">
-            <ul className="space-y-4">
-              <li>
-                <Link 
-                  href="/" 
-                  className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
-                  style={{ color: 'white' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Avtaler
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/fastpriskalkulator" 
-                  className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
-                  style={{ color: 'white' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Fastpriskalkulator
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/bedrift" 
-                  className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
-                  style={{ color: 'white' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  For bedrifter
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/ofte-stilte-sporsmal" 
-                  className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
-                  style={{ color: 'white' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/media" 
-                  className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
-                  style={{ color: 'white' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  I media
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          <>
+            {/* Backdrop */}
+            <div 
+              className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <nav className="md:hidden absolute top-full left-0 right-0 bg-blue-600 border-t border-blue-500 py-4 z-50 shadow-lg">
+              <div className="container mx-auto px-4">
+                <ul className="space-y-4">
+                  <li>
+                    <Link 
+                      href="/" 
+                      className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                      style={{ color: 'white' }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Avtaler
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/fastpriskalkulator" 
+                      className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                      style={{ color: 'white' }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Fastpriskalkulator
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/bedrift" 
+                      className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                      style={{ color: 'white' }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      For bedrifter
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/ofte-stilte-sporsmal" 
+                      className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                      style={{ color: 'white' }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      FAQ
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/om-oss" 
+                      className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                      style={{ color: 'white' }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Om oss
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/media" 
+                      className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
+                      style={{ color: 'white' }}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      I media
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </>
         )}
       </div>
     </header>
