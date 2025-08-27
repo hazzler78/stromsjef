@@ -30,7 +30,7 @@ const FAQItem = ({ question, children }: FAQItemProps) => {
 
 const FAQPage = () => {
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto pt-24 md:pt-28">
       <h1 className="text-3xl font-bold mb-6">Ofte stilte spørsmål (FAQ)</h1>
       <div className="bg-blue-50 p-6 rounded-lg mb-8">
         <p className="text-gray-700">

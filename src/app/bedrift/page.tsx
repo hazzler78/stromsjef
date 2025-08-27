@@ -5,7 +5,7 @@ const BusinessPage = () => {
   return (
     <div className="max-w-4xl mx-auto">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 -mx-4 px-4 mb-8">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 -mx-4 px-4 mb-8 pt-24 md:pt-28">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Strømavtaler for bedrifter

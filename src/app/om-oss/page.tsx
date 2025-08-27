@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function OmOss() {
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4">
+    <div className="max-w-3xl mx-auto py-12 px-4 pt-24 md:pt-28">
       {/* Hero-intro */}
       <div className="bg-blue-100 border-l-4 border-blue-500 p-6 mb-8 rounded flex items-center gap-3">
         <span className="text-3xl">💡</span>
