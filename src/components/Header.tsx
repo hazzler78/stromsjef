@@ -35,11 +35,11 @@ const Header = () => {
               </li>
               <li>
                 <Link 
-                  href="/fastpriskalkulator" 
+                  href="/fakturakalkulator" 
                   className="text-white !text-white hover:!text-blue-100 transition-colors font-medium"
                   style={{ color: 'white' }}
                 >
-                  Fastpriskalkulator
+                  Fakturakalkulator
                 </Link>
               </li>
               <li>
@@ -135,12 +135,12 @@ const Header = () => {
                   </li>
                   <li>
                     <Link 
-                      href="/fastpriskalkulator" 
+                      href="/fakturakalkulator" 
                       className="block py-2 text-white !text-white hover:!text-blue-100 transition-colors font-medium"
                       style={{ color: 'white' }}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      Fastpriskalkulator
+                      Fakturakalkulator
                     </Link>
                   </li>
                   <li>

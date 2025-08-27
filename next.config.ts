@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/spotpriskontroll',
-        destination: '/fastpriskalkulator',
+        destination: '/fakturakalkulator',
         permanent: true, // 301 redirect for SEO
       },
       {
@@ -41,7 +41,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/spotpriskalkulator',
-        destination: '/fastpriskalkulator',
+        destination: '/fakturakalkulator',
+        permanent: true,
+      },
+      {
+        source: '/fastpriskalkulator',
+        destination: '/fakturakalkulator',
         permanent: true,
       },
       {

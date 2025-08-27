@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-const FastpriskalkulatorPage = () => {
+const SpotpriskontrollPage = () => {
   const [consumption, setConsumption] = useState('');
   const [currentPrice, setCurrentPrice] = useState('');
   const [newPrice, setNewPrice] = useState('');
@@ -44,7 +44,7 @@ const FastpriskalkulatorPage = () => {
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 -mx-4 px-4 mb-8">
         <div className="container mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Fastpriskalkulator
+            Spotpriskontroll
           </h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Beregn hvor mye du kan spare ved å bytte til en fastprisavtale. 
@@ -267,4 +267,4 @@ const FastpriskalkulatorPage = () => {
   );
 };
 
-export default FastpriskalkulatorPage; 
+export default SpotpriskontrollPage; 
