@@ -89,6 +89,8 @@ export default function AdminPage() {
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
 
+
+
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoginError("");
@@ -407,11 +409,12 @@ export default function AdminPage() {
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Pris (øre/kWh)</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Månedsgebyr</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Populær</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Affiliate Link</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Åtgärder</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {plans.map(plan => (
+              {plans.map((plan: any) => (
                 <tr key={plan.id} className="hover:bg-gray-50">
                   {editId === plan.id ? (
                     <>
@@ -429,6 +432,9 @@ export default function AdminPage() {
                       </td>
                       <td className="px-4 py-3 text-center">
                         <input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input name="affiliateLink" value={editValues.affiliateLink || ''} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" placeholder="Affiliate link" />
                       </td>
                       <td className="px-4 py-3 text-center">
                         <div className="flex gap-2 justify-center">
@@ -456,6 +462,17 @@ export default function AdminPage() {
                         ) : (
                           <span className="text-gray-400">-</span>
                         )}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="text-sm text-gray-900">
+                          {plan.affiliateLink ? (
+                            <a href={plan.affiliateLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 break-all">
+                              {plan.affiliateLink.length > 50 ? plan.affiliateLink.substring(0, 50) + '...' : plan.affiliateLink}
+                            </a>
+                          ) : (
+                            <span className="text-gray-400">-</span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-4 py-3 text-center">
                         <div className="flex gap-2 justify-center">

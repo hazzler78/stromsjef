@@ -18,6 +18,7 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   const [refreshError, setRefreshError] = useState<string | null>(null);
   const [refreshCount, setRefreshCount] = useState(0);
+  const [showAllPlans, setShowAllPlans] = useState(false);
 
   console.log("Current plans:", plans);
   console.log("Selected zone:", selectedZone);
@@ -138,6 +139,20 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
             <p className="text-base font-semibold text-blue-700">Velg din prissone for å se riktige priser i ditt område!</p>
           </div>
           
+          {/* Toggle for showing all plans */}
+          <div className="mb-4">
+            <button
+              onClick={() => setShowAllPlans(!showAllPlans)}
+              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                showAllPlans 
+                  ? 'bg-gray-600 text-white hover:bg-gray-700' 
+                  : 'bg-green-600 text-white hover:bg-green-700'
+              }`}
+            >
+              {showAllPlans ? 'Vis kun populære avtaler' : 'Vis alle avtaler'}
+            </button>
+          </div>
+          
           {refreshError && (
             <div className="text-red-600 text-sm mb-2 bg-red-50 p-2 rounded">
               {refreshError}
@@ -184,6 +199,14 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
                 <PlanCard key={`featured-${plan.id}-${plan.pricePerKwh}-${refreshCount}`} plan={plan} />
               ))}
             </div>
+            {!showAllPlans && otherPlans.length > 0 && (
+              <div className="text-center mt-4 text-sm text-gray-600">
+                Viser {featuredPlans.length} av {filteredPlans.length} avtaler 
+                <span className="block mt-1">
+                  Klikk "Vis alle avtaler" for å se alle tilgjengelige avtaler
+                </span>
+              </div>
+            )}
           </div>
         )}
 
@@ -191,12 +214,14 @@ export default function PlanComparisonClient({ initialPlans }: PlanComparisonCli
         {featuredPlans.length === 0 && (
           <div className="text-center py-12">
             <p className="text-lg text-gray-600">Fant ingen populære avtaler for valgte filter.</p>
-            <p className="text-sm text-gray-500 mt-2">Prøv å endre prissone eller avtalestype.</p>
+            <p className="text-sm text-gray-500 mt-2">
+              {showAllPlans ? 'Prøv å endre prissone eller avtalestype.' : 'Klikk "Vis alle avtaler" for å se alle tilgjengelige avtaler.'}
+            </p>
           </div>
         )}
 
         {/* Other Plans Section */}
-        {otherPlans.length > 0 && (
+        {showAllPlans && otherPlans.length > 0 && (
           <div className="mb-6">
             <h2 className="text-2xl font-bold mb-6 text-center">Alle avtaler</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
