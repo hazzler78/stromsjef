@@ -16,6 +16,10 @@ export default function AdminPage() {
   // Click statistics
   const [clickStats, setClickStats] = useState<Record<string, number>>({});
   const [statsLoading, setStatsLoading] = useState(true);
+  
+  // Invoice statistics
+  const [invoiceStats, setInvoiceStats] = useState<any>(null);
+  const [invoiceStatsLoading, setInvoiceStatsLoading] = useState(true);
 
   // Legg til state for redigering
   const [editId, setEditId] = useState<string | null>(null);
@@ -180,22 +184,25 @@ export default function AdminPage() {
     setLoading(true);
     setError(null);
     
-    // Fetch plans and click stats
+    // Fetch plans, click stats, and invoice stats
     Promise.all([
       fetch('/api/plans').then(res => {
         if (!res.ok) throw new Error('Kunne ikke hente produkter');
         return res.json();
       }),
-      fetch('/api/plans/dump').then(res => res.json())
+      fetch('/api/plans/dump').then(res => res.json()),
+      fetch('/api/admin/invoice-stats').then(res => res.json())
     ])
-      .then(([plansData, statsData]) => {
+      .then(([plansData, statsData, invoiceData]) => {
         setPlans(plansData.plans || []);
         setClickStats(statsData.clickStats || {});
+        setInvoiceStats(invoiceData.success ? invoiceData.stats : null);
       })
       .catch(err => setError(err.message || 'Noe gikk galt'))
       .finally(() => {
         setLoading(false);
         setStatsLoading(false);
+        setInvoiceStatsLoading(false);
       });
   }, [authenticated]);
 
@@ -233,6 +240,56 @@ export default function AdminPage() {
         </div>
       </div>
       
+      {/* Invoice Statistics */}
+      <div className="mb-8 bg-white p-6 rounded shadow">
+        <h2 className="text-2xl font-bold mb-4">AI Kalkulator - Fakturaopplastinger</h2>
+        {invoiceStatsLoading ? (
+          <div className="text-gray-500">Laster faktura-statistikk...</div>
+        ) : !invoiceStats ? (
+          <div className="text-gray-500">Ingen faktura-data tilgjengelig ennå.</div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="bg-blue-50 p-4 rounded border-l-4 border-blue-500">
+                <div className="text-sm text-blue-600 font-medium">Totalt opplastinger</div>
+                <div className="text-3xl font-bold text-blue-700">{invoiceStats.totalUploads}</div>
+              </div>
+              <div className="bg-green-50 p-4 rounded border-l-4 border-green-500">
+                <div className="text-sm text-green-600 font-medium">Siste 30 dager</div>
+                <div className="text-3xl font-bold text-green-700">{invoiceStats.uploadsLast30Days}</div>
+              </div>
+              <div className="bg-purple-50 p-4 rounded border-l-4 border-purple-500">
+                <div className="text-sm text-purple-600 font-medium">Unike brukere</div>
+                <div className="text-3xl font-bold text-purple-700">{invoiceStats.uniqueUsers}</div>
+              </div>
+              <div className="bg-orange-50 p-4 rounded border-l-4 border-orange-500">
+                <div className="text-sm text-orange-600 font-medium">Med samtykke</div>
+                <div className="text-3xl font-bold text-orange-700">{invoiceStats.uploadsWithConsent}</div>
+              </div>
+            </div>
+            
+            {/* Daily stats for last 7 days */}
+            {Object.keys(invoiceStats.dailyStats).length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold mb-3">Daglig aktivitet (siste 7 dager)</h3>
+                <div className="grid grid-cols-7 gap-2">
+                  {Object.entries(invoiceStats.dailyStats).map(([date, count]) => (
+                    <div key={date} className="bg-gray-50 p-3 rounded text-center">
+                      <div className="text-xs text-gray-600">{new Date(date).toLocaleDateString('nb-NO', { day: '2-digit', month: '2-digit' })}</div>
+                      <div className="text-lg font-bold text-gray-800">{String(count)}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div className="mt-4 text-xs text-gray-500">
+              Sist oppdatert: {new Date(invoiceStats.lastUpdated).toLocaleString('nb-NO')}
+            </div>
+          </>
+        )}
+      </div>
+
       {/* Click Statistics */}
       <div className="mb-8 bg-white p-6 rounded shadow">
         <h2 className="text-2xl font-bold mb-4">Click Statistics</h2>
@@ -251,6 +308,7 @@ export default function AdminPage() {
           </div>
         )}
       </div>
+
       {/* Legg til produkt-formulær */}
       <form onSubmit={addProduct} className="mb-8 bg-white p-4 rounded shadow flex flex-wrap gap-4 items-end">
         <input name="planName" value={newProduct.planName} onChange={handleNewProductChange} placeholder="Navn" className="border rounded px-2 py-1" required />
@@ -271,6 +329,7 @@ export default function AdminPage() {
         <button type="submit" disabled={adding} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Legg til</button>
         {addError && <span className="text-red-600 text-sm ml-2">{addError}</span>}
       </form>
+
       {loading ? (
         <div className="p-8 text-center text-gray-500">Laster produkter...</div>
       ) : error ? (
