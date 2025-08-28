@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import TrackedButton from '@/components/TrackedButton';
+import ContactForm from '@/components/ContactForm';
 
 const BusinessPage = () => {
   return (
@@ -135,7 +136,7 @@ const BusinessPage = () => {
           <p className="text-lg text-gray-600 mb-6">
             Kontakt oss for en uforpliktende samtale om strømavtaler for din virksomhet.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col gap-8">
             <TrackedButton
               href="https://www.vstrom.no/renspot?utm_source=stromsjef&utm_medium=cpc&utm_campaign=renspot"
               className="bg-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
@@ -147,13 +148,9 @@ const BusinessPage = () => {
             >
               Se tilbud
             </TrackedButton>
-            <Link 
-              href="mailto:post@stromsjef.no" 
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-              style={{ color: '#fff' }}
-            >
-              Kontakt oss
-            </Link>
+            <div className="max-w-2xl mx-auto">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>

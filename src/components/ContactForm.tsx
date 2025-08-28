@@ -6,6 +6,7 @@ const initialState = {
   name: '',
   email: '',
   phone: '',
+  company: '',
   newsletterOptIn: true,
 };
 
@@ -31,7 +32,7 @@ export default function ContactForm() {
       const res = await fetch('/api/telegram/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'forside' }),
+        body: JSON.stringify({ ...form, source: 'bedrift' }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -58,7 +59,7 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white rounded-lg shadow p-6 space-y-5">
-      <h3 className="text-2xl font-bold text-gray-800 mb-2 text-center">Bli oppringt av Strømsjef</h3>
+      <h3 className="text-2xl font-bold text-gray-800 mb-2 text-center">Kontakt oss</h3>
       <div>
         <label htmlFor="name" className="block text-gray-700 font-medium mb-1">Navn</label>
         <input
@@ -68,6 +69,17 @@ export default function ContactForm() {
           value={form.name}
           onChange={handleChange}
           required
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+      <div>
+        <label htmlFor="company" className="block text-gray-700 font-medium mb-1">Bedrift (valgfritt)</label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          value={form.company}
+          onChange={handleChange}
           className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
