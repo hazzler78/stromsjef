@@ -335,73 +335,75 @@ export default function AdminPage() {
       ) : error ? (
         <div className="p-8 text-center text-red-500">{error}</div>
       ) : (
-        <table className="min-w-full bg-white border rounded shadow">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border-b">Navn</th>
-              <th className="px-4 py-2 border-b">Leverandør</th>
-              <th className="px-4 py-2 border-b">Pris (øre/kWh)</th>
-              <th className="px-4 py-2 border-b">Månedsgebyr</th>
-              <th className="px-4 py-2 border-b">Prissone</th>
-              <th className="px-4 py-2 border-b">Mest populær</th>
-              <th className="px-4 py-2 border-b">Rekkefølge</th>
-              <th className="px-4 py-2 border-b">Bruddgebyr</th>
-              <th className="px-4 py-2 border-b">Bindingstid</th>
-              <th className="px-4 py-2 border-b">Bindingstid tekst</th>
-              <th className="px-4 py-2 border-b">Finstilt text</th>
-              <th className="px-4 py-2 border-b">Bilde-URL</th>
-              <th className="px-4 py-2 border-b">Lenke</th>
-              <th className="px-4 py-2 border-b"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {plans.map(plan => (
-              <tr key={plan.id} className="border-b hover:bg-gray-50">
-                {editId === plan.id ? (
-                  <>
-                    <td className="px-4 py-2"><input name="planName" value={editValues.planName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                    <td className="px-4 py-2"><input name="supplierName" value={editValues.supplierName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                    <td className="px-4 py-2"><input name="pricePerKwh" type="number" value={editValues.pricePerKwh} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                    <td className="px-4 py-2"><input name="monthlyFee" type="number" value={editValues.monthlyFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                    <td className="px-4 py-2"><input name="priceZone" value={editValues.priceZone} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                    <td className="px-4 py-2 text-center"><input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} /></td>
-                    <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Rekkefølge" /></td>
-                    <td className="px-4 py-2"><input name="terminationFee" type="number" value={editValues.terminationFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bruddgebyr (kr)" /></td>
-                    <td className="px-4 py-2"><input name="bindingTime" type="number" value={editValues.bindingTime} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid (mnd)" /></td>
-                    <td className="px-4 py-2"><input name="bindingTimeText" value={editValues.bindingTimeText} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid tekst" /></td>
-                    <td className="px-4 py-2"><input name="finePrint" value={editValues.finePrint} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Finstilt text" /></td>
-                    <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bilde-URL (logoUrl)" /></td>
-                    <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Lenke (affiliateLink)" /></td>
-                    <td className="px-4 py-2 flex gap-2">
-                      <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Lagre</button>
-                      <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400">Avbryt</button>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    <td className="px-4 py-2">{plan.planName}</td>
-                    <td className="px-4 py-2">{plan.supplierName}</td>
-                    <td className="px-4 py-2">{plan.pricePerKwh}</td>
-                    <td className="px-4 py-2">{plan.monthlyFee}</td>
-                    <td className="px-4 py-2">{plan.priceZone}</td>
-                    <td className="px-4 py-2 text-center">{plan.featured ? '✓' : ''}</td>
-                    <td className="px-4 py-2">{plan.sortOrder || '-'}</td>
-                    <td className="px-4 py-2">{plan.terminationFee || '-'}</td>
-                    <td className="px-4 py-2">{plan.bindingTime || '-'}</td>
-                    <td className="px-4 py-2 break-all text-xs">{plan.bindingTimeText || '-'}</td>
-                    <td className="px-4 py-2 break-all text-xs">{plan.finePrint || '-'}</td>
-                    <td className="px-4 py-2 break-all text-xs">{plan.logoUrl}</td>
-                    <td className="px-4 py-2 break-all text-xs">{plan.affiliateLink}</td>
-                    <td className="px-4 py-2">
-                      <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Rediger</button>
-                      <button onClick={() => deleteProduct(plan)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 ml-2">Ta bort</button>
-                    </td>
-                  </>
-                )}
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border rounded shadow">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 border-b w-32">Navn</th>
+                <th className="px-4 py-2 border-b w-32">Leverandør</th>
+                <th className="px-4 py-2 border-b w-24">Pris (øre/kWh)</th>
+                <th className="px-4 py-2 border-b w-24">Månedsgebyr</th>
+                <th className="px-4 py-2 border-b w-20">Prissone</th>
+                <th className="px-4 py-2 border-b w-20">Mest populær</th>
+                <th className="px-4 py-2 border-b w-20">Rekkefølge</th>
+                <th className="px-4 py-2 border-b w-20">Bruddgebyr</th>
+                <th className="px-4 py-2 border-b w-20">Bindingstid</th>
+                <th className="px-4 py-2 border-b w-32">Bindingstid tekst</th>
+                <th className="px-4 py-2 border-b w-40">Finstilt text</th>
+                <th className="px-4 py-2 border-b w-40">Bilde-URL</th>
+                <th className="px-4 py-2 border-b w-40">Lenke</th>
+                <th className="px-4 py-2 border-b w-32">Åtgärder</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {plans.map(plan => (
+                <tr key={plan.id} className="border-b hover:bg-gray-50">
+                  {editId === plan.id ? (
+                    <>
+                      <td className="px-4 py-2"><input name="planName" value={editValues.planName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
+                      <td className="px-4 py-2"><input name="supplierName" value={editValues.supplierName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
+                      <td className="px-4 py-2"><input name="pricePerKwh" type="number" value={editValues.pricePerKwh} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
+                      <td className="px-4 py-2"><input name="monthlyFee" type="number" value={editValues.monthlyFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
+                      <td className="px-4 py-2"><input name="priceZone" value={editValues.priceZone} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
+                      <td className="px-4 py-2 text-center"><input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} /></td>
+                      <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Rekkefølge" /></td>
+                      <td className="px-4 py-2"><input name="terminationFee" type="number" value={editValues.terminationFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bruddgebyr (kr)" /></td>
+                      <td className="px-4 py-2"><input name="bindingTime" type="number" value={editValues.bindingTime} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid (mnd)" /></td>
+                      <td className="px-4 py-2"><input name="bindingTimeText" value={editValues.bindingTimeText} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid tekst" /></td>
+                      <td className="px-4 py-2"><input name="finePrint" value={editValues.finePrint} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Finstilt text" /></td>
+                      <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bilde-URL (logoUrl)" /></td>
+                      <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Lenke (affiliateLink)" /></td>
+                      <td className="px-4 py-2 flex gap-2">
+                        <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Lagre</button>
+                        <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400">Avbryt</button>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td className="px-4 py-2 font-medium">{plan.planName}</td>
+                      <td className="px-4 py-2">{plan.supplierName}</td>
+                      <td className="px-4 py-2">{plan.pricePerKwh}</td>
+                      <td className="px-4 py-2">{plan.monthlyFee}</td>
+                      <td className="px-4 py-2">{plan.priceZone}</td>
+                      <td className="px-4 py-2 text-center">{plan.featured ? '✓' : ''}</td>
+                      <td className="px-4 py-2">{plan.sortOrder || '-'}</td>
+                      <td className="px-4 py-2">{plan.terminationFee || '-'}</td>
+                      <td className="px-4 py-2">{plan.bindingTime || '-'}</td>
+                      <td className="px-4 py-2 break-all text-xs max-w-32">{plan.bindingTimeText || '-'}</td>
+                      <td className="px-4 py-2 break-all text-xs max-w-40">{plan.finePrint || '-'}</td>
+                      <td className="px-4 py-2 break-all text-xs max-w-40">{plan.logoUrl}</td>
+                      <td className="px-4 py-2 break-all text-xs max-w-40">{plan.affiliateLink}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 mr-2">Rediger</button>
+                        <button onClick={() => deleteProduct(plan)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Ta bort</button>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       {saveError && <div className="text-red-600 text-sm mt-2">{saveError}</div>}
     </div>
