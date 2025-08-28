@@ -21,6 +21,49 @@ export default function AdminPage() {
   const [invoiceStats, setInvoiceStats] = useState<any>(null);
   const [invoiceStatsLoading, setInvoiceStatsLoading] = useState(true);
 
+  // Function to map button IDs to product names
+  function getProductNameFromButtonId(buttonId: string): string {
+    // Extract plan ID from button ID (e.g., "plan-ca-spot-no1" -> "ca-spot-no1")
+    const planMatch = buttonId.match(/plan-(.+)/);
+    if (planMatch) {
+      const planId = planMatch[1];
+      const plan = plans.find(p => p.id === planId);
+      if (plan) {
+        return `${plan.planName} (${plan.supplierName})`;
+      }
+    }
+    
+    // Handle business name buttons
+    const businessMatch = buttonId.match(/business-name-(.+)/);
+    if (businessMatch) {
+      const businessId = businessMatch[1];
+      const plan = plans.find(p => p.id === businessId);
+      if (plan) {
+        return `${plan.supplierName} - Firma`;
+      }
+    }
+    
+    // Handle other button types
+    if (buttonId.includes('faktura-kalkulator')) {
+      return 'Faktura Kalkulator';
+    }
+    if (buttonId.includes('for-bedrifter')) {
+      return 'For Bedrifter';
+    }
+    if (buttonId.includes('faq')) {
+      return 'FAQ';
+    }
+    if (buttonId.includes('om-oss')) {
+      return 'Om Oss';
+    }
+    if (buttonId.includes('i-media')) {
+      return 'I Media';
+    }
+    
+    // Return original ID if no match found
+    return buttonId;
+  }
+
   // Legg til state for redigering
   const [editId, setEditId] = useState<string | null>(null);
   const [editValues, setEditValues] = useState<any>({});
@@ -298,14 +341,31 @@ export default function AdminPage() {
         ) : Object.keys(clickStats).length === 0 ? (
           <div className="text-gray-500">No click data available yet.</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(clickStats).map(([buttonId, count]) => (
-              <div key={buttonId} className="bg-gray-50 p-3 rounded">
-                <div className="font-mono text-sm text-gray-600">{buttonId}</div>
-                <div className="text-2xl font-bold text-blue-600">{count}</div>
+          <>
+            {/* Summary */}
+            <div className="mb-6 p-4 bg-blue-50 rounded border-l-4 border-blue-500">
+              <div className="text-sm text-blue-600 font-medium">Total klick</div>
+              <div className="text-2xl font-bold text-blue-700">
+                {Object.values(clickStats).reduce((sum: number, count: any) => sum + count, 0)}
               </div>
-            ))}
+            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.entries(clickStats).map(([buttonId, count]) => {
+              const productName = getProductNameFromButtonId(buttonId);
+              const isMatched = productName !== buttonId;
+              
+              return (
+                <div key={buttonId} className="bg-gray-50 p-3 rounded">
+                  <div className="font-medium text-gray-900 mb-1">{productName}</div>
+                  {!isMatched && (
+                    <div className="font-mono text-xs text-gray-500 mb-2">{buttonId}</div>
+                  )}
+                  <div className="text-2xl font-bold text-blue-600">{count}</div>
+                </div>
+              );
+            })}
           </div>
+          </>
         )}
       </div>
 
