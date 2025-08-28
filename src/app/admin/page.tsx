@@ -310,92 +310,98 @@ export default function AdminPage() {
       </div>
 
       {/* Legg til produkt-formulær */}
-      <form onSubmit={addProduct} className="mb-8 bg-white p-4 rounded shadow flex flex-wrap gap-4 items-end">
-        <input name="planName" value={newProduct.planName} onChange={handleNewProductChange} placeholder="Navn" className="border rounded px-2 py-1" required />
-        <input name="supplierName" value={newProduct.supplierName} onChange={handleNewProductChange} placeholder="Leverandør" className="border rounded px-2 py-1" required />
-        <input name="pricePerKwh" type="number" value={newProduct.pricePerKwh} onChange={handleNewProductChange} placeholder="Pris (øre/kWh)" className="border rounded px-2 py-1" required />
-        <input name="monthlyFee" type="number" value={newProduct.monthlyFee} onChange={handleNewProductChange} placeholder="Månedsgebyr (kr)" className="border rounded px-2 py-1" required />
-        <input name="priceZone" value={newProduct.priceZone} onChange={handleNewProductChange} placeholder="Prissone" className="border rounded px-2 py-1" required />
-        <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Bilde-URL (logoUrl)" className="border rounded px-2 py-1" />
-        <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Lenke (affiliateLink)" className="border rounded px-2 py-1" />
-        <input name="terminationFee" type="number" value={newProduct.terminationFee} onChange={handleNewProductChange} placeholder="Bruddgebyr (kr)" className="border rounded px-2 py-1" />
-        <input name="bindingTime" type="number" value={newProduct.bindingTime} onChange={handleNewProductChange} placeholder="Bindingstid (mnd)" className="border rounded px-2 py-1" />
-        <input name="bindingTimeText" value={newProduct.bindingTimeText} onChange={handleNewProductChange} placeholder="Bindingstid tekst (f.eks. 'Til 01.10.2025')" className="border rounded px-2 py-1" />
-        <input name="finePrint" value={newProduct.finePrint} onChange={handleNewProductChange} placeholder="Finstilt text (f.eks. 'Kun for nye kunder, med estimert årsforbruk fra Elhub lavere enn 40.000 kWh.')" className="border rounded px-2 py-1" />
-        <label className="flex items-center gap-1">
-          <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} /> Mest populær
-        </label>
-        <input name="sortOrder" type="number" value={newProduct.sortOrder} onChange={handleNewProductChange} placeholder="Rekkefølge (1=først)" className="border rounded px-2 py-1" />
-        <button type="submit" disabled={adding} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Legg til</button>
-        {addError && <span className="text-red-600 text-sm ml-2">{addError}</span>}
-      </form>
+      <div className="mb-8 bg-white p-6 rounded shadow">
+        <h3 className="text-lg font-semibold mb-4">Legg til nytt produkt</h3>
+        <form onSubmit={addProduct} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <input name="planName" value={newProduct.planName} onChange={handleNewProductChange} placeholder="Navn" className="border rounded px-3 py-2" required />
+          <input name="supplierName" value={newProduct.supplierName} onChange={handleNewProductChange} placeholder="Leverandør" className="border rounded px-3 py-2" required />
+          <input name="pricePerKwh" type="number" value={newProduct.pricePerKwh} onChange={handleNewProductChange} placeholder="Pris (øre/kWh)" className="border rounded px-3 py-2" required />
+          <input name="monthlyFee" type="number" value={newProduct.monthlyFee} onChange={handleNewProductChange} placeholder="Månedsgebyr (kr)" className="border rounded px-3 py-2" required />
+          <input name="priceZone" value={newProduct.priceZone} onChange={handleNewProductChange} placeholder="Prissone" className="border rounded px-3 py-2" required />
+          <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Logo URL" className="border rounded px-3 py-2" />
+          <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Affiliate link" className="border rounded px-3 py-2" />
+          <div className="flex items-center gap-4">
+            <label className="flex items-center gap-2">
+              <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} />
+              <span className="text-sm">Mest populær</span>
+            </label>
+            <button type="submit" disabled={adding} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm">
+              {adding ? 'Legger til...' : 'Legg til'}
+            </button>
+          </div>
+        </form>
+        {addError && <div className="text-red-600 text-sm mt-2">{addError}</div>}
+      </div>
 
       {loading ? (
         <div className="p-8 text-center text-gray-500">Laster produkter...</div>
       ) : error ? (
         <div className="p-8 text-center text-red-500">{error}</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border rounded shadow">
-            <thead>
+        <div className="bg-white border rounded shadow overflow-hidden">
+          <table className="min-w-full">
+            <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-2 border-b w-32">Navn</th>
-                <th className="px-4 py-2 border-b w-32">Leverandør</th>
-                <th className="px-4 py-2 border-b w-24">Pris (øre/kWh)</th>
-                <th className="px-4 py-2 border-b w-24">Månedsgebyr</th>
-                <th className="px-4 py-2 border-b w-20">Prissone</th>
-                <th className="px-4 py-2 border-b w-20">Mest populær</th>
-                <th className="px-4 py-2 border-b w-20">Rekkefølge</th>
-                <th className="px-4 py-2 border-b w-20">Bruddgebyr</th>
-                <th className="px-4 py-2 border-b w-20">Bindingstid</th>
-                <th className="px-4 py-2 border-b w-32">Bindingstid tekst</th>
-                <th className="px-4 py-2 border-b w-40">Finstilt text</th>
-                <th className="px-4 py-2 border-b w-40">Bilde-URL</th>
-                <th className="px-4 py-2 border-b w-40">Lenke</th>
-                <th className="px-4 py-2 border-b w-32">Åtgärder</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Navn</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Leverandør</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Pris (øre/kWh)</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Månedsgebyr</th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Populær</th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Åtgärder</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-200">
               {plans.map(plan => (
-                <tr key={plan.id} className="border-b hover:bg-gray-50">
+                <tr key={plan.id} className="hover:bg-gray-50">
                   {editId === plan.id ? (
                     <>
-                      <td className="px-4 py-2"><input name="planName" value={editValues.planName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                      <td className="px-4 py-2"><input name="supplierName" value={editValues.supplierName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                      <td className="px-4 py-2"><input name="pricePerKwh" type="number" value={editValues.pricePerKwh} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                      <td className="px-4 py-2"><input name="monthlyFee" type="number" value={editValues.monthlyFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                      <td className="px-4 py-2"><input name="priceZone" value={editValues.priceZone} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" /></td>
-                      <td className="px-4 py-2 text-center"><input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} /></td>
-                      <td className="px-4 py-2"><input name="sortOrder" type="number" value={editValues.sortOrder} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Rekkefølge" /></td>
-                      <td className="px-4 py-2"><input name="terminationFee" type="number" value={editValues.terminationFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bruddgebyr (kr)" /></td>
-                      <td className="px-4 py-2"><input name="bindingTime" type="number" value={editValues.bindingTime} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid (mnd)" /></td>
-                      <td className="px-4 py-2"><input name="bindingTimeText" value={editValues.bindingTimeText} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bindingstid tekst" /></td>
-                      <td className="px-4 py-2"><input name="finePrint" value={editValues.finePrint} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Finstilt text" /></td>
-                      <td className="px-4 py-2"><input name="logoUrl" value={editValues.logoUrl} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Bilde-URL (logoUrl)" /></td>
-                      <td className="px-4 py-2"><input name="affiliateLink" value={editValues.affiliateLink} onChange={handleEditChange} className="border rounded px-2 py-1 w-full" placeholder="Lenke (affiliateLink)" /></td>
-                      <td className="px-4 py-2 flex gap-2">
-                        <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Lagre</button>
-                        <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400">Avbryt</button>
+                      <td className="px-4 py-3">
+                        <input name="planName" value={editValues.planName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input name="supplierName" value={editValues.supplierName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input name="pricePerKwh" type="number" value={editValues.pricePerKwh} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <input name="monthlyFee" type="number" value={editValues.monthlyFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" />
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} />
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <div className="flex gap-2 justify-center">
+                          <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">Lagre</button>
+                          <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-400">Avbryt</button>
+                        </div>
                       </td>
                     </>
                   ) : (
                     <>
-                      <td className="px-4 py-2 font-medium">{plan.planName}</td>
-                      <td className="px-4 py-2">{plan.supplierName}</td>
-                      <td className="px-4 py-2">{plan.pricePerKwh}</td>
-                      <td className="px-4 py-2">{plan.monthlyFee}</td>
-                      <td className="px-4 py-2">{plan.priceZone}</td>
-                      <td className="px-4 py-2 text-center">{plan.featured ? '✓' : ''}</td>
-                      <td className="px-4 py-2">{plan.sortOrder || '-'}</td>
-                      <td className="px-4 py-2">{plan.terminationFee || '-'}</td>
-                      <td className="px-4 py-2">{plan.bindingTime || '-'}</td>
-                      <td className="px-4 py-2 break-all text-xs max-w-32">{plan.bindingTimeText || '-'}</td>
-                      <td className="px-4 py-2 break-all text-xs max-w-40">{plan.finePrint || '-'}</td>
-                      <td className="px-4 py-2 break-all text-xs max-w-40">{plan.logoUrl}</td>
-                      <td className="px-4 py-2 break-all text-xs max-w-40">{plan.affiliateLink}</td>
-                      <td className="px-4 py-2 whitespace-nowrap">
-                        <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 mr-2">Rediger</button>
-                        <button onClick={() => deleteProduct(plan)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Ta bort</button>
+                      <td className="px-4 py-3">
+                        <div className="font-medium text-gray-900">{plan.planName}</div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {plan.priceZone} • {plan.bindingTime ? `${plan.bindingTime} mnd` : 'Ingen binding'}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-gray-900">{plan.supplierName}</td>
+                      <td className="px-4 py-3 text-gray-900">{plan.pricePerKwh}</td>
+                      <td className="px-4 py-3 text-gray-900">{plan.monthlyFee}</td>
+                      <td className="px-4 py-3 text-center">
+                        {plan.featured ? (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            ✓ Populær
+                          </span>
+                        ) : (
+                          <span className="text-gray-400">-</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <div className="flex gap-2 justify-center">
+                          <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">Rediger</button>
+                          <button onClick={() => deleteProduct(plan)} className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">Ta bort</button>
+                        </div>
                       </td>
                     </>
                   )}
