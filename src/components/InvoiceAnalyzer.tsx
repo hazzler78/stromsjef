@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface AnalysisResult {
   gptAnswer: string;
@@ -217,16 +219,55 @@ const InvoiceAnalyzer = () => {
           <h3 className="text-2xl font-bold mb-6 text-gray-800">
             Analyse av strømfaktura
           </h3>
-          
-          <div className="prose max-w-none">
+
+          {/* Render GPT answer as Markdown with GFM support */}
+          <div className="max-w-none">
             <div className="bg-blue-50 p-6 rounded-lg border border-blue-200 mb-6">
-              <h4 className="text-lg font-semibold mb-3 text-blue-800">
-                Resultat av analysen:
+              <h4 className="text-lg font-semibold mb-4 text-blue-800">
+                Resultat av analysen
               </h4>
-              <div className="whitespace-pre-wrap text-gray-800">
-                {analysisResult.gptAnswer}
+              <div className="text-gray-900 leading-relaxed">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h1: ({ node, ...props }) => (
+                      <h1 className="text-2xl font-bold mt-6 mb-3 text-gray-900" {...props} />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2 className="text-xl font-semibold mt-5 mb-3 text-gray-900" {...props} />
+                    ),
+                    h3: ({ node, ...props }) => (
+                      <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-900" {...props} />
+                    ),
+                    p: ({ node, ...props }) => (
+                      <p className="mb-4" {...props} />
+                    ),
+                    ul: ({ node, ...props }) => (
+                      <ul className="list-disc pl-6 mb-4 space-y-1" {...props} />
+                    ),
+                    ol: ({ node, ...props }) => (
+                      <ol className="list-decimal pl-6 mb-4 space-y-1" {...props} />
+                    ),
+                    li: ({ node, ...props }) => (
+                      <li className="ml-1" {...props} />
+                    ),
+                    strong: ({ node, ...props }) => (
+                      <strong className="font-semibold" {...props} />
+                    ),
+                    code: ({ className, children, ...props }) => (
+                      <code className={`bg-gray-100 rounded px-1 py-0.5 ${className || ''}`} {...props}>
+                        {children}
+                      </code>
+                    ),
+                  }}
+                >
+                  {analysisResult.gptAnswer}
+                </ReactMarkdown>
               </div>
             </div>
+
+            {/* Try to highlight the total savings line if present */}
+            <TotalHighlight markdown={analysisResult.gptAnswer} />
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200">
@@ -245,3 +286,44 @@ const InvoiceAnalyzer = () => {
 };
 
 export default InvoiceAnalyzer;
+
+// Local helper to highlight the total cost line from Markdown
+function TotalHighlight({ markdown }: { markdown: string }) {
+  const totalLine = useMemo(() => {
+    // Look for lines that resemble the total, e.g. "Total unødvendige kostnader per måned: 161,65 kr"
+    const lines = markdown.split(/\r?\n/);
+    const matcher = /total[^\n]*kostnad[^:]*:\s*(.+)/i; // fuzzy match
+    for (const line of lines) {
+      const m = line.match(matcher);
+      if (m && m[1]) {
+        return line.trim();
+      }
+    }
+    return null;
+  }, [markdown]);
+
+  if (!totalLine) return null;
+
+  return (
+    <div className="rounded-lg border border-green-200 bg-green-50 p-5">
+      <div className="flex items-center gap-3">
+        <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span className="font-semibold text-green-900">Oppsummert</span>
+      </div>
+      <div className="mt-2 text-green-900 text-lg font-medium">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            p: ({ node, ...props }) => <p className="m-0" {...props} />,
+            strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
+            em: ({ node, ...props }) => <em className="italic" {...props} />,
+          }}
+        >
+          {totalLine}
+        </ReactMarkdown>
+      </div>
+    </div>
+  );
+}
