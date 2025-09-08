@@ -3,6 +3,7 @@
 import { useState, useRef, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import FeaturedPlansAfterAnalysis from './FeaturedPlansAfterAnalysis';
 
 interface AnalysisResult {
   gptAnswer: string;
@@ -278,6 +279,11 @@ const InvoiceAnalyzer = () => {
             >
               Analyser en ny faktura
             </button>
+          </div>
+
+          {/* Popular featured plans from homepage logic */}
+          <div className="mt-10">
+            <FeaturedPlansAfterAnalysis />
           </div>
         </div>
       )}
