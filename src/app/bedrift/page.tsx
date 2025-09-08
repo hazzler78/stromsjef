@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import TrackedButton from '@/components/TrackedButton';
 import ContactForm from '@/components/ContactForm';
+import ProviderOffers from '@/components/ProviderOffers';
+import { providers } from '@/data/providers';
 
 const BusinessPage = () => {
   return (
@@ -129,28 +131,18 @@ const BusinessPage = () => {
         </div>
       </section>
 
+      {/* Provider Offers */}
+      <ProviderOffers
+        providers={providers}
+        title="Utvalgte tilbud for bedrifter"
+        subtitle="Vi samarbeider med flere leverandører. Velg det som passer din virksomhet best."
+      />
+
       {/* CTA Section */}
       <section className="bg-gray-50 py-12 -mx-4 px-4">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Klar til å spare på bedriftens strømregning?</h2>
-          <p className="text-lg text-gray-600 mb-6">
-            Kontakt oss for en uforpliktende samtale om strømavtaler for din virksomhet.
-          </p>
-          <div className="flex flex-col gap-8">
-            <TrackedButton
-              href="https://www.vstrom.no/renspot?utm_source=stromsjef&utm_medium=cpc&utm_campaign=renspot"
-              className="bg-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
-              style={{ color: 'white' }}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Se tilbud (åpnes i ny fane)"
-              buttonId="business-cta-se-tilbud"
-            >
-              Se tilbud
-            </TrackedButton>
-            <div className="max-w-2xl mx-auto">
-              <ContactForm />
-            </div>
+          <div className="max-w-2xl mx-auto">
+            <ContactForm />
           </div>
         </div>
       </section>
