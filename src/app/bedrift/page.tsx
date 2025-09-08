@@ -31,6 +31,13 @@ const BusinessPage = () => {
         </div>
       </section>
 
+      {/* Provider Offers */}
+      <ProviderOffers
+        providers={providers}
+        title="Utvalgte tilbud for bedrifter"
+        subtitle="Vi samarbeider med flere leverandører. Velg det som passer din virksomhet best."
+      />
+
       {/* Benefits Section */}
       <section className="mb-12">
         <h2 className="text-3xl font-bold mb-8 text-center">Fordeler for bedrifter</h2>
@@ -130,13 +137,6 @@ const BusinessPage = () => {
           </div>
         </div>
       </section>
-
-      {/* Provider Offers */}
-      <ProviderOffers
-        providers={providers}
-        title="Utvalgte tilbud for bedrifter"
-        subtitle="Vi samarbeider med flere leverandører. Velg det som passer din virksomhet best."
-      />
 
       {/* CTA Section */}
       <section className="bg-gray-50 py-12 -mx-4 px-4">
