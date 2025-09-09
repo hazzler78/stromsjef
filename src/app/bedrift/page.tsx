@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import TrackedButton from '@/components/TrackedButton';
+ 
 import ContactForm from '@/components/ContactForm';
 import ProviderOffers from '@/components/ProviderOffers';
 import { providers } from '@/data/providers';
@@ -17,17 +16,6 @@ const BusinessPage = () => {
             Spesialtilpassede strømavtaler for bedrifter av alle størrelser. 
             Spar penger og få bedre kontroll over energikostnadene.
           </p>
-          <TrackedButton
-            href="https://www.vstrom.no/renspot?utm_source=stromsjef&utm_medium=cpc&utm_campaign=renspot"
-            className="bg-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
-            style={{ color: 'white' }}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Se tilbud (åpnes i ny fane)"
-            buttonId="business-hero-se-tilbud"
-          >
-            Se tilbud
-          </TrackedButton>
         </div>
       </section>
 
