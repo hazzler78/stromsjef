@@ -67,7 +67,7 @@ export default async function Home() {
   return (
     <div>
       {/* Ny introduktionstext */}
-      <section className="bg-white py-8">
+      <section className="bg-white pt-12 pb-8 md:py-8">
         <div className="container mx-auto text-center">
           <p className="text-lg md:text-xl text-gray-700 mb-2">Ingen strømkunder ønsker å betale mer enn man må.</p>
           <h1 className="text-3xl md:text-4xl font-extrabold text-blue-700 mb-1 tracking-tight">STRØMSJEF</h1>
