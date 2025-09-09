@@ -12,6 +12,22 @@
   --text-secondary: #6b7280;
   --background-light: #f9fafb;
   --border-color: #e5e7eb;
+  --surface: #ffffff;
+}
+
+/* Dark mode variable overrides */
+.dark {
+  --primary-color: #60a5fa;
+  --primary-hover: #3b82f6;
+  --secondary-color: #34d399;
+  --secondary-hover: #10b981;
+  --accent-color: #a78bfa;
+  --accent-hover: #8b5cf6;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --background-light: #0b1220;
+  --border-color: #2d3340;
+  --surface: #111827;
 }
 
 /* Base Styles */
@@ -32,6 +48,11 @@ body {
   line-height: 1.6;
   color: var(--text-primary);
   background-color: #ffffff;
+}
+
+/* Dark body background */
+.dark body {
+  background-color: #0b1220;
 }
 
 /* Typography Enhancements */
@@ -216,7 +237,8 @@ input, select, textarea {
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
   transition: all 0.2s ease-in-out;
-  background-color: white;
+  background-color: var(--surface);
+  color: var(--text-primary);
 }
 
 input:focus, select:focus, textarea:focus {
@@ -227,7 +249,7 @@ input:focus, select:focus, textarea:focus {
 
 /* Card Enhancements */
 .card {
-  background-color: white;
+  background-color: var(--surface);
   border-radius: 0.75rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
@@ -426,3 +448,50 @@ a:focus {
     text-decoration: underline !important;
   }
 }
+
+/* Dark mode utility overrides for existing Tailwind classes */
+.dark .bg-white { background-color: var(--surface) !important; }
+.dark .bg-gray-50 { background-color: var(--surface) !important; }
+.dark .bg-gray-100 { background-color: #0f172a !important; }
+
+.dark .text-gray-900 { color: var(--text-primary) !important; }
+.dark .text-gray-800 { color: var(--text-primary) !important; }
+.dark .text-gray-700 { color: var(--text-secondary) !important; }
+
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border { border-color: var(--border-color) !important; }
+
+/* Info panels using blue tints */
+.dark .bg-blue-50 { background-color: rgba(96, 165, 250, 0.12) !important; }
+.dark .bg-blue-100 { background-color: rgba(96, 165, 250, 0.18) !important; }
+.dark .border-blue-200 { border-color: rgba(96, 165, 250, 0.35) !important; }
+
+/* Tables */
+.dark table { color: var(--text-primary); }
+.dark th { color: var(--text-primary); }
+.dark td { color: var(--text-primary); }
+
+/* Inputs already use var(--surface); ensure selects too */
+.dark select, .dark input, .dark textarea { background-color: var(--surface); color: var(--text-primary); border-color: var(--border-color); }
+
+/* Improve contrast for success/green buttons in dark mode */
+.dark .bg-green-500 { background-color: #059669 !important; } /* green-600 */
+.dark .hover\:bg-green-600:hover { background-color: #047857 !important; } /* green-700 */
+
+/* Translucent white backgrounds */
+.dark .bg-white\/10 { background-color: rgba(255, 255, 255, 0.06) !important; }
+
+/* Additional dark-mode mappings for common light shades */
+.dark .bg-gray-200 { background-color: #1f2937 !important; }
+.dark .bg-gray-300 { background-color: #374151 !important; }
+.dark .text-blue-700 { color: #93c5fd !important; }
+
+/* CTA styles on dark */
+.dark .btn-cta-primary { background-color: #f59e0b; color: #0b1220; }
+.dark .btn-cta-primary:hover { background-color: #d97706; color: #0b1220; }
+
+/* Slate backgrounds used on feature sections */
+.dark .bg-slate-50 { background-color: #0f172a !important; }
+.dark .bg-slate-100 { background-color: #111827 !important; }
+.dark .border-slate-200 { border-color: #2d3340 !important; }

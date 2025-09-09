@@ -66,6 +66,16 @@ export default function RootLayout({
             }}
           />
         )}
+        <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{
+          __html: `
+            try {
+              var saved = localStorage.getItem('theme');
+              var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              var isDark = saved ? saved === 'dark' : prefersDark;
+              if (isDark) document.documentElement.classList.add('dark');
+            } catch (e) {}
+          `
+        }} />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta property="og:image" content="https://stromsjef.no/logo-lightning.png" />
         <meta name="twitter:image" content="https://stromsjef.no/logo-lightning.png" />
