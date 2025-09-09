@@ -68,12 +68,69 @@ export default function RootLayout({
         )}
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{
           __html: `
-            try {
-              var saved = localStorage.getItem('theme');
-              var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              var isDark = saved ? saved === 'dark' : prefersDark;
-              if (isDark) document.documentElement.classList.add('dark');
-            } catch (e) {}
+            (function(){
+              try {
+                var saved = localStorage.getItem('theme');
+                if (saved === 'dark') { document.documentElement.classList.add('dark'); return; }
+                if (saved === 'light') { document.documentElement.classList.remove('dark'); return; }
+
+                var applyDark = function(isDark){
+                  if (localStorage.getItem('theme')) return; // respect manual choice if set later
+                  if (isDark) document.documentElement.classList.add('dark');
+                  else document.documentElement.classList.remove('dark');
+                };
+
+                var scheduleNext = function(nextBoundaryMs, willBeDark){
+                  try {
+                    if (!Number.isFinite(nextBoundaryMs)) return;
+                    var delay = Math.max(0, nextBoundaryMs - Date.now());
+                    setTimeout(function(){ applyDark(willBeDark); }, delay);
+                  } catch(_){}
+                };
+
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                // Fallback to system preference immediately to avoid flash
+                applyDark(prefersDark);
+
+                var computeFromSun = function(lat, lng){
+                  var url = 'https://api.sunrise-sunset.org/json?formatted=0&lat='+lat+'&lng='+lng;
+                  fetch(url).then(function(r){ return r.json(); }).then(function(data){
+                    if (!data || !data.results) return;
+                    var now = Date.now();
+                    var sunrise = new Date(data.results.sunrise).getTime();
+                    var sunset = new Date(data.results.sunset).getTime();
+
+                    // If times are NaN, bail
+                    if (!Number.isFinite(sunrise) || !Number.isFinite(sunset)) return;
+
+                    var isNight = (now < sunrise) || (now >= sunset);
+                    applyDark(isNight);
+
+                    // Determine next boundary and target state after boundary
+                    var nextBoundary = now < sunrise ? sunrise : (now < sunset ? sunset : (sunrise + 24*60*60*1000));
+                    var willBeDark = nextBoundary === sunset ? true : false; // after sunrise -> light, after sunset -> dark
+                    if (now >= sunset) { // next sunrise is tomorrow
+                      willBeDark = false;
+                    }
+                    scheduleNext(nextBoundary, willBeDark);
+                  }).catch(function(){});
+                };
+
+                var useGeo = function(){
+                  if (!('geolocation' in navigator)) return false;
+                  navigator.geolocation.getCurrentPosition(function(pos){
+                    computeFromSun(pos.coords.latitude, pos.coords.longitude);
+                  }, function(){
+                    // Geolocation denied or failed; do nothing beyond prefers-color-scheme
+                  }, { maximumAge: 6*60*60*1000, timeout: 3000 });
+                  return true;
+                };
+
+                if (!useGeo()) {
+                  // If geolocation is unavailable, prefers-color-scheme is our baseline
+                }
+              } catch (e) {}
+            })();
           `
         }} />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
