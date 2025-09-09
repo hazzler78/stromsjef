@@ -84,7 +84,7 @@ const FakturakalkulatorPage = () => {
             <p className="text-center text-blue-100 mb-8">
               Legg igjen navn og nummer, så ringer vi deg for en gratis og uforpliktende prat. Vi hjelper deg å spare penger – enkelt og trygt!
             </p>
-            <ContactForm />
+            <ContactForm source="fakturakalkulator" />
           </div>
         </div>
       </section>

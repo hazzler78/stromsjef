@@ -130,7 +130,7 @@ const BusinessPage = () => {
       <section className="bg-gray-50 py-12 -mx-4 px-4">
         <div className="container mx-auto text-center">
           <div className="max-w-2xl mx-auto">
-            <ContactForm />
+            <ContactForm source="bedrift" />
           </div>
         </div>
       </section>

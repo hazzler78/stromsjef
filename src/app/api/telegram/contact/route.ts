@@ -4,7 +4,7 @@ import { sendTelegramMessage } from '@/lib/telegram-bot';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, newsletterOptIn, source } = body;
+    const { name, email, phone, newsletterOptIn, source, message } = body;
 
     if (!name || !email || !phone) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Compose message
-    const message =
+    const messageText =
       `📞 *Ny kontakthenvendelse fra nettsiden:*
 ` +
       `*Navn:* ${name}
@@ -35,10 +35,13 @@ export async function POST(request: NextRequest) {
       `*Nyhetsbrev:* ${newsletterOptIn ? 'Ja' : 'Nei'}
 ` +
       (source ? `*Kilde:* ${source}
+` : '') +
+      (message ? `*Melding:*
+${message}
 ` : '');
 
     // Send message to all chat IDs
-    const sendPromises = chatIds.map(chatId => sendTelegramMessage(chatId, message));
+    const sendPromises = chatIds.map(chatId => sendTelegramMessage(chatId, messageText));
     const results = await Promise.allSettled(sendPromises);
     
     // Check if all messages were sent successfully

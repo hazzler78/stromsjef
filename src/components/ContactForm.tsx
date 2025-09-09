@@ -7,20 +7,23 @@ const initialState = {
   email: '',
   phone: '',
   company: '',
+  message: '',
   newsletterOptIn: true,
 };
 
-export default function ContactForm() {
+export default function ContactForm({ source = 'unknown' }: { source?: string }) {
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const target = e.target as HTMLInputElement;
+    const { name } = target;
+    const nextValue = target.type === 'checkbox' ? target.checked : target.value;
     setForm(f => ({
       ...f,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: nextValue,
     }));
   };
 
@@ -32,7 +35,7 @@ export default function ContactForm() {
       const res = await fetch('/api/telegram/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'bedrift' }),
+        body: JSON.stringify({ ...form, source }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -50,10 +53,24 @@ export default function ContactForm() {
 
   if (success) {
     return (
-      <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-        <h3 className="text-xl font-bold text-green-700 mb-2">Takk for din henvendelse!</h3>
-        <p className="text-green-800">Vi tar kontakt så snart vi kan.</p>
-      </div>
+      <>
+        <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+          <h3 className="text-xl font-bold text-green-700 mb-2">Takk for din henvendelse!</h3>
+          <p className="text-green-800">Vi tar kontakt så snart vi kan.</p>
+        </div>
+        <div>
+          <label htmlFor="message" className="block text-gray-700 font-medium mb-1">Melding (valgfritt)</label>
+          <textarea
+            id="message"
+            name="message"
+            value={form.message}
+            onChange={handleChange}
+            rows={4}
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Skriv gjerne en kort beskjed..."
+          />
+        </div>
+      </>
     );
   }
 
@@ -106,6 +123,18 @@ export default function ContactForm() {
           required
           pattern="[0-9+ ]{8,15}"
           className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+      <div>
+        <label htmlFor="message" className="block text-gray-700 font-medium mb-1">Melding (valgfritt)</label>
+        <textarea
+          id="message"
+          name="message"
+          value={form.message}
+          onChange={handleChange}
+          rows={4}
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Skriv gjerne en kort beskjed..."
         />
       </div>
       <div className="flex items-center">

@@ -122,7 +122,7 @@ export default async function Home() {
         <div className="container mx-auto max-w-2xl">
           <h2 className="text-3xl font-bold text-center text-blue-800 mb-4">Få personlig hjelp – vi finner den beste strømavtalen for deg!</h2>
           <p className="text-center text-blue-900 mb-8">Legg igjen navn og nummer, så ringer vi deg for en gratis og uforpliktende prat. Vi hjelper deg å spare penger – enkelt og trygt!</p>
-          <ContactForm />
+          <ContactForm source="home" />
         </div>
       </section>
 
