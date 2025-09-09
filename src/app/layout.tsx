@@ -162,7 +162,7 @@ export default function RootLayout({
           />
         )}
         <Header />
-        <main className="container mx-auto p-4">{children}</main>
+        <main className="container mx-auto p-4 pt-20 md:pt-24">{children}</main>
         <Footer />
         <Analytics />
         <SpeedInsights />
