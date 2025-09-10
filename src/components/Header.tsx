@@ -98,6 +98,15 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
+            {/* Theme Toggle - visible on mobile and desktop */}
+            <button
+              onClick={toggleTheme}
+              className="inline-flex items-center px-3 py-2 rounded-md bg-blue-700 hover:bg-blue-800 transition-colors text-white text-sm"
+              aria-label="Bytt tema"
+            >
+              {isDark ? 'Lyst tema' : 'Mørkt tema'}
+            </button>
+
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMobileMenu}
@@ -127,15 +136,6 @@ const Header = () => {
                 )}
               </svg>
             </button>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="hidden md:inline-flex items-center px-3 py-2 rounded-md bg-blue-700 hover:bg-blue-800 transition-colors text-white"
-              aria-label="Bytt tema"
-            >
-              {isDark ? 'Lyst tema' : 'Mørkt tema'}
-            </button>
           </div>
         </div>
 
@@ -149,15 +149,6 @@ const Header = () => {
             />
             <nav className="md:hidden absolute top-full left-0 right-0 bg-blue-600 border-t border-blue-500 py-4 z-50 shadow-lg">
               <div className="container mx-auto px-4">
-                <div className="flex justify-end pb-3">
-                  <button
-                    onClick={toggleTheme}
-                    className="inline-flex items-center px-3 py-2 rounded-md bg-blue-700 hover:bg-blue-800 transition-colors text-white"
-                    aria-label="Bytt tema"
-                  >
-                    {isDark ? 'Lyst tema' : 'Mørkt tema'}
-                  </button>
-                </div>
                 <ul className="space-y-4">
                   <li>
                     <Link 
