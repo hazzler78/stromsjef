@@ -382,6 +382,7 @@ export default function AdminPage() {
           <input name="priceZone" value={newProduct.priceZone} onChange={handleNewProductChange} placeholder="Prissone" className="border rounded px-3 py-2" required />
           <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Logo URL" className="border rounded px-3 py-2" />
           <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Affiliate link" className="border rounded px-3 py-2" />
+          <input name="sortOrder" type="number" value={newProduct.sortOrder} onChange={handleNewProductChange} placeholder="Sorteringsordning (1=høyest)" className="border rounded px-3 py-2" />
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2">
               <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} />
@@ -409,6 +410,7 @@ export default function AdminPage() {
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Pris (øre/kWh)</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Månedsgebyr</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Populær</th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Sortering</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Affiliate Link</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Åtgärder</th>
               </tr>
@@ -432,6 +434,9 @@ export default function AdminPage() {
                       </td>
                       <td className="px-4 py-3 text-center">
                         <input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} />
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <input name="sortOrder" type="number" value={editValues.sortOrder || ''} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" placeholder="1" />
                       </td>
                       <td className="px-4 py-3">
                         <input name="affiliateLink" value={editValues.affiliateLink || ''} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" placeholder="Affiliate link" />
@@ -462,6 +467,11 @@ export default function AdminPage() {
                         ) : (
                           <span className="text-gray-400">-</span>
                         )}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <span className="text-sm text-gray-900">
+                          {plan.sortOrder ? plan.sortOrder : '-'}
+                        </span>
                       </td>
                       <td className="px-4 py-3">
                         <div className="text-sm text-gray-900">
