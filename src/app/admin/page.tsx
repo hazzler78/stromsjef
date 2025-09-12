@@ -410,6 +410,7 @@ export default function AdminPage() {
           <table className="min-w-full">
             <thead className="bg-gray-50">
               <tr>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">ID</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Navn</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Leverandør</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Pris (øre/kWh)</th>
@@ -426,6 +427,9 @@ export default function AdminPage() {
                 <tr key={plan.id} className="hover:bg-gray-50">
                   {editId === plan.id ? (
                     <>
+                      <td className="px-4 py-3">
+                        <div className="text-xs text-gray-500 font-mono">{plan.id}</div>
+                      </td>
                       <td className="px-4 py-3">
                         <input name="planName" value={editValues.planName} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" />
                       </td>
@@ -460,6 +464,9 @@ export default function AdminPage() {
                     </>
                   ) : (
                     <>
+                      <td className="px-4 py-3">
+                        <div className="text-xs text-gray-500 font-mono">{plan.id}</div>
+                      </td>
                       <td className="px-4 py-3">
                         <div className="font-medium text-gray-900">{plan.planName}</div>
                         <div className="text-xs text-gray-500 mt-1">
