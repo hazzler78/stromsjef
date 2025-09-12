@@ -34,7 +34,7 @@ const PlanCard = ({ plan }: PlanCardProps) => {
         <p className="text-md text-gray-700 mb-4">{plan.planName}</p>
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div>
-            <p className="text-sm text-gray-500">{plan.supplierName === 'Cheap Energy' ? 'Påslag' : 'Fastpris'}</p>
+            <p className="text-sm text-gray-500">{plan.supplierName === 'Cheap Energy' && plan.planName === 'Spotpris' ? 'Påslag' : 'Fastpris'}</p>
             <p className="text-lg font-semibold">{plan.pricePerKwh} øre/kWh</p>
           </div>
           <div>
