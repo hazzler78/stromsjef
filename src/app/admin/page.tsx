@@ -462,7 +462,7 @@ export default function AdminPage() {
                       <td className="px-4 py-3">
                         <div className="font-medium text-gray-900">{plan.planName}</div>
                         <div className="text-xs text-gray-500 mt-1">
-                          {plan.priceZone} • {plan.bindingTime ? `${plan.bindingTime} mnd` : 'Ingen binding'}
+                          {plan.priceZone} • {plan.bindingTime && plan.bindingTime > 0 ? `${plan.bindingTime} mnd` : 'Ingen binding'}
                         </div>
                         {plan.finePrint && (
                           <div className="text-xs text-gray-400 mt-1 italic">
@@ -474,7 +474,7 @@ export default function AdminPage() {
                       <td className="px-4 py-3 text-gray-900">{plan.pricePerKwh}</td>
                       <td className="px-4 py-3 text-gray-900">{plan.monthlyFee}</td>
                       <td className="px-4 py-3 text-center text-gray-900">
-                        {plan.bindingTime ? `${plan.bindingTime} mnd` : '-'}
+                        {plan.bindingTime && plan.bindingTime > 0 ? `${plan.bindingTime} mnd` : '-'}
                       </td>
                       <td className="px-4 py-3 text-center">
                         {plan.featured ? (
