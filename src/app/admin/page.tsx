@@ -449,6 +449,7 @@ export default function AdminPage() {
                       </td>
                       <td className="px-4 py-3">
                         <input name="affiliateLink" value={editValues.affiliateLink || ''} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" placeholder="Affiliate link" />
+                        <input name="logoUrl" value={editValues.logoUrl || ''} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm mt-1" placeholder="Logo URL (t.ex. /logos/cheap-energy.png)" />
                       </td>
                       <td className="px-4 py-3 text-center">
                         <div className="flex gap-2 justify-center">
