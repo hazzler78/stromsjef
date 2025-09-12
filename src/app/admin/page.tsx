@@ -118,8 +118,9 @@ export default function AdminPage() {
   }
 
   // Håndter endring i inputfelt
-  function handleEditChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value, type, checked } = e.target;
+  function handleEditChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value, type } = e.target;
+    const checked = 'checked' in e.target ? e.target.checked : false;
     setEditValues({
       ...editValues,
       [name]: type === 'checkbox' ? checked : value,
@@ -177,8 +178,9 @@ export default function AdminPage() {
     }
   }
 
-  function handleNewProductChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value, type, checked } = e.target;
+  function handleNewProductChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value, type } = e.target;
+    const checked = 'checked' in e.target ? e.target.checked : false;
     setNewProduct({
       ...newProduct,
       [name]: type === 'checkbox' ? checked : value,
@@ -382,7 +384,10 @@ export default function AdminPage() {
           <input name="priceZone" value={newProduct.priceZone} onChange={handleNewProductChange} placeholder="Prissone" className="border rounded px-3 py-2" required />
           <input name="logoUrl" value={newProduct.logoUrl} onChange={handleNewProductChange} placeholder="Logo URL" className="border rounded px-3 py-2" />
           <input name="affiliateLink" value={newProduct.affiliateLink} onChange={handleNewProductChange} placeholder="Affiliate link" className="border rounded px-3 py-2" />
+          <input name="bindingTime" type="number" value={newProduct.bindingTime} onChange={handleNewProductChange} placeholder="Bindingstid (månader)" className="border rounded px-3 py-2" />
           <input name="sortOrder" type="number" value={newProduct.sortOrder} onChange={handleNewProductChange} placeholder="Sorteringsordning (1=høyest)" className="border rounded px-3 py-2" />
+          <input name="bindingTimeText" value={newProduct.bindingTimeText} onChange={handleNewProductChange} placeholder="Bindingstid text (t.ex. '12 månader')" className="border rounded px-3 py-2" />
+          <textarea name="finePrint" value={newProduct.finePrint} onChange={handleNewProductChange} placeholder="Ytterligare information/fine print" className="border rounded px-3 py-2" rows={2} />
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2">
               <input name="featured" type="checkbox" checked={!!newProduct.featured} onChange={handleNewProductChange} />
@@ -409,6 +414,7 @@ export default function AdminPage() {
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Leverandør</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Pris (øre/kWh)</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Månedsgebyr</th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Bindingstid</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Populær</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Sortering</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Affiliate Link</th>
@@ -433,6 +439,9 @@ export default function AdminPage() {
                         <input name="monthlyFee" type="number" value={editValues.monthlyFee} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" />
                       </td>
                       <td className="px-4 py-3 text-center">
+                        <input name="bindingTime" type="number" value={editValues.bindingTime || ''} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm" placeholder="månader" />
+                      </td>
+                      <td className="px-4 py-3 text-center">
                         <input name="featured" type="checkbox" checked={!!editValues.featured} onChange={handleEditChange} />
                       </td>
                       <td className="px-4 py-3 text-center">
@@ -455,10 +464,18 @@ export default function AdminPage() {
                         <div className="text-xs text-gray-500 mt-1">
                           {plan.priceZone} • {plan.bindingTime ? `${plan.bindingTime} mnd` : 'Ingen binding'}
                         </div>
+                        {plan.finePrint && (
+                          <div className="text-xs text-gray-400 mt-1 italic">
+                            {plan.finePrint}
+                          </div>
+                        )}
                       </td>
                       <td className="px-4 py-3 text-gray-900">{plan.supplierName}</td>
                       <td className="px-4 py-3 text-gray-900">{plan.pricePerKwh}</td>
                       <td className="px-4 py-3 text-gray-900">{plan.monthlyFee}</td>
+                      <td className="px-4 py-3 text-center text-gray-900">
+                        {plan.bindingTime ? `${plan.bindingTime} mnd` : '-'}
+                      </td>
                       <td className="px-4 py-3 text-center">
                         {plan.featured ? (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
