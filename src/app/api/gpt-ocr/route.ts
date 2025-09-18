@@ -29,75 +29,80 @@ export async function POST(req: NextRequest) {
     const base64Image = `data:${mimeType};base64,${buffer.toString('base64')}`;
     const imageSha256 = createHash('sha256').update(buffer).digest('hex');
 
-    // OpenAI Vision prompt for Norwegian electricity bills
-    const systemPrompt = `Du er en ekspert på norske strømregninger som hjelper brukere identifisere ekstra kostnader, skjulte gebyrer og unødvendige tillegg på deres strømfakturaer. 
+    // Prompter: to-trinns flyt (ekstraksjon -> beregning). Norsk.
+    const extractionPrompt = `Du er en ekspert på norske strømfakturaer fra ALLE strømleverandører. Oppgaven er å EKSTRAHERE ALLE kostnader fra fakturaen og strukturere dem som en JSON-array.
 
-**EKSpertise:**
-- Du forstår forskjellen mellom strømoverføring (nettavgift) og strømhandel (leverandøravgift)
-- Du kan identifisere hvilke avgifter som er obligatoriske vs valgfrie
-- Du forstår at noen "faste avgifter" er nettavgifter (obligatoriske) mens andre er leverandøravgifter (valgfrie)
-- **Kontekst er avgjørende**: Se på hvilken seksjon avgiften tilhører (Strømnett vs Strømhandel)
+KRITISK – FLEKSIBILITET:
+- Du MÅ håndtere fakturaer fra ALLE leverandører (Agva, Fjordkraft, Tibber, Fortum, Kraftriket, osv.)
+- Ulike leverandører har forskjellige oppsett og termer – tilpass deg hver faktura
+- Du skal alltid svare på norsk
 
-**NØYAKTIG LESING:**
-- Les av eksakt beløp fra "Totalt" eller tilsvarende kolonne
-- Bland ikke sammen ulike avgifter med hverandre
-- Vær spesielt oppmerksom på å ikke blande "Årsavgift" med "Strømoverføring"
-- **DOBBELTSJEKK ALLE POSTER**: Gå gjennom fakturaen rad for rad og let etter ALLE avgifter som matcher listen nedenfor
-- **VIKTIGT**: Hvis du finner en avgift som matcher listen, inkluder den UANSETT hvor den står på fakturaen
-- **EKSTRA VIKTIGT**: Let spesielt etter ord som inneholder "år", "måned", "fast", "rørlig", "påslag" - selv om de står i samme rad som andre ord
-- **VIKTIGT**: Hvis du ser en avgift som har både et årsbeløp (f.eks. "384 kr") og et månedsbeløp (f.eks. "32,61 kr"), inkluder månedsbeløpet i beregningen
+EKSTRAKSJONSREGEL:
+Returner en JSON-array der hvert element har:
+- "name": eksakt tekst fra fakturaen (f.eks. "Fast månedsavgift", "Strømavtale årsavgift")
+- "amount": beløpet i kroner fra siste/"Totalt"-kolonnen (f.eks. 31.20, 44.84) – IKKE fra "øre/kWh" eller "kr/mnd"
+- "section": hvilken seksjon linjen tilhører ("Strømnett" eller "Strømhandel")
+- "description": kort beskrivelse av hva kostnaden er
 
-**FORMÅL:**
-Analyser fakturaen, let etter poster som avviker fra normale eller nødvendige avgifter, og forklar disse postene på et enkelt og forståelig språk. Gi tips på hvordan brukeren kan unngå disse kostnadene i fremtiden eller bytte til en mer fordelaktig strømavtale.
+BELØP – VELG RIKTIG KOLONNE:
+- Les ALLTID fra siste kolonne som viser sluttbeløp i kr
+- Ignorer kolonner med "øre/kWh", "kr/mnd", "kr/kWh" – dette er enhetspriser
 
-**VIKTIGT: Etter at du har identifisert alle ekstra avgifter, summer ALLE beløp og vis den totale besparelsen som kunden kan gjøre ved å bytte til en avtale uten disse ekstra kostnadene.**
+FORMATKRAV:
+- Kun gyldig JSON-array (bruk doble anførselstegn, ingen trailing-komma, ingen kommentarer)
+- Start med [ og slutt med ]
 
-**SPESIELT VIKTIGT - LET ETTER:**
-- Alle avgifter som inneholder "år" eller "måned" (f.eks. "årsavgift", "månedsavgift")
-- Alle "faste" eller "rørlige" kostnader
-- Alle "påslag" av noe slag
-- **SPESIELT**: Let etter "Strømavtale årsavgift" eller lignende tekst som inneholder både "strømavtale" og "årsavgift"
-- **EKSTRA VIKTIGT**: Let spesielt etter "Rørlige kostnader" eller "Rørlig kostnad" - dette er en vanlig ekstra avgift som ofte overses
-- Gå gjennom HVER rad på fakturaen og kontroller om den inneholder noen av disse avgiftene
+Svar KUN med JSON-arrayen.`;
 
-**ORDLISTE - ALLE DETTE REGNES SOM UNØDVENDIGE KOSTNADER:**
-- Månedsavgift, Fast månedsavgift, Fast månedsavg., Månedsavg.
-- Rørlige kostnader, Rørlig kostnad, Rørlige avgifter, Rørlig avgift
-- Fast påslag, Faste påslag, Fast avgift, Faste avgifter, Påslag
-- Fast påslag spot, Fast påslag elcertifikat
-- Årsavgift, Årsavg., Årskostnad, Strømavtale årsavgift, Årsavgift strømavtale (kun hvis under Strømhandel/leverandøravgift; ekskluder hvis under Strømnett/Strømoverføring)
-- Forvaltet Portefølje Utfall, Forvaltet portefølje utfall
-- Bra miljøvalg, Bra miljøvalg (Lisens Elklart AB)
-- Trygg, Trygghetspakke
-- Basavgift, Grunnavgift, Administrasjonsavgift
-- Fakturaavgift, Kundavgift, Strømhandelsavgift, Handelsavgift
-- Indeksavgift, Elcertifikatavgift, Elcertifikat
-- Grønn strømavgift, Opprinnelsesgarantiavgift, Opprinnelse
-- Miljøpakke, Serviceavgift, Leverandøravgift
-- Forsinkelsesrente, Påminnelseavgift, Priskontroll
-- Rent vann, Fossilt fri, Fossilt fri inkludert
+    const calculationPrompt = `Du er en ekspert på norske strømfakturaer. Basert på JSON-dataen fra ekstraksjonen: identifiser unødvendige kostnader (kun under Strømhandel) og beregn total mulig besparelse per måned og per år. Svar som enkel, konsis tekst uten Markdown (ingen #, **, - eller nummererte lister).
 
-**ORDLISTE - KOSTNADER SOM IKKE REGNES SOM EKSTRA:**
-- MVA, Strømoverføring, Energiskatt, Gjennomsnitt spotpris, Spotpris, Strømpris
+REGNES SOM UNØDVENDIGE (Strømhandel):
+- Månedsavgift, Fast månedsavgift, Fast avgift
+- Rørlige kostnader, Rørlig kostnad
+- Fast påslag, Påslag, Faste påslag
+- Årsavgift, Strømavtale årsavgift
+- Basavgift, Grunnavgift, Administrasjonsavgift, Abonnementsavgift
+- Fakturaavgift, Kundeavgift, Strømhandelsavgift, Handelsavgift
+- Indeksavgift, Elsertifikat/Elcertifikat (om oppført som egen kr-post)
+- Opprinnelsesgaranti/Grønn strøm-avgift, Miljøpakke, Serviceavgift, Leverandøravgift
+- Forsinkelsesrente, Påminnelsesgebyr, Priskontroll
+- Profilpris/Bundet profilpris når dette er en egen post under Strømhandel
+
+EKSKLUDER (ikke unødvendig):
+- MVA, Strømoverføring (nett), Energiledd, Energiskatt, Spotpris/Strømpris (selve energiprisen)
 - Forbruk, kWh, Øre/kWh, Kr/kWh
 
-**VIKTIGT: Inkluder ALLE kostnader fra første listen i summeringen av unødvendige kostnader. Ekskluder kostnader fra andre listen.**
+INSTRUKSJON:
+1) Filtrer ut alle poster fra JSON som matcher listen over unødvendige OG har section = "Strømhandel"
+2) Summer beløpene (kr) til en månedlig totalsum
+3) Regn ut årlig besparelse = månedlig sum × 12
+4) Presenter resultatet på norsk i enkel tekst, uten emojis og uten å gjenta totalsatser i flere ulike setninger. Bruk nøyaktig denne strukturen (radbrytninger mellom seksjoner):
 
-**SUMMERING:**
-1. List ALLE funnet unødvendige kostnader med beløp
-2. Summer ALLE beløp til en total besparelse
-3. Vis den totale besparelsen tydelig på slutten
+"""
+Unødvendige kostnader denne måneden:
+[Navn 1]: [beløp] kr
+[Navn 2]: [beløp] kr
+...
 
-**VIKTIGT - SLUTTTEKST:**
-Etter summeringen, avslutt alltid med denne eksakte teksten:
+Total unødvendige kostnader per måned: X,XX kr
 
-"For å redusere disse kostnadene bør du bytte til en strømavtale uten faste påslag og avgifter.
+Anbefaling:
+Bytt til en avtale uten disse påslagene og avgiftene.
+Rørlig pris – kampanje uten bindingstid i ett år, uten påslag/avgifter.
+Alternativt: Velg fastpris med prisgaranti og valgfri bindingstid.
 
-Rørlig pris – kampanje uten bindingstid som gjelder i et helt år, helt uten påslag eller avgifter.
+Oppsummering:
+Potensiell besparelse: X,XX kr/mnd (≈ Y,YY kr/år)
+"""
 
-Ønsker du i stedet å sikre strømprisen din med en fast avtale, anbefaler vi en fastprisavtale med prisgaranti. Du bestemmer selv hvor lenge du vil sikre strømprisen din."
+STIL OG FORMAT:
+- Bruk norsk språk og norske tallformater (komma for desimaler, «kr» etter beløp)
+- Ikke bruk emojis
+- Ikke bruk Markdown-tegn (#, **, -, 1.)
+- Ikke gjenta totalbeløpene flere ganger uten grunn
+- Skriv kort og tydelig; unngå redundans
 
-Svar på norsk og vær hjelpsom og pedagogisk.`;
+Svar på norsk, vennlig og pedagogisk.`;
 
     const openaiApiKey = process.env.OPENAI_API_KEY;
     const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -107,39 +112,113 @@ Svar på norsk og vær hjelpsom og pedagogisk.`;
       return NextResponse.json({ error: 'Missing OpenAI API key' }, { status: 500 });
     }
 
-    // Send image + prompt to OpenAI Vision (gpt-4o)
-    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${openaiApiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: 'Hva betaler jeg i unødvendige kostnader? Analyser denne strømregningen i henhold til instruksjonene.' },
-              { type: 'image_url', image_url: { url: base64Image } }
-            ]
-          }
-        ],
-        max_tokens: 1200,
-        temperature: 0.2,
-      }),
-    });
+    // To-trinns: 1) Ekstraher strukturert JSON, 2) Beregn og presentér resultat
+    let gptAnswer = '';
 
-    if (!openaiRes.ok) {
-      const err = await openaiRes.text();
-      return NextResponse.json({ error: 'OpenAI Vision error', details: err }, { status: 500 });
+    try {
+      // 1) Ekstraksjon
+      const extractionRes = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openaiApiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: extractionPrompt },
+            {
+              role: 'user',
+              content: [
+                { type: 'text', text: 'Ekstraher ALLE kostnader som en JSON-array (kun JSON som svar).' },
+                { type: 'image_url', image_url: { url: base64Image } }
+              ]
+            }
+          ],
+          max_tokens: 2000,
+          temperature: 0.0,
+        }),
+      });
+
+      if (extractionRes.ok) {
+        const extractionData = await extractionRes.json();
+        const extracted = extractionData.choices?.[0]?.message?.content || '';
+
+        // Rens vekk ```json ... ``` om modellen har pakket svaret
+        let cleanJson = extracted.trim();
+        if (cleanJson.startsWith('```json')) {
+          cleanJson = cleanJson.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+        }
+        if (cleanJson.startsWith('```')) {
+          cleanJson = cleanJson.replace(/^```\s*/, '').replace(/\s*```$/, '');
+        }
+
+        // Valider JSON
+        JSON.parse(cleanJson);
+
+        // 2) Beregning/presentasjon
+        const calcRes = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openaiApiKey}`,
+          },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [
+              { role: 'system', content: calculationPrompt },
+              { role: 'user', content: `Her er den ekstraherte JSON-dataen fra strømfakturaen:\n\n${cleanJson}\n\nAnalyser denne dataen i henhold til instruksjonene.` }
+            ],
+            max_tokens: 1200,
+            temperature: 0.1,
+          }),
+        });
+
+        if (calcRes.ok) {
+          const calcData = await calcRes.json();
+          gptAnswer = calcData.choices?.[0]?.message?.content || '';
+        }
+      }
+    } catch {
+      // Ignorer og fall tilbake nedenfor
     }
 
-    const gptData = await openaiRes.json();
-    const gptAnswer = gptData.choices?.[0]?.message?.content || '';
+    // Fallback til tidligere én-trinns prompt (norsk)
+    if (!gptAnswer) {
+      const systemPrompt = `Du er en ekspert på norske strømregninger som identifiserer unødvendige kostnader og summerer potensiell besparelse. Svar på norsk, konsist og pedagogisk.`;
 
-    // Try to log analysis in Supabase
+      const fallbackRes = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openaiApiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            {
+              role: 'user',
+              content: [
+                { type: 'text', text: 'Hva betaler jeg i unødvendige kostnader? Analyser denne strømregningen i henhold til instruksjonene.' },
+                { type: 'image_url', image_url: { url: base64Image } }
+              ]
+            }
+          ],
+          max_tokens: 1200,
+          temperature: 0.2,
+        }),
+      });
+
+      if (!fallbackRes.ok) {
+        const err = await fallbackRes.text();
+        return NextResponse.json({ error: 'OpenAI Vision error', details: err }, { status: 500 });
+      }
+      const fb = await fallbackRes.json();
+      gptAnswer = fb.choices?.[0]?.message?.content || '';
+    }
+
+    // Logg analysen i Supabase
     let logId: number | null = null;
     try {
       if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
@@ -157,7 +236,7 @@ Svar på norsk og vær hjelpsom og pedagogisk.`;
               file_size: fileSize,
               image_sha256: imageSha256,
               model: 'gpt-4o',
-              system_prompt_version: '2025-01-vision-v1-norwegian',
+              system_prompt_version: '2025-09-vision-v2-two-step-no',
               gpt_answer: gptAnswer,
               consent: consent,
             }
