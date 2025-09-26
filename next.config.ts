@@ -9,6 +9,18 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Force redirect from apex domain to www to fix SSL certificate issues
+      {
+        source: '/:path*',
+        destination: 'https://www.stromsjef.no/:path*',
+        permanent: true,
+        has: [
+          {
+            type: 'host',
+            value: 'stromsjef.no',
+          },
+        ],
+      },
       {
         source: '/spotpriskontroll',
         destination: '/fakturakalkulator',

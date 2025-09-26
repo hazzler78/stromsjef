@@ -211,7 +211,8 @@ export default function AdminPage() {
   }
 
   async function deleteProduct(plan: any) {
-    if (!window.confirm('Er du sikker på at du vil slette dette produktet?')) return;
+    const confirmMessage = `Är du säker på att du vill ta bort avtalet "${plan.planName}" från ${plan.supplierName}?\n\nDetta kan inte ångras!`;
+    if (!window.confirm(confirmMessage)) return;
     try {
       const res = await fetch('/api/plans', {
         method: 'DELETE',
@@ -219,10 +220,11 @@ export default function AdminPage() {
         body: JSON.stringify({ id: plan.id }),
       });
       const data = await res.json();
-      if (!data.success) throw new Error(data.error || 'Kunne ikke slette produkt');
+      if (!data.success) throw new Error(data.error || 'Kunde inte ta bort avtalet');
       setPlans(plans => plans.filter(p => p.id !== plan.id));
+      alert(`Avtalet "${plan.planName}" har tagits bort.`);
     } catch (err: any) {
-      alert(err.message || 'Noe gikk galt ved sletting');
+      alert(err.message || 'Något gick fel vid borttagning');
     }
   }
 
@@ -459,6 +461,14 @@ export default function AdminPage() {
                         <div className="flex gap-2 justify-center">
                           <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">Lagre</button>
                           <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-400">Avbryt</button>
+                          <button 
+                            onClick={() => deleteProduct(plan)} 
+                            disabled={saving}
+                            className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 border border-red-600"
+                            title="Ta bort detta avtal permanent"
+                          >
+                            Ta bort
+                          </button>
                         </div>
                       </td>
                     </>
@@ -512,7 +522,13 @@ export default function AdminPage() {
                       <td className="px-4 py-3 text-center">
                         <div className="flex gap-2 justify-center">
                           <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">Rediger</button>
-                          <button onClick={() => deleteProduct(plan)} className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">Ta bort</button>
+                          <button 
+                            onClick={() => deleteProduct(plan)} 
+                            className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 border border-red-600"
+                            title="Ta bort detta avtal permanent"
+                          >
+                            Ta bort
+                          </button>
                         </div>
                       </td>
                     </>
