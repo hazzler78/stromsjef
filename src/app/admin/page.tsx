@@ -408,8 +408,8 @@ export default function AdminPage() {
       ) : error ? (
         <div className="p-8 text-center text-red-500">{error}</div>
       ) : (
-        <div className="bg-white border rounded shadow overflow-hidden">
-          <table className="min-w-full">
+        <div className="bg-white border rounded shadow overflow-x-auto">
+          <table className="min-w-full" style={{ minWidth: '1200px' }}>
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">ID</th>
@@ -421,7 +421,7 @@ export default function AdminPage() {
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Populær</th>
                 <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Sortering</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Affiliate Link</th>
-                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Åtgärder</th>
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900 w-48">Åtgärder</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -458,13 +458,13 @@ export default function AdminPage() {
                         <input name="logoUrl" value={editValues.logoUrl || ''} onChange={handleEditChange} className="border rounded px-2 py-1 w-full text-sm mt-1" placeholder="Logo URL (t.ex. /logos/cheap-energy.png)" />
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <div className="flex gap-2 justify-center">
-                          <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">Lagre</button>
-                          <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-400">Avbryt</button>
+                        <div className="flex gap-1 justify-center flex-wrap">
+                          <button onClick={() => saveEdit(plan)} disabled={saving} className="bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700 whitespace-nowrap">Lagre</button>
+                          <button onClick={cancelEdit} disabled={saving} className="bg-gray-300 text-gray-800 px-2 py-1 rounded text-xs hover:bg-gray-400 whitespace-nowrap">Avbryt</button>
                           <button 
                             onClick={() => deleteProduct(plan)} 
                             disabled={saving}
-                            className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 border border-red-600"
+                            className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 border border-red-600 whitespace-nowrap"
                             title="Ta bort detta avtal permanent"
                           >
                             Ta bort
@@ -520,11 +520,11 @@ export default function AdminPage() {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <div className="flex gap-2 justify-center">
-                          <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">Rediger</button>
+                        <div className="flex gap-1 justify-center flex-wrap">
+                          <button onClick={() => startEdit(plan)} className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 whitespace-nowrap">Rediger</button>
                           <button 
                             onClick={() => deleteProduct(plan)} 
-                            className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 border border-red-600"
+                            className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 border border-red-600 whitespace-nowrap"
                             title="Ta bort detta avtal permanent"
                           >
                             Ta bort
