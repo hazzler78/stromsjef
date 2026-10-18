@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { saveContactSubmission } from '@/lib/contacts';
 import { sendTelegramMessage } from '@/lib/telegram-bot';
 
 export async function POST(request: NextRequest) {
@@ -40,9 +41,22 @@ export async function POST(request: NextRequest) {
 ${message}
 ` : '');
 
-    // Send message to all chat IDs
     const sendPromises = chatIds.map(chatId => sendTelegramMessage(chatId, messageText));
-    const results = await Promise.allSettled(sendPromises);
+    const [results, persistResult] = await Promise.all([
+      Promise.allSettled(sendPromises),
+      saveContactSubmission({
+        name,
+        email,
+        phone,
+        newsletterOptIn,
+        source,
+        message,
+      }),
+    ]);
+
+    if (!persistResult) {
+      console.warn('⚠️ Contact submission could not be persisted to KV');
+    }
     
     // Check if all messages were sent successfully
     const successfulSends = results.filter(result => result.status === 'fulfilled' && result.value).length;

@@ -35,6 +35,9 @@ Create a `.env.local` file in the root directory with the following variables:
 # Admin Authentication (REQUIRED)
 ADMIN_PASSWORD=your_secure_password_here
 
+# Contacts API (REQUIRED for reading stored contact form submissions)
+CONTACTS_API_TOKEN=your_long_random_token_here
+
 # Telegram Bot
 TELEGRAM_BOT_TOKEN=your_bot_token
 TELEGRAM_WEBHOOK_URL=your_webhook_url
@@ -57,6 +60,7 @@ For production deployment on Vercel, add these environment variables in your Ver
 2. Navigate to Settings → Environment Variables
 3. Add each variable from the list above
 4. Make sure to set `ADMIN_PASSWORD` to a secure password
+5. Set `CONTACTS_API_TOKEN` to a long random secret (used by the assistant to read contact submissions)
 
 ## API Endpoints
 
@@ -64,6 +68,39 @@ For production deployment on Vercel, add these environment variables in your Ver
 - `POST /api/telegram` - Telegram webhook handler
 - `POST /api/telegram/test` - Test bot endpoint
 - `POST /api/track-click` - Track button clicks
+- `GET /api/contacts` - List stored contact form submissions (Bearer token; see below)
+- `PATCH /api/contacts` - Update submission status (`new` or `handled`)
+
+### Contacts API (authenticated)
+
+Contact form posts still go to `POST /api/telegram/contact` (Telegram notification). Each submission is also stored in Vercel KV with status `new`.
+
+All `/api/contacts` requests require:
+
+```http
+Authorization: Bearer <CONTACTS_API_TOKEN>
+```
+
+**List submissions** (newest first):
+
+```bash
+curl -s -H "Authorization: Bearer $CONTACTS_API_TOKEN" \
+  "https://your-domain.vercel.app/api/contacts?limit=20"
+```
+
+Optional query params:
+
+- `since` — ISO-8601 timestamp; only return submissions at or after this time
+- `limit` — max items (default 50, max 200)
+
+**Mark as handled:**
+
+```bash
+curl -s -X PATCH -H "Authorization: Bearer $CONTACTS_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"id":"<submission-uuid>","status":"handled"}' \
+  "https://your-domain.vercel.app/api/contacts"
+```
 
 ## Telegram Bot Commands
 
@@ -80,6 +117,7 @@ For production deployment on Vercel, add these environment variables in your Ver
 - Eksempel: `TELEGRAM_CONTACT_CHAT_IDS=123456789,987654321,555666777`
 - Skjemaet støtter navn, e-post, telefon og (valgfritt) nyhetsbrev.
 - Hvis noen meldinger feiler å sendes, returneres fortsatt suksess så lenge minst én melding ble sendt.
+- Alle innsendinger lagres i Vercel KV og kan leses via `GET /api/contacts` med `CONTACTS_API_TOKEN`.
 
 ## Development
 
