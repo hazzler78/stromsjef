@@ -70,10 +70,17 @@ export async function listContactSubmissions(options?: {
       return items.slice(0, limit);
     }
 
-    const fetchCount = sinceMs !== undefined ? limit * 5 : limit;
-    const ids = await kv.zrange<string[]>(CONTACTS_INDEX_KEY, 0, fetchCount - 1, {
-      rev: true,
-    });
+    const ids =
+      sinceMs !== undefined && !Number.isNaN(sinceMs)
+        ? await kv.zrange<string[]>(CONTACTS_INDEX_KEY, sinceMs, '+inf', {
+            byScore: true,
+            rev: true,
+            offset: 0,
+            count: limit,
+          })
+        : await kv.zrange<string[]>(CONTACTS_INDEX_KEY, 0, limit - 1, {
+            rev: true,
+          });
 
     if (!ids?.length) {
       return [];
@@ -82,15 +89,8 @@ export async function listContactSubmissions(options?: {
     const contacts: ContactSubmission[] = [];
     for (const id of ids) {
       const entry = await kv.get<ContactSubmission>(contactKey(id));
-      if (!entry) {
-        continue;
-      }
-      if (sinceMs !== undefined && Date.parse(entry.createdAt) < sinceMs) {
-        continue;
-      }
-      contacts.push(entry);
-      if (contacts.length >= limit) {
-        break;
+      if (entry) {
+        contacts.push(entry);
       }
     }
 
