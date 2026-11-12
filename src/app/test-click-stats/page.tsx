@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function TestClickStats() {
@@ -100,9 +101,9 @@ export default function TestClickStats() {
       <div className="mt-8 bg-blue-50 p-4 rounded">
         <h3 className="font-semibold mb-2">Test Instructions:</h3>
         <ol className="list-decimal list-inside space-y-1 text-sm">
-          <li>Go to <a href="/norgespris" className="text-blue-600 underline">/norgespris</a> and click the CTA button</li>
-          <li>Go to <a href="/bedrift" className="text-blue-600 underline">/bedrift</a> and click the CTA buttons</li>
-          <li>Go to the <a href="/" className="text-blue-600 underline">main page</a> and click on plan cards</li>
+          <li>Go to <Link href="/norgespris" className="text-blue-600 underline">/norgespris</Link> and click the CTA button</li>
+          <li>Go to <Link href="/bedrift" className="text-blue-600 underline">/bedrift</Link> and click the CTA buttons</li>
+          <li>Go to the <Link href="/" className="text-blue-600 underline">main page</Link> and click on plan cards</li>
           <li>Refresh this page to see updated statistics</li>
         </ol>
       </div>
