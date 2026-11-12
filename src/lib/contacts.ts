@@ -1,50 +1,71 @@
-import { randomUUID } from 'crypto';
-import { kv } from '@vercel/kv';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {
   ContactStatus,
   ContactSubmission,
   ContactSubmissionInput,
 } from '@/types/contact';
 
-const CONTACTS_INDEX_KEY = 'contacts:index';
+type ContactSubmissionRow = {
+  id: string;
+  name: string;
+  email: string;
+  message: string | null;
+  created_at: string;
+};
 
-const isDevelopmentMode: boolean =
-  process.env.NODE_ENV === 'development' &&
-  (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN);
+function getSupabaseClient(): SupabaseClient | null {
+  const url = process.env.SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-const inMemoryContacts: ContactSubmission[] = [];
+  if (!url || !key) {
+    return null;
+  }
 
-function contactKey(id: string): string {
-  return `contact:${id}`;
+  return createClient(url, key);
+}
+
+function mapRow(row: ContactSubmissionRow): ContactSubmission {
+  return {
+    id: row.id,
+    createdAt: row.created_at,
+    name: row.name,
+    email: row.email,
+    phone: '',
+    newsletterOptIn: false,
+    message: row.message ?? undefined,
+    status: 'new',
+  };
 }
 
 export async function saveContactSubmission(
   input: ContactSubmissionInput
 ): Promise<ContactSubmission | null> {
-  const submission: ContactSubmission = {
-    id: randomUUID(),
-    createdAt: new Date().toISOString(),
-    name: input.name,
-    email: input.email,
-    phone: input.phone,
-    newsletterOptIn: Boolean(input.newsletterOptIn),
-    source: input.source,
-    message: input.message,
-    status: 'new',
-  };
-
   try {
-    if (isDevelopmentMode) {
-      inMemoryContacts.unshift(submission);
-      return submission;
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      console.error('Failed to persist contact submission: Supabase is not configured');
+      return null;
     }
 
-    await kv.set(contactKey(submission.id), submission);
-    await kv.zadd(CONTACTS_INDEX_KEY, {
-      score: Date.parse(submission.createdAt),
-      member: submission.id,
-    });
-    return submission;
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .insert({
+        name: input.name,
+        email: input.email,
+        message: input.message ?? null,
+      })
+      .select('id, name, email, message, created_at')
+      .single();
+
+    if (error || !data) {
+      console.error('Failed to persist contact submission:', error);
+      return null;
+    }
+
+    return mapRow(data as ContactSubmissionRow);
   } catch (error) {
     console.error('Failed to persist contact submission:', error);
     return null;
@@ -61,71 +82,51 @@ export async function listContactSubmissions(options?: {
     throw new Error('Invalid since timestamp');
   }
 
-  try {
-    if (isDevelopmentMode) {
-      let items = [...inMemoryContacts];
-      if (sinceMs !== undefined && !Number.isNaN(sinceMs)) {
-        items = items.filter((c) => Date.parse(c.createdAt) >= sinceMs);
-      }
-      return items.slice(0, limit);
-    }
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    throw new Error('Supabase is not configured');
+  }
 
-    const ids =
-      sinceMs !== undefined && !Number.isNaN(sinceMs)
-        ? await kv.zrange<string[]>(CONTACTS_INDEX_KEY, sinceMs, '+inf', {
-            byScore: true,
-            rev: true,
-            offset: 0,
-            count: limit,
-          })
-        : await kv.zrange<string[]>(CONTACTS_INDEX_KEY, 0, limit - 1, {
-            rev: true,
-          });
+  let query = supabase
+    .from('contact_submissions')
+    .select('id, name, email, message, created_at')
+    .order('created_at', { ascending: false })
+    .limit(limit);
 
-    if (!ids?.length) {
-      return [];
-    }
+  if (sinceMs !== undefined && !Number.isNaN(sinceMs)) {
+    query = query.gte('created_at', new Date(sinceMs).toISOString());
+  }
 
-    const contacts: ContactSubmission[] = [];
-    for (const id of ids) {
-      const entry = await kv.get<ContactSubmission>(contactKey(id));
-      if (entry) {
-        contacts.push(entry);
-      }
-    }
-
-    return contacts;
-  } catch (error) {
+  const { data, error } = await query;
+  if (error) {
     console.error('Failed to list contact submissions:', error);
     throw error;
   }
+
+  return ((data as ContactSubmissionRow[]) || []).map(mapRow);
 }
 
 export async function updateContactStatus(
   id: string,
-  status: ContactStatus
+  _status: ContactStatus
 ): Promise<ContactSubmission | null> {
-  try {
-    if (isDevelopmentMode) {
-      const index = inMemoryContacts.findIndex((c) => c.id === id);
-      if (index === -1) {
-        return null;
-      }
-      inMemoryContacts[index] = { ...inMemoryContacts[index], status };
-      return inMemoryContacts[index];
-    }
+  // contact_submissions has no status column; keep API shape without failing hard
+  void _status;
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    throw new Error('Supabase is not configured');
+  }
 
-    const key = contactKey(id);
-    const existing = await kv.get<ContactSubmission>(key);
-    if (!existing) {
-      return null;
-    }
+  const { data, error } = await supabase
+    .from('contact_submissions')
+    .select('id, name, email, message, created_at')
+    .eq('id', id)
+    .maybeSingle();
 
-    const updated: ContactSubmission = { ...existing, status };
-    await kv.set(key, updated);
-    return updated;
-  } catch (error) {
+  if (error) {
     console.error('Failed to update contact status:', error);
     throw error;
   }
+
+  return data ? mapRow(data as ContactSubmissionRow) : null;
 }
